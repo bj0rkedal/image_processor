@@ -145,8 +145,6 @@ include_directories(
 
 ## Declare a C++ executable
 add_executable(image_publisher src/image_publisher.cpp)
-add_executable(object_detector src/object_detector.cpp)
-add_executable(image_converter src/image_converter.cpp)
 add_executable(object_matcher src/openCV_tester.cpp)
 add_executable(calibrator src/calibration.cpp)
 
@@ -159,14 +157,6 @@ add_executable(calibrator src/calibration.cpp)
 #   ${catkin_LIBRARIES}
 # )
 target_link_libraries(image_publisher
-        ${OpenCV_LIBRARIES}
-        ${catkin_LIBRARIES}
-)
-target_link_libraries(object_detector
-        ${OpenCV_LIBRARIES}
-        ${catkin_LIBRARIES}
-)
-target_link_libraries(image_converter
         ${OpenCV_LIBRARIES}
         ${catkin_LIBRARIES}
 )
