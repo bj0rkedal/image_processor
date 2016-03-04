@@ -65,19 +65,20 @@ cv::Ptr<cv::Feature2D> f2d = cv::xfeatures2d::SURF::create(minHessian);
 std::vector<cv::KeyPoint> ko, ks, ko2;
 cv::Mat deso, dess, deso2;
 
-
-std::vector<cv::Point2f> trackedCorners1(4);
-std::vector<cv::Point2f> trackedCorners2(4);
-
-//std::vector<cv::Point2f> obj_corners2(4);
-//std::vector<cv::Point2f> scene_corners2(4);
+cv::Point2f centroid1;
+cv::Point2f centroid2;
 
 // ROS
-double loop_frequency = 20;
+double loop_frequency = 60;
 geometry_msgs::Pose2D pose_msg;
 
 // Service variables
 bool running = false;
+
+struct CurrentMatch{
+    cv::Mat outFrame;
+    std::vector<cv::Point2f> sceneCorners;
+};
 
 // Methods
 cv::Mat getCameraMatrix(const std::string path);
@@ -95,13 +96,17 @@ std::string type2str(int type);
  */
 cv::Mat captureFrame(bool color, bool undistort, cv::VideoCapture capture);
 
-std::vector<cv::DMatch> processDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene);
+std::vector<cv::DMatch> knnMatchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene, float nndrRatio);
 
-cv::Mat visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vector<cv::Point2f> *sceneCorners,
-                       std::vector<cv::KeyPoint> keypointsObject,
+std::vector<cv::DMatch> matchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene);
+
+CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, cv::Point2f outCentroid,
+                       std::vector<cv::KeyPoint> keypointsObject, std::vector<cv::KeyPoint> keypointsScene,
                        std::vector<cv::DMatch> good_matches, bool showMatches);
 
-cv::Point2f getObjectCentroid(std::vector<cv::Point2f> scorner);
+bool intersection(cv::Point2f o1, cv::Point2f p1, cv::Point2f o2, cv::Point2f p2, cv::Point2f &r);
+
+bool innerAngle(std::vector<cv::Point2f> scorner);
 
 cv::Point2f getObjectCentroidMean(std::vector<cv::Point2f> scorner);
 

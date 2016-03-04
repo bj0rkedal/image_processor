@@ -36,19 +36,35 @@ std::string type2str(int type) {
     uchar depth = type & CV_MAT_DEPTH_MASK;
     uchar chans = 1 + (type >> CV_CN_SHIFT);
 
-    switch ( depth ) {
-        case CV_8U:  r = "8U"; break;
-        case CV_8S:  r = "8S"; break;
-        case CV_16U: r = "16U"; break;
-        case CV_16S: r = "16S"; break;
-        case CV_32S: r = "32S"; break;
-        case CV_32F: r = "32F"; break;
-        case CV_64F: r = "64F"; break;
-        default:     r = "User"; break;
+    switch (depth) {
+        case CV_8U:
+            r = "8U";
+            break;
+        case CV_8S:
+            r = "8S";
+            break;
+        case CV_16U:
+            r = "16U";
+            break;
+        case CV_16S:
+            r = "16S";
+            break;
+        case CV_32S:
+            r = "32S";
+            break;
+        case CV_32F:
+            r = "32F";
+            break;
+        case CV_64F:
+            r = "64F";
+            break;
+        default:
+            r = "User";
+            break;
     }
 
     r += "C";
-    r += (chans+'0');
+    r += (chans + '0');
 
     // USAGE
     //    std::string ty =  type2str( H.type() );
@@ -64,11 +80,11 @@ cv::Mat captureFrame(bool color, bool useCalibration, cv::VideoCapture capture) 
     // Check if frame should be color or grayscale
     if (color == false && useCalibration == false) {
         cv::cvtColor(inFrame, outFrame, CV_RGB2GRAY); // grayscale
-    } else if(color == false && useCalibration == true) {
+    } else if (color == false && useCalibration == true) {
         cv::Mat temp;
         cv::undistort(inFrame, temp, cameraMatrix, distCoeffs);
         cv::cvtColor(temp, outFrame, CV_RGB2GRAY); // grayscale
-    } else if(color == true && useCalibration == false) {
+    } else if (color == true && useCalibration == false) {
         outFrame = inFrame;
     } else {
         cv::undistort(inFrame, outFrame, cameraMatrix, distCoeffs);
@@ -77,7 +93,32 @@ cv::Mat captureFrame(bool color, bool useCalibration, cv::VideoCapture capture) 
     return outFrame;
 }
 
-std::vector<cv::DMatch> processDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene) {
+std::vector<cv::DMatch> knnMatchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene, float nndrRatio) {
+
+    cv::FlannBasedMatcher matcher;
+    std::vector<std::vector<cv::DMatch> > matches;
+
+    // Match descriptors
+    matcher.knnMatch(descriptors_object, descriptors_scene, matches, 2);
+
+    std::vector<cv::DMatch> good_matches;
+    good_matches.reserve(matches.size());
+
+    for (size_t i = 0; i < matches.size(); ++i) {
+        if (matches[i].size() < 2)
+            continue;
+
+        const cv::DMatch &m1 = matches[i][0];
+        const cv::DMatch &m2 = matches[i][1];
+
+        if (m1.distance <= nndrRatio * m2.distance)
+            good_matches.push_back(m1);
+    }
+
+    return good_matches;
+}
+
+std::vector<cv::DMatch> matchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene) {
 
     cv::FlannBasedMatcher matcher;
     std::vector<cv::DMatch> matches;
@@ -108,18 +149,18 @@ std::vector<cv::DMatch> processDescriptors(cv::Mat descriptors_object, cv::Mat d
     return good_matches;
 }
 
-cv::Mat visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vector<cv::Point2f> sceneCorners,
-                       std::vector<cv::KeyPoint> keypointsObject,
-                       std::vector<cv::DMatch> good_matches, bool showMatches) {
+CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, cv::Point2f outCentroid,
+                            std::vector<cv::KeyPoint> keypointsObject, std::vector<cv::KeyPoint> keypointsScene,
+                            std::vector<cv::DMatch> good_matches, bool showMatches) {
 
     cv::Mat image_matches;
 
-    if(!showMatches) {
-        cv::drawKeypoints(searchImage, ks, image_matches, cv::Scalar::all(-1),
+    if (!showMatches) {
+        cv::drawKeypoints(searchImage, keypointsScene, image_matches, cv::Scalar::all(-1),
                           cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
     } else {
-        if (!keypointsObject.size() == 0 && !ks.size() == 0) {
-            cv::drawMatches(objectImage, keypointsObject, searchImage, ks, good_matches, image_matches,
+        if (!keypointsObject.size() == 0 && !keypointsScene.size() == 0) {
+            cv::drawMatches(objectImage, keypointsObject, searchImage, keypointsScene, good_matches, image_matches,
                             cv::Scalar::all(-1), cv::Scalar::all(-1), std::vector<char>(),
                             cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
         }
@@ -131,7 +172,7 @@ cv::Mat visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vector<cv:
     for (size_t i = 0; i < good_matches.size(); i++) {
         // Retrieve the keypoints from good matches
         obj.push_back(keypointsObject[good_matches[i].queryIdx].pt);
-        scene.push_back(ks[good_matches[i].trainIdx].pt);
+        scene.push_back(keypointsScene[good_matches[i].trainIdx].pt);
     }
 
     // Perform Homography to find a perspective transformation between two planes.
@@ -145,21 +186,21 @@ cv::Mat visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vector<cv:
     objectCorners[2] = cvPoint(objectImage.cols, objectImage.rows); //Lower right corner
     objectCorners[3] = cvPoint(0, objectImage.rows); //Lower left corner
 
+    std::vector<cv::Point2f> sceneCorners(4);
+
     // Find the object corners in the scene perspective
     if (!H.rows == 0 && !H.cols == 0) {
         cv::perspectiveTransform(objectCorners, sceneCorners, H);
-//        for(int i=0; i<sceneCorners.size(); i++ ) {
-//            std::cout << sceneCorners.at(i);
-//        }
-//        std::cout << "" << std::endl;
 
-
-        if(!showMatches) {
+        if (!showMatches) {
             // Draw lines surrounding the object
             cv::line(image_matches, sceneCorners[0], sceneCorners[1], cv::Scalar(0, 255, 0), 2); //TOP line
             cv::line(image_matches, sceneCorners[1], sceneCorners[2], cv::Scalar(0, 255, 0), 2); //RIGHT line
             cv::line(image_matches, sceneCorners[2], sceneCorners[3], cv::Scalar(0, 255, 0), 2); //BOTTOM line
             cv::line(image_matches, sceneCorners[3], sceneCorners[0], cv::Scalar(0, 255, 0), 2); //LEFT line
+
+            cv::line(image_matches, sceneCorners[0], sceneCorners[2], cv::Scalar(0, 255, 0), 1); //DIAGONAL 0-2
+            cv::line(image_matches, sceneCorners[1], sceneCorners[3], cv::Scalar(0, 255, 0), 1); //DIAGONAL 1-3
         } else {
             // Draw lines with objectImage offset
             cv::line(image_matches, sceneCorners[0] + cv::Point2f(objectImage.cols, 0),
@@ -184,50 +225,80 @@ cv::Mat visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vector<cv:
     }
 
     // Centroid
-    cv::Point2f cen = getObjectCentroid(sceneCorners);
-    if(!showMatches) {
-        cv::circle(image_matches, cen, 10, cv::Scalar(0, 0, 255), 2);
-    } else {
-        cv::circle(image_matches, cen + cv::Point2f(objectImage.cols, 0), 10, cv::Scalar(0, 0, 255), 2);
+    if (intersection(sceneCorners[0], sceneCorners[2], sceneCorners[1], sceneCorners[3], outCentroid)) {
+        cv::Point2f cen = outCentroid;
+        if (!showMatches) {
+            cv::circle(image_matches, cen, 10, cv::Scalar(0, 0, 255), 2);
+        } else {
+            cv::circle(image_matches, cen + cv::Point2f(objectImage.cols, 0), 10, cv::Scalar(0, 0, 255), 2);
+        }
     }
 
-    //trackedCorners1 = sceneCorners;
+    CurrentMatch cm;
+    cm.outFrame = image_matches;
+    cm.sceneCorners = sceneCorners;
 
-    return image_matches;
+    return cm;
 }
 
-// From recognized corners
-cv::Point2f getObjectCentroid(std::vector<cv::Point2f> scorner) {
-    cv::Point2f cen;
+bool intersection(cv::Point2f o1, cv::Point2f p1, cv::Point2f o2, cv::Point2f p2, cv::Point2f &r) {
+    // The lines are defined by (o1, p1) and (o2, p2).
+    cv::Point2f x = o2 - o1;
+    cv::Point2f d1 = p1 - o1;
+    cv::Point2f d2 = p2 - o2;
 
-    if ((scorner[2].x - scorner[0].x) > 0) {
-        cen.x = scorner[0].x + fabsf(scorner[0].x - scorner[2].x) / 2;
-    }
-//    else if ((scorner[2].x - scorner[0].x) == 0) {
-//        float diag1 = scorner[0].x + fabsf(scorner[0].x - scorner[2].x) / 2;
-//        float diag2 = scorner[3].x + fabsf(scorner[1].x - scorner[3].x) / 2;
-//        cen.x = (diag1 + diag2) / 2;
-//    }
-    else {
-        cen.x = scorner[3].x + fabsf(scorner[1].x - scorner[3].x) / 2;
-    }
+    float cross = d1.x * d2.y - d1.y * d2.x;
+    if (fabsf(cross) < /*EPS*/1e-8)
+        return false;
 
+    double t1 = (x.x * d2.y - x.y * d2.x) / cross;
+    r = o1 + d1 * t1;
+    return true;
+}
 
-    if ((scorner[2].y - scorner[0].y) > 0) {
-        cen.y = scorner[0].y + fabsf(scorner[0].y - scorner[2].y) / 2;
-    }
-//    else if ((scorner[2].y - scorner[0].y) == 0) {
-//        float diag1 = scorner[0].y + fabsf(scorner[0].y - scorner[2].y) / 2;
-//        float diag2 = scorner[1].y + fabsf(scorner[1].y - scorner[3].y) / 2;
-//        cen.y = (diag1 + diag2) / 2;
-//    }
-    else {
-        cen.y = scorner[3].y + fabsf(scorner[1].y - scorner[3].y) / 2;
-    }
+bool innerAngle(std::vector<cv::Point2f> scorner) {
+    for(size_t i=0; i<scorner.size(); ++i) {
+        double px1;
+        double py1;
+        double px2;
+        double py2;
+        double cx1 = scorner[i].x;
+        double cy1 = scorner[i].y;
 
-//    cen.x = scene_corners[0].x+(scene_corners[1].x-scene_corners[0].x)/2;
-//    cen.y = scene_corners[0].y+(scene_corners[3].y-scene_corners[0].y)/2;
-    return cen;
+        double dist1 = sqrt((px1 - cx1) * (px1 - cx1) + (py1 - cy1) * (py1 - cy1));
+        double dist2 = sqrt((px2 - cx1) * (px2 - cx1) + (py2 - cy1) * (py2 - cy1));
+
+        double Ax, Ay;
+        double Bx, By;
+        double Cx, Cy;
+
+        //find closest point to C
+        //printf("dist = %lf %lf\n", dist1, dist2);
+
+        Cx = cx1;
+        Cy = cy1;
+        if (dist1 < dist2) {
+            Bx = px1;
+            By = py1;
+            Ax = px2;
+            Ay = py2;
+        } else {
+            Bx = px2;
+            By = py2;
+            Ax = px1;
+            Ay = py1;
+        }
+
+        double Q1 = Cx - Ax;
+        double Q2 = Cy - Ay;
+        double P1 = Bx - Ax;
+        double P2 = By - Ay;
+
+        double A = acos((P1 * Q1 + P2 * Q2) / (sqrt(P1 * P1 + P2 * P2) * sqrt(Q1 * Q1 + Q2 * Q2)));
+
+        A = A * 180 / PI;
+    }
+    return true;
 }
 
 // Mean position
@@ -280,7 +351,7 @@ double getObjectAngle(cv::Mat frame, std::vector<cv::Point2f> scorner) {
 
     double y = scorner[0].y - scorner[1].y;
 
-    double angle = atan2(y , x) * 180 / PI;
+    double angle = atan2(y, x) * 180 / PI;
     return angle;
 }
 
@@ -358,36 +429,27 @@ int main(int argc, char **argv) {
         if (videoFrame.empty()) break; // || cv::waitKey(30) >= 0
         cv::waitKey(30);
 
+        CurrentMatch match1;
+        CurrentMatch match2;
+
         // Process frames
         if (running) {
             // Detect keypoints and descriptors
             f2d->detectAndCompute(videoFrame, cv::Mat(), ks, dess);
 
             // Match descriptors of reference and video frame
-            std::vector<cv::DMatch> good_matches = processDescriptors(deso, dess);
-            std::vector<cv::DMatch> good_matches2 = processDescriptors(deso2, dess);
-            if((!ko.size() == 0 && !ks.size() == 0) && good_matches.size() >= 7) {
+            std::vector<cv::DMatch> good_matches = knnMatchDescriptors(deso, dess, 0.9f);
+            std::vector<cv::DMatch> good_matches2 = knnMatchDescriptors(deso2, dess, 0.9f);
 
-                cv::Mat outFrame = visualizeMatch(videoFrame, object_image, trackedCorners1, ko, good_matches, false);
-                cv::Mat outFrame2 = visualizeMatch(outFrame, object_image2, trackedCorners2, ko2, good_matches2, false);
+            if ((!ko.size() == 0 && !ks.size() == 0) && good_matches.size() >= 7) {
 
-                for(int i=0; i<trackedCorners1.size(); i++ ) {
-                    std::cout << trackedCorners1.at(i);
-                }
-                std::cout << "" << std::endl;
+                match1 = visualizeMatch(videoFrame, object_image, centroid1, ko, ks, good_matches, false);
+                match2 = visualizeMatch(match1.outFrame, object_image2, centroid2, ko2, ks, good_matches2, false);
 
-                cv::imshow(OPENCV_WINDOW, outFrame2);
-//                if(pixelArea > 0.1*pixelAreaRef) {
-//                    cv::imshow(OPENCV_WINDOW, outFrame);
-//                } else {
-//                    cv::imshow(OPENCV_WINDOW, videoFrame);
-//                }
+                cv::imshow(OPENCV_WINDOW, match2.outFrame);
             } else {
                 cv::imshow(OPENCV_WINDOW, videoFrame);
             }
-
-            //obj.clear();
-            //scene.clear();
         } else {
             // Show the video frame
             cv::imshow(OPENCV_WINDOW, videoFrame);
@@ -403,10 +465,12 @@ int main(int argc, char **argv) {
         }
 
         // ROS
-        //pose_msg.theta = getObjectAngle(videoFrame, scene_corners);
-        //pose_msg.x = getXoffset(videoFrame, scene_corners);
-        //pose_msg.y = getYoffset(videoFrame, scene_corners);
-        //pub.publish(pose_msg);
+        if (match2.sceneCorners.size() == 4) {
+            pose_msg.theta = getObjectAngle(videoFrame, match2.sceneCorners);
+            pose_msg.x = getXoffset(videoFrame, match2.sceneCorners);
+            pose_msg.y = getYoffset(videoFrame, match2.sceneCorners);
+            pub.publish(pose_msg);
+        }
         ros::spinOnce();
         loop_rate.sleep();
         ++count;
