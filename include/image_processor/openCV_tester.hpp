@@ -40,6 +40,11 @@ namespace robotCam {
     };
 }
 
+struct CurrentMatch{
+    cv::Mat outFrame;
+    std::vector<cv::Point2f> sceneCorners;
+};
+
 // Window
 static const std::string OPENCV_WINDOW = "Matching";
 
@@ -55,18 +60,32 @@ cv::Mat cameraMatrix, distCoeffs;
 const std::string CALIBRATION_FILE = "/home/minions/calibration_gimbal_720p.yml";
 
 // Reference image
-const std::string ref_path = "/home/minions/Pictures/opencvtest/ref_keypoints.jpg";
+const std::string ref_path1 = "/home/minions/Pictures/opencvtest/ref_keypoints1.jpg";
+const std::string ref_path2 = "/home/minions/Pictures/opencvtest/ref_keypoints2.jpg";
 cv::Mat object_image, object_image2;
-cv::Mat ref_keypoints;
+cv::Mat ref_keypoints1, ref_keypoints2;
 
 // Feature computation
-double minHessian = 1000;
-cv::Ptr<cv::Feature2D> f2d = cv::xfeatures2d::SURF::create(minHessian);
+double minHessian = 400;
+int nOctaves=4;
+int nOctaveLayers=5;
+bool extended=false; //true betyr 128 element per descriptor. false = 64
+bool upright=false; //true betyr at orientering av features blir skippet.
+cv::Ptr<cv::Feature2D> f2d = cv::xfeatures2d::SURF::create(minHessian,nOctaves,nOctaveLayers,extended,upright);
+
+//int nFeatures = 0;
+//int nOctaveLayers = 5;
+//double contrastThreshold = 0.04;
+//double edgeThreshold = 10;
+//double sigma = 1.6;
+//cv::Ptr<cv::Feature2D> f2d = cv::xfeatures2d::SIFT::create(nFeatures,nOctaveLayers,contrastThreshold,
+//                                                           edgeThreshold,sigma);
+
 std::vector<cv::KeyPoint> ko, ks, ko2;
 cv::Mat deso, dess, deso2;
 
-cv::Point2f centroid1;
-cv::Point2f centroid2;
+CurrentMatch match1;
+CurrentMatch match2;
 
 // ROS
 double loop_frequency = 60;
@@ -74,11 +93,6 @@ geometry_msgs::Pose2D pose_msg;
 
 // Service variables
 bool running = false;
-
-struct CurrentMatch{
-    cv::Mat outFrame;
-    std::vector<cv::Point2f> sceneCorners;
-};
 
 // Methods
 cv::Mat getCameraMatrix(const std::string path);
@@ -100,13 +114,15 @@ std::vector<cv::DMatch> knnMatchDescriptors(cv::Mat descriptors_object, cv::Mat 
 
 std::vector<cv::DMatch> matchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene);
 
-CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, cv::Point2f outCentroid,
-                       std::vector<cv::KeyPoint> keypointsObject, std::vector<cv::KeyPoint> keypointsScene,
-                       std::vector<cv::DMatch> good_matches, bool showMatches);
+CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vector<cv::KeyPoint> keypointsObject,
+                            std::vector<cv::KeyPoint> keypointsScene, std::vector<cv::DMatch> good_matches,
+                            bool showKeypoints);
 
 bool intersection(cv::Point2f o1, cv::Point2f p1, cv::Point2f o2, cv::Point2f p2, cv::Point2f &r);
 
-bool innerAngle(std::vector<cv::Point2f> scorner);
+int innerAngle(cv::Point2f a, cv::Point2f b, cv::Point2f c);
+
+bool checkObjectInnerAngles(std::vector<cv::Point2f> scorner, int min, int max);
 
 cv::Point2f getObjectCentroidMean(std::vector<cv::Point2f> scorner);
 

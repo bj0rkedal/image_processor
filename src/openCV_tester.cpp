@@ -149,21 +149,17 @@ std::vector<cv::DMatch> matchDescriptors(cv::Mat descriptors_object, cv::Mat des
     return good_matches;
 }
 
-CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, cv::Point2f outCentroid,
-                            std::vector<cv::KeyPoint> keypointsObject, std::vector<cv::KeyPoint> keypointsScene,
-                            std::vector<cv::DMatch> good_matches, bool showMatches) {
+CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vector<cv::KeyPoint> keypointsObject,
+                            std::vector<cv::KeyPoint> keypointsScene, std::vector<cv::DMatch> good_matches,
+                            bool showKeypoints) {
 
     cv::Mat image_matches;
 
-    if (!showMatches) {
+    if (showKeypoints) {
         cv::drawKeypoints(searchImage, keypointsScene, image_matches, cv::Scalar::all(-1),
                           cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
     } else {
-        if (!keypointsObject.size() == 0 && !keypointsScene.size() == 0) {
-            cv::drawMatches(objectImage, keypointsObject, searchImage, keypointsScene, good_matches, image_matches,
-                            cv::Scalar::all(-1), cv::Scalar::all(-1), std::vector<char>(),
-                            cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
-        }
+        image_matches = searchImage.clone();
     }
 
     std::vector<cv::Point2f> obj;
@@ -192,28 +188,21 @@ CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, cv::Point2
     if (!H.rows == 0 && !H.cols == 0) {
         cv::perspectiveTransform(objectCorners, sceneCorners, H);
 
-        if (!showMatches) {
+        if(checkObjectInnerAngles(sceneCorners, 60, 120)) {
             // Draw lines surrounding the object
             cv::line(image_matches, sceneCorners[0], sceneCorners[1], cv::Scalar(0, 255, 0), 2); //TOP line
             cv::line(image_matches, sceneCorners[1], sceneCorners[2], cv::Scalar(0, 255, 0), 2); //RIGHT line
             cv::line(image_matches, sceneCorners[2], sceneCorners[3], cv::Scalar(0, 255, 0), 2); //BOTTOM line
             cv::line(image_matches, sceneCorners[3], sceneCorners[0], cv::Scalar(0, 255, 0), 2); //LEFT line
-
+            // Draw diagonals
             cv::line(image_matches, sceneCorners[0], sceneCorners[2], cv::Scalar(0, 255, 0), 1); //DIAGONAL 0-2
             cv::line(image_matches, sceneCorners[1], sceneCorners[3], cv::Scalar(0, 255, 0), 1); //DIAGONAL 1-3
-        } else {
-            // Draw lines with objectImage offset
-            cv::line(image_matches, sceneCorners[0] + cv::Point2f(objectImage.cols, 0),
-                     sceneCorners[1] + cv::Point2f(objectImage.cols, 0), cv::Scalar(0, 255, 0), 4);
 
-            cv::line(image_matches, sceneCorners[1] + cv::Point2f(objectImage.cols, 0),
-                     sceneCorners[2] + cv::Point2f(objectImage.cols, 0), cv::Scalar(0, 255, 0), 4);
-
-            cv::line(image_matches, sceneCorners[2] + cv::Point2f(objectImage.cols, 0),
-                     sceneCorners[3] + cv::Point2f(objectImage.cols, 0), cv::Scalar(0, 255, 0), 4);
-
-            cv::line(image_matches, sceneCorners[3] + cv::Point2f(objectImage.cols, 0),
-                     sceneCorners[0] + cv::Point2f(objectImage.cols, 0), cv::Scalar(0, 255, 0), 4);
+            // Center
+            cv::Point2f cen(0.0, 0.0);
+            if(intersection(sceneCorners[0], sceneCorners[2], sceneCorners[1], sceneCorners[3], cen)) {
+                cv::circle(image_matches, cen, 10, cv::Scalar(0, 0, 255), 2);
+            }
         }
     }
 
@@ -222,16 +211,6 @@ CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, cv::Point2
         cv::circle(image_matches, cv::Point(searchImage.cols / 2, searchImage.rows / 2), 5, CV_RGB(255, 0, 0));
         cv::circle(image_matches, cv::Point(searchImage.cols / 2, searchImage.rows / 2), 10, CV_RGB(0, 255, 0));
         cv::circle(image_matches, cv::Point(searchImage.cols / 2, searchImage.rows / 2), 15, CV_RGB(0, 0, 255));
-    }
-
-    // Centroid
-    if (intersection(sceneCorners[0], sceneCorners[2], sceneCorners[1], sceneCorners[3], outCentroid)) {
-        cv::Point2f cen = outCentroid;
-        if (!showMatches) {
-            cv::circle(image_matches, cen, 10, cv::Scalar(0, 0, 255), 2);
-        } else {
-            cv::circle(image_matches, cen + cv::Point2f(objectImage.cols, 0), 10, cv::Scalar(0, 0, 255), 2);
-        }
     }
 
     CurrentMatch cm;
@@ -256,49 +235,31 @@ bool intersection(cv::Point2f o1, cv::Point2f p1, cv::Point2f o2, cv::Point2f p2
     return true;
 }
 
-bool innerAngle(std::vector<cv::Point2f> scorner) {
-    for(size_t i=0; i<scorner.size(); ++i) {
-        double px1;
-        double py1;
-        double px2;
-        double py2;
-        double cx1 = scorner[i].x;
-        double cy1 = scorner[i].y;
+int innerAngle(cv::Point2f a, cv::Point2f b, cv::Point2f c) {
+    cv::Point2f ab(b.x - a.x, b.y - a.y);
+    cv::Point2f cb(b.x - c.x, b.y - c.y);
 
-        double dist1 = sqrt((px1 - cx1) * (px1 - cx1) + (py1 - cy1) * (py1 - cy1));
-        double dist2 = sqrt((px2 - cx1) * (px2 - cx1) + (py2 - cy1) * (py2 - cy1));
+    double dot = (ab.x * cb.x + ab.y * cb.y); // dot product
+    double cross = (ab.x * cb.y - ab.y * cb.x); // cross product
 
-        double Ax, Ay;
-        double Bx, By;
-        double Cx, Cy;
+    double alpha = atan2(cross, dot);
 
-        //find closest point to C
-        //printf("dist = %lf %lf\n", dist1, dist2);
+    int angle = (int) floor(alpha * 180. / PI + 0.5);
+    //alpha = alpha * 180 / PI;
 
-        Cx = cx1;
-        Cy = cy1;
-        if (dist1 < dist2) {
-            Bx = px1;
-            By = py1;
-            Ax = px2;
-            Ay = py2;
-        } else {
-            Bx = px2;
-            By = py2;
-            Ax = px1;
-            Ay = py1;
-        }
+    return abs(angle);
+}
 
-        double Q1 = Cx - Ax;
-        double Q2 = Cy - Ay;
-        double P1 = Bx - Ax;
-        double P2 = By - Ay;
+bool checkObjectInnerAngles(std::vector<cv::Point2f> scorner, int min, int max) {
+    bool out = false;
+    int c0 = innerAngle(scorner[3], scorner[0], scorner[1]);
+    int c1 = innerAngle(scorner[0], scorner[1], scorner[2]);
+    int c2 = innerAngle(scorner[1], scorner[2], scorner[3]);
+    int c3 = innerAngle(scorner[2], scorner[3], scorner[0]);
 
-        double A = acos((P1 * Q1 + P2 * Q2) / (sqrt(P1 * P1 + P2 * P2) * sqrt(Q1 * Q1 + Q2 * Q2)));
+    if (c0>min && c0<max && c1>min && c1<max && c2>min && c2<max && c3>min && c3<max) out = true;
 
-        A = A * 180 / PI;
-    }
-    return true;
+    return out;
 }
 
 // Mean position
@@ -329,22 +290,28 @@ cv::Point2f getObjectCentroidBbox(std::vector<cv::Point2f> scene) {
 
 double getXoffset(cv::Mat frame, std::vector<cv::Point2f> scorner) {
     cv::Point2f cen;
-    //cen.x = scene_corners[0].x+(scene_corners[1].x-scene_corners[0].x)/2;
-    cen.x = scorner[0].x + (scorner[2].x - scorner[0].x) / 2;
-    double xOffset = cen.x - frame.cols / 2;
+    double xOffset = 0.0;
+
+    if (intersection(scorner[0], scorner[2], scorner[1], scorner[3], cen)) {
+        xOffset = cen.x - frame.cols / 2;
+    }
+
     return xOffset;
 }
 
 double getYoffset(cv::Mat frame, std::vector<cv::Point2f> scorner) {
     cv::Point2f cen;
-    //cen.y = scene_corners[0].y+(scene_corners[3].y-scene_corners[0].y)/2;
-    cen.y = scorner[0].y + (scorner[2].y - scorner[0].y) / 2;
-    double yOffset = cen.y - frame.rows / 2;
+    double yOffset = 0.0;
+
+    if (intersection(scorner[0], scorner[2], scorner[1], scorner[3], cen)) {
+        yOffset = cen.y - frame.rows / 2;
+    }
+
     return yOffset;
 }
 
 double getObjectAngle(cv::Mat frame, std::vector<cv::Point2f> scorner) {
-    //std::cout << scorner.at(2) << std::endl;
+
     double centerX = frame.cols / 2;
     double diffX = centerX - scorner[1].x;
     double x = (centerX - diffX) - scorner[0].x;
@@ -370,24 +337,18 @@ bool getProcessRunningCallBack(image_processor::getProcessRunning::Request &req,
 int main(int argc, char **argv) {
     ros::init(argc, argv, "object_detection");
     ros::NodeHandle n;
-    ros::Publisher pub = n.advertise<geometry_msgs::Pose2D>("/object_detection/offset", 1);
+    ros::Publisher pub1 = n.advertise<geometry_msgs::Pose2D>("/object_detection/offset1", 1);
+    ros::Publisher pub2 = n.advertise<geometry_msgs::Pose2D>("/object_detection/offset2", 1);
     ros::Rate loop_rate(loop_frequency);
-
-    bool showMatches = true;
 
     // Read the image we are looking for
     object_image = cv::imread(argv[1], CV_LOAD_IMAGE_COLOR);
     object_image2 = cv::imread(argv[2], CV_LOAD_IMAGE_COLOR);
-    if (!object_image.data) {
-        ROS_ERROR(" --(!) Error reading image: %s", argv[1]);
-        return 0; //-1
+    if (!object_image.data || !object_image2.data) {
+        ROS_ERROR(" --(!) Error reading images");
+        return 0;
     }
-    ROS_INFO("Loaded reference image: %s", argv[1]);
-    if (!object_image2.data) {
-        ROS_ERROR(" --(!) Error reading image: %s", argv[2]);
-        return 0; //-1
-    }
-    ROS_INFO("Loaded reference image: %s", argv[2]);
+    ROS_INFO("Loaded reference images:\n\t1: %s\n\t2: %s", argv[1], argv[2]);
 
     // Close if no camera could be opened
     if (!capture.open(0)) {
@@ -404,11 +365,12 @@ int main(int argc, char **argv) {
     f2d->detectAndCompute(object_image, cv::Mat(), ko, deso);
     f2d->detectAndCompute(object_image2, cv::Mat(), ko2, deso2);
 
-
     // Output the reference keypoints we are looking for
-    cv::drawKeypoints(object_image, ko, ref_keypoints);
-    cv::imwrite(ref_path, ref_keypoints);
-    ROS_INFO("Reference keypoints written to: \n\t%s", ref_path.c_str());
+    cv::drawKeypoints(object_image, ko, ref_keypoints1);
+    cv::drawKeypoints(object_image2, ko2, ref_keypoints2);
+    cv::imwrite(ref_path1, ref_keypoints1);
+    cv::imwrite(ref_path2, ref_keypoints2);
+    ROS_INFO("Reference keypoints written:\n\t1: %s\n\t2: %s", ref_path1.c_str(), ref_path2.c_str());
 
     // Window to show the frames in
     cv::namedWindow(OPENCV_WINDOW, CV_WINDOW_FULLSCREEN);
@@ -425,12 +387,9 @@ int main(int argc, char **argv) {
     int count = 0;
     while (ros::ok()) {
         // Capture video frame
-        videoFrame = captureFrame(true, true, capture);
+        videoFrame = captureFrame(true, false, capture);
         if (videoFrame.empty()) break; // || cv::waitKey(30) >= 0
         cv::waitKey(30);
-
-        CurrentMatch match1;
-        CurrentMatch match2;
 
         // Process frames
         if (running) {
@@ -443,33 +402,36 @@ int main(int argc, char **argv) {
 
             if ((!ko.size() == 0 && !ks.size() == 0) && good_matches.size() >= 7) {
 
-                match1 = visualizeMatch(videoFrame, object_image, centroid1, ko, ks, good_matches, false);
-                match2 = visualizeMatch(match1.outFrame, object_image2, centroid2, ko2, ks, good_matches2, false);
+                match1 = visualizeMatch(videoFrame, object_image, ko, ks, good_matches, false);
+                match2 = visualizeMatch(match1.outFrame, object_image2, ko2, ks, good_matches2, false);
 
                 cv::imshow(OPENCV_WINDOW, match2.outFrame);
             } else {
                 cv::imshow(OPENCV_WINDOW, videoFrame);
             }
         } else {
-            // Show the video frame
             cv::imshow(OPENCV_WINDOW, videoFrame);
         }
 
 
         if (count == 40) {
-            std::cout << count << std::endl;
-
             // Do x, y, theta calculation
             running = true;
             //count = 0;
         }
 
         // ROS
-        if (match2.sceneCorners.size() == 4) {
+        if (match2.sceneCorners.size() == 4 && checkObjectInnerAngles(match2.sceneCorners, 60, 120)) {
             pose_msg.theta = getObjectAngle(videoFrame, match2.sceneCorners);
             pose_msg.x = getXoffset(videoFrame, match2.sceneCorners);
             pose_msg.y = getYoffset(videoFrame, match2.sceneCorners);
-            pub.publish(pose_msg);
+            pub1.publish(pose_msg);
+        }
+        if (match1.sceneCorners.size() == 4 && checkObjectInnerAngles(match1.sceneCorners, 60, 120)) {
+            pose_msg.theta = getObjectAngle(videoFrame, match1.sceneCorners);
+            pose_msg.x = getXoffset(videoFrame, match1.sceneCorners);
+            pose_msg.y = getYoffset(videoFrame, match1.sceneCorners);
+            pub2.publish(pose_msg);
         }
         ros::spinOnce();
         loop_rate.sleep();
