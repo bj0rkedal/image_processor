@@ -95,7 +95,7 @@ cv::Mat captureFrame(bool color, bool useCalibration, cv::VideoCapture capture) 
 
 std::vector<cv::DMatch> knnMatchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene, float nndrRatio) {
 
-    cv::FlannBasedMatcher matcher;
+    cv::FlannBasedMatcher matcher; // BRISK (new cv::flann::LshIndexParams(20,10,2))
     std::vector<std::vector<cv::DMatch> > matches;
 
     // Match descriptors
@@ -120,7 +120,7 @@ std::vector<cv::DMatch> knnMatchDescriptors(cv::Mat descriptors_object, cv::Mat 
 
 std::vector<cv::DMatch> matchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene) {
 
-    cv::FlannBasedMatcher matcher;
+    cv::FlannBasedMatcher matcher; // BRISK (new cv::flann::LshIndexParams(20,10,2))
     std::vector<cv::DMatch> matches;
 
     // Match descriptors
@@ -149,6 +149,14 @@ std::vector<cv::DMatch> matchDescriptors(cv::Mat descriptors_object, cv::Mat des
     return good_matches;
 }
 
+std::vector<cv::DMatch> bruteForce(cv::Mat descriptors_object, cv::Mat descriptors_scene, int normType) {
+    cv::BFMatcher matcher(normType);
+    std::vector< cv::DMatch > matches;
+    matcher.match( descriptors_object, descriptors_scene, matches );
+
+    return matches;
+}
+
 CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vector<cv::KeyPoint> keypointsObject,
                             std::vector<cv::KeyPoint> keypointsScene, std::vector<cv::DMatch> good_matches,
                             bool showKeypoints) {
@@ -172,7 +180,10 @@ CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vecto
     }
 
     // Perform Homography to find a perspective transformation between two planes.
-    cv::Mat H = cv::findHomography(obj, scene, CV_RANSAC);
+    cv::Mat H;
+    if(!obj.size() == 0 && !scene.size() == 0) {
+        H = cv::findHomography(obj, scene, CV_RANSAC);
+    }
 
     std::vector<cv::Point2f> objectCorners(4);
 
@@ -362,8 +373,12 @@ int main(int argc, char **argv) {
              capture.get(CV_CAP_PROP_FRAME_WIDTH), capture.get(CV_CAP_PROP_FRAME_HEIGHT));
 
     // Detect keypoints and compute keypoints and descriptors for the reference image
-    f2d->detectAndCompute(object_image, cv::Mat(), ko, deso);
-    f2d->detectAndCompute(object_image2, cv::Mat(), ko2, deso2);
+//    surf->detectAndCompute(object_image, cv::Mat(), ko, deso);
+//    surf->detectAndCompute(object_image2, cv::Mat(), ko2, deso2);
+    surf->detect(object_image,ko,deso);
+    surf->detect(object_image2,ko2,deso2);
+    surf->compute(object_image,ko,deso);
+    surf->compute(object_image2,ko2,deso2);
 
     // Output the reference keypoints we are looking for
     cv::drawKeypoints(object_image, ko, ref_keypoints1);
@@ -394,16 +409,19 @@ int main(int argc, char **argv) {
         // Process frames
         if (running) {
             // Detect keypoints and descriptors
-            f2d->detectAndCompute(videoFrame, cv::Mat(), ks, dess);
+            surf->detect(videoFrame, ks);
+            surf->compute(videoFrame, ks, dess);
 
             // Match descriptors of reference and video frame
             std::vector<cv::DMatch> good_matches = knnMatchDescriptors(deso, dess, 0.9f);
             std::vector<cv::DMatch> good_matches2 = knnMatchDescriptors(deso2, dess, 0.9f);
+//            std::vector<cv::DMatch> good_matches = bruteForce(deso, dess, cv::NORM_HAMMING2);
+//            std::vector<cv::DMatch> good_matches2 = bruteForce(deso2, dess, cv::NORM_HAMMING2);
 
             if ((!ko.size() == 0 && !ks.size() == 0) && good_matches.size() >= 7) {
 
-                match1 = visualizeMatch(videoFrame, object_image, ko, ks, good_matches, false);
-                match2 = visualizeMatch(match1.outFrame, object_image2, ko2, ks, good_matches2, false);
+                match1 = visualizeMatch(videoFrame, object_image, ko, ks, good_matches, true);
+                match2 = visualizeMatch(match1.outFrame, object_image2, ko2, ks, good_matches2, true);
 
                 cv::imshow(OPENCV_WINDOW, match2.outFrame);
             } else {
