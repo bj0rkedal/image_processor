@@ -93,9 +93,32 @@ cv::Mat captureFrame(bool color, bool useCalibration, cv::VideoCapture capture) 
     return outFrame;
 }
 
-std::vector<cv::DMatch> knnMatchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene, float nndrRatio) {
+std::vector<cv::DMatch> knnMatchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene, float nnratio) {
+    cv::FlannBasedMatcher matcher;
+    std::vector<std::vector<cv::DMatch> > matches;
 
-    cv::FlannBasedMatcher matcher; // BRISK (new cv::flann::LshIndexParams(20,10,2))
+    // Match descriptors
+    matcher.knnMatch(descriptors_object, descriptors_scene, matches, 2);
+
+    std::vector<cv::DMatch> good_matches;
+    good_matches.reserve(matches.size());
+
+    for (size_t i = 0; i < matches.size(); ++i) {
+        if (matches[i].size() < 2)
+            continue;
+
+        const cv::DMatch &m1 = matches[i][0];
+        const cv::DMatch &m2 = matches[i][1];
+
+        if (m1.distance <= nnratio * m2.distance)
+            good_matches.push_back(m1);
+    }
+
+    return good_matches;
+}
+
+std::vector<cv::DMatch> knnMatchDescriptorsLSH(cv::Mat descriptors_object, cv::Mat descriptors_scene, float nndrRatio) {
+    cv::FlannBasedMatcher matcher(new cv::flann::LshIndexParams(20, 10, 2));
     std::vector<std::vector<cv::DMatch> > matches;
 
     // Match descriptors
@@ -119,8 +142,8 @@ std::vector<cv::DMatch> knnMatchDescriptors(cv::Mat descriptors_object, cv::Mat 
 }
 
 std::vector<cv::DMatch> matchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene) {
-
-    cv::FlannBasedMatcher matcher; // BRISK (new cv::flann::LshIndexParams(20,10,2))
+    // Good at filtering FLANN based match.
+    cv::FlannBasedMatcher matcher;
     std::vector<cv::DMatch> matches;
 
     // Match descriptors
@@ -151,10 +174,185 @@ std::vector<cv::DMatch> matchDescriptors(cv::Mat descriptors_object, cv::Mat des
 
 std::vector<cv::DMatch> bruteForce(cv::Mat descriptors_object, cv::Mat descriptors_scene, int normType) {
     cv::BFMatcher matcher(normType);
-    std::vector< cv::DMatch > matches;
-    matcher.match( descriptors_object, descriptors_scene, matches );
+    std::vector<std::vector<cv::DMatch> > matches;
+    matcher.knnMatch(descriptors_object, descriptors_scene, matches, 2);
 
-    return matches;
+//    look whether the match is inside a defined area of the image
+//    only 25% of maximum of possible distance
+//    double tresholdDist = 0.25 * sqrt(double(object.size().height*object.size().height
+//                                             +object.size().width*object.size().width));
+
+    std::vector<cv::DMatch> good_matches;
+    for (int i = 0; i < matches.size(); ++i) {
+        const float ratio = 0.9; // As in Lowe's paper; can be tuned
+        if (matches[i][0].distance < ratio * matches[i][1].distance) {
+            good_matches.push_back(matches[i][0]);
+        }
+    }
+
+    return good_matches;
+}
+
+cv::Ptr<cv::Feature2D> SetKeyPointsDetector(std::string typeKeyPoint) {
+    cv::Ptr<cv::Feature2D> detector;
+    if (typeKeyPoint == "SURF") {
+        double minHessian = 1000;
+        int nOctaves = 4;
+        int nOctaveLayers = 5;
+        bool extended = false; //true - 128 elements per descriptor. false = 64
+        bool upright = false; //true - orientation of features skipped.
+        detector = cv::xfeatures2d::SURF::create(minHessian, nOctaves, nOctaveLayers, extended, upright);
+        ROS_INFO("Keypoint detector: %s", typeKeyPoint.c_str());
+    } else if (typeKeyPoint == "SIFT") {
+        int nFeatures = 0;
+        int nOctaveLayers = 5;
+        double contrastThreshold = 0.04;
+        double edgeThreshold = 10;
+        double sigma = 1.6;
+        detector = cv::xfeatures2d::SIFT::create(nFeatures, nOctaveLayers, contrastThreshold, edgeThreshold, sigma);
+        ROS_INFO("Keypoint detector: %s", typeKeyPoint.c_str());
+    } else if (typeKeyPoint == "STAR") {
+        int maxSize = 45;
+        int responseThreshold = 30;
+        int lineThresholdProjected = 10;
+        int lineThresholdBinarized = 8;
+        int suppressNonmaxSize = 5;
+        detector = cv::xfeatures2d::StarDetector::create(maxSize, responseThreshold, lineThresholdProjected,
+                                                         lineThresholdBinarized, suppressNonmaxSize);
+        ROS_INFO("Keypoint detector: %s", typeKeyPoint.c_str());
+    } else if (typeKeyPoint == "BRISK") {
+        int thresh = 30;
+        int octaves = 3;
+        float patternScale = 1.0f;
+        detector = cv::BRISK::create(thresh, octaves, patternScale);
+        ROS_INFO("Keypoint detector: %s", typeKeyPoint.c_str());
+    } else if (typeKeyPoint == "FAST") {
+        int threshold = 10;
+        bool nonmaxSuppression = true;
+        int type = cv::FastFeatureDetector::TYPE_9_16;
+        detector = cv::FastFeatureDetector::create(threshold, nonmaxSuppression, type);
+        ROS_INFO("Keypoint detector: %s", typeKeyPoint.c_str());
+    } else if (typeKeyPoint == "ORB") {
+        int nFeatures = 1000;
+        float scaleFactor = 1.2f;
+        int nlevels = 8;
+        int edgeThreshold = 31;
+        int firstLevel = 0;
+        int WTA_K = 4; //0-2 -> HAMMING, 2-4 -> HAMMING2
+        int scoreType = cv::ORB::FAST_SCORE;
+        int patchSize = 31;
+        int fastThreshold = 20;
+        detector = cv::ORB::create(nFeatures, scaleFactor, nlevels, edgeThreshold,
+                                   firstLevel, WTA_K, scoreType, patchSize, fastThreshold);
+        ROS_INFO("Keypoint detector: %s", typeKeyPoint.c_str());
+    } else if (typeKeyPoint == "AKAZE") {
+        int descriptor_type = cv::AKAZE::DESCRIPTOR_MLDB;
+        int descriptor_size = 0;
+        int descriptor_channels = 3;
+        float threshold = 0.001f;
+        int nOctaves = 4;
+        int nOctaveLayers = 4;
+        int diffusity = cv::KAZE::DIFF_PM_G2;
+        detector = cv::AKAZE::create(descriptor_type, descriptor_size, descriptor_channels,
+                                     threshold, nOctaves, nOctaveLayers, diffusity);
+        ROS_INFO("Keypoint detector: %s", typeKeyPoint.c_str());
+    } else {
+        ROS_ERROR("Could not find keypoint detector: %s\n\tChoosing default: SURF", typeKeyPoint.c_str());
+        detector = cv::xfeatures2d::SURF::create(1000);
+    }
+    return detector;
+}
+
+cv::Ptr<cv::Feature2D> SetDescriptorsExtractor(std::string typeDescriptor, bool &binary) {
+    cv::Ptr<cv::Feature2D> extractor;
+    if (typeDescriptor == "SURF") {
+        double minHessian = 1000;
+        int nOctaves = 4;
+        int nOctaveLayers = 5;
+        bool extended = false; //true - 128 elements per descriptor. false = 64
+        bool upright = false; //true - orientation of features skipped.
+        extractor = cv::xfeatures2d::SURF::create(minHessian, nOctaves, nOctaveLayers, extended, upright);
+        ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
+        binary = false;
+    } else if (typeDescriptor == "SIFT") {
+        int nFeatures = 0;
+        int nOctaveLayers = 5;
+        double contrastThreshold = 0.04;
+        double edgeThreshold = 10;
+        double sigma = 1.6;
+        extractor = cv::xfeatures2d::SIFT::create(nFeatures, nOctaveLayers, contrastThreshold, edgeThreshold, sigma);
+        ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
+        binary = false;
+    } else if (typeDescriptor == "BRISK") {
+        int thresh = 30;
+        int octaves = 3;
+        float patternScale = 1.0f;
+        extractor = cv::BRISK::create(thresh, octaves, patternScale);
+        ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
+        binary = true;
+    } else if (typeDescriptor == "FREAK") {
+        bool orientationNormalize = true;
+        bool scaleNormalized = true;
+        float patternScale = 22.0f;
+        int nOctaves = 4;
+        extractor = cv::xfeatures2d::FREAK::create(orientationNormalize, scaleNormalized, patternScale, nOctaves);
+        ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
+        binary = true;
+    } else if (typeDescriptor == "ORB") {
+        int nFeatures = 1000;
+        float scaleFactor = 1.2f;
+        int nlevels = 8;
+        int edgeThreshold = 31;
+        int firstLevel = 0;
+        int WTA_K = 4; //0-2 -> HAMMING, 2-4 -> HAMMING2
+        int scoreType = cv::ORB::FAST_SCORE;
+        int patchSize = 31;
+        int fastThreshold = 20;
+        extractor = cv::ORB::create(nFeatures, scaleFactor, nlevels, edgeThreshold,
+                                    firstLevel, WTA_K, scoreType, patchSize, fastThreshold);
+        ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
+        binary = true;
+    } else if (typeDescriptor == "AKAZE") {
+        int descriptor_type = cv::AKAZE::DESCRIPTOR_MLDB;
+        int descriptor_size = 0;
+        int descriptor_channels = 3;
+        float threshold = 0.001f;
+        int nOctaves = 4;
+        int nOctaveLayers = 4;
+        int diffusity = cv::KAZE::DIFF_PM_G2;
+        extractor = cv::AKAZE::create(descriptor_type, descriptor_size, descriptor_channels,
+                                      threshold, nOctaves, nOctaveLayers, diffusity);
+        ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
+        binary = true;
+    } else if (typeDescriptor == "BRIEF") {
+        int bytes = 32;
+        bool use_orientation = true;
+        extractor = cv::xfeatures2d::BriefDescriptorExtractor::create(bytes, use_orientation);
+        ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
+        binary = true;
+    } else {
+        ROS_ERROR("Could not find keypoint detector: %s\n\tChoosing default descriptor: SURF", typeDescriptor.c_str());
+        extractor = cv::xfeatures2d::SURF::create(1000);
+        binary = false;
+    }
+    return extractor;
+}
+
+std::vector<cv::DMatch> symmetryTest(const std::vector<cv::DMatch> &matches1, const std::vector<cv::DMatch> &matches2) {
+    std::vector<cv::DMatch> symMatches;
+    for (std::vector<cv::DMatch>::const_iterator matchIterator1 = matches1.begin();
+         matchIterator1 != matches1.end(); ++matchIterator1) {
+        for (std::vector<cv::DMatch>::const_iterator matchIterator2 = matches2.begin();
+             matchIterator2 != matches2.end(); ++matchIterator2) {
+            if ((*matchIterator1).queryIdx == (*matchIterator2).trainIdx &&
+                (*matchIterator2).queryIdx == (*matchIterator1).trainIdx) {
+                symMatches.push_back(
+                        cv::DMatch((*matchIterator1).queryIdx, (*matchIterator1).trainIdx, (*matchIterator1).distance));
+                break;
+            }
+        }
+    }
+    return symMatches;
 }
 
 CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vector<cv::KeyPoint> keypointsObject,
@@ -166,6 +364,9 @@ CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vecto
     if (showKeypoints) {
         cv::drawKeypoints(searchImage, keypointsScene, image_matches, cv::Scalar::all(-1),
                           cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
+//        cv::drawMatches(objectImage, keypointsObject, searchImage, keypointsScene, good_matches, image_matches,
+//                        cv::Scalar::all(-1), cv::Scalar::all(-1), std::vector<char>(),
+//                        cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
     } else {
         image_matches = searchImage.clone();
     }
@@ -181,7 +382,7 @@ CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vecto
 
     // Perform Homography to find a perspective transformation between two planes.
     cv::Mat H;
-    if(!obj.size() == 0 && !scene.size() == 0) {
+    if (!obj.size() == 0 && !scene.size() == 0) {
         H = cv::findHomography(obj, scene, CV_RANSAC);
     }
 
@@ -199,7 +400,7 @@ CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vecto
     if (!H.rows == 0 && !H.cols == 0) {
         cv::perspectiveTransform(objectCorners, sceneCorners, H);
 
-        if(checkObjectInnerAngles(sceneCorners, 60, 120)) {
+        if (checkObjectInnerAngles(sceneCorners, 60, 120)) {
             // Draw lines surrounding the object
             cv::line(image_matches, sceneCorners[0], sceneCorners[1], cv::Scalar(0, 255, 0), 2); //TOP line
             cv::line(image_matches, sceneCorners[1], sceneCorners[2], cv::Scalar(0, 255, 0), 2); //RIGHT line
@@ -211,7 +412,7 @@ CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vecto
 
             // Center
             cv::Point2f cen(0.0, 0.0);
-            if(intersection(sceneCorners[0], sceneCorners[2], sceneCorners[1], sceneCorners[3], cen)) {
+            if (intersection(sceneCorners[0], sceneCorners[2], sceneCorners[1], sceneCorners[3], cen)) {
                 cv::circle(image_matches, cen, 10, cv::Scalar(0, 0, 255), 2);
             }
         }
@@ -268,7 +469,7 @@ bool checkObjectInnerAngles(std::vector<cv::Point2f> scorner, int min, int max) 
     int c2 = innerAngle(scorner[1], scorner[2], scorner[3]);
     int c3 = innerAngle(scorner[2], scorner[3], scorner[0]);
 
-    if (c0>min && c0<max && c1>min && c1<max && c2>min && c2<max && c3>min && c3<max) out = true;
+    if (c0 > min && c0 < max && c1 > min && c1 < max && c2 > min && c2 < max && c3 > min && c3 < max) out = true;
 
     return out;
 }
@@ -353,8 +554,8 @@ int main(int argc, char **argv) {
     ros::Rate loop_rate(loop_frequency);
 
     // Read the image we are looking for
-    object_image = cv::imread(argv[1], CV_LOAD_IMAGE_COLOR);
-    object_image2 = cv::imread(argv[2], CV_LOAD_IMAGE_COLOR);
+    object_image = cv::imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE);
+    object_image2 = cv::imread(argv[2], CV_LOAD_IMAGE_GRAYSCALE);
     if (!object_image.data || !object_image2.data) {
         ROS_ERROR(" --(!) Error reading images");
         return 0;
@@ -373,12 +574,17 @@ int main(int argc, char **argv) {
              capture.get(CV_CAP_PROP_FRAME_WIDTH), capture.get(CV_CAP_PROP_FRAME_HEIGHT));
 
     // Detect keypoints and compute keypoints and descriptors for the reference image
-//    surf->detectAndCompute(object_image, cv::Mat(), ko, deso);
-//    surf->detectAndCompute(object_image2, cv::Mat(), ko2, deso2);
-    surf->detect(object_image,ko,deso);
-    surf->detect(object_image2,ko2,deso2);
-    surf->compute(object_image,ko,deso);
-    surf->compute(object_image2,ko2,deso2);
+    bool binary = false;
+    bool bruteforce = true;
+    cv::Ptr<cv::Feature2D> detector = SetKeyPointsDetector(DETECTOR_TYPE);
+    cv::Ptr<cv::Feature2D> extractor = SetDescriptorsExtractor(EXTRACTOR_TYPE, binary);
+    ROS_INFO("Binary matching: %d", binary);
+    ROS_INFO("Bruteforce matching: %d", bruteforce);
+
+    detector->detect(object_image, ko, deso);
+    detector->detect(object_image2, ko2, deso2);
+    extractor->compute(object_image, ko, deso);
+    extractor->compute(object_image2, ko2, deso2);
 
     // Output the reference keypoints we are looking for
     cv::drawKeypoints(object_image, ko, ref_keypoints1);
@@ -402,26 +608,41 @@ int main(int argc, char **argv) {
     int count = 0;
     while (ros::ok()) {
         // Capture video frame
-        videoFrame = captureFrame(true, false, capture);
+        videoFrame = captureFrame(false, false, capture);
         if (videoFrame.empty()) break; // || cv::waitKey(30) >= 0
         cv::waitKey(30);
 
         // Process frames
         if (running) {
             // Detect keypoints and descriptors
-            surf->detect(videoFrame, ks);
-            surf->compute(videoFrame, ks, dess);
+            detector->detect(videoFrame, ks);
+            extractor->compute(videoFrame, ks, dess);
 
             // Match descriptors of reference and video frame
-            std::vector<cv::DMatch> good_matches = knnMatchDescriptors(deso, dess, 0.9f);
-            std::vector<cv::DMatch> good_matches2 = knnMatchDescriptors(deso2, dess, 0.9f);
-//            std::vector<cv::DMatch> good_matches = bruteForce(deso, dess, cv::NORM_HAMMING2);
-//            std::vector<cv::DMatch> good_matches2 = bruteForce(deso2, dess, cv::NORM_HAMMING2);
+            std::vector<cv::DMatch> good_matches, good_matches2;
+            if (!binary) {
+                if (bruteforce) {
+                    good_matches = bruteForce(deso, dess, cv::NORM_L1);
+                    good_matches2 = bruteForce(deso2, dess, cv::NORM_L1);
+                } else {
+                    good_matches = knnMatchDescriptors(deso, dess, 0.9f);
+                    good_matches2 = knnMatchDescriptors(deso2, dess, 0.9f);
+                }
+            } else {
+                if(bruteforce) {
+                    good_matches = bruteForce(deso, dess, cv::NORM_HAMMING);
+                    good_matches2 = bruteForce(deso2, dess, cv::NORM_HAMMING);
+                } else {
+                    good_matches = knnMatchDescriptorsLSH(deso, dess, 0.9f);
+                    good_matches2 = knnMatchDescriptorsLSH(deso2, dess, 0.9f);
+                }
+            }
 
-            if ((!ko.size() == 0 && !ks.size() == 0) && good_matches.size() >= 7) {
+            // Visualize matching
+            if ((!ko.size() == 0 && !ks.size() == 0) && good_matches.size() >= 0) {
 
                 match1 = visualizeMatch(videoFrame, object_image, ko, ks, good_matches, true);
-                match2 = visualizeMatch(match1.outFrame, object_image2, ko2, ks, good_matches2, true);
+                match2 = visualizeMatch(match1.outFrame, object_image2, ko2, ks, good_matches2, false);
 
                 cv::imshow(OPENCV_WINDOW, match2.outFrame);
             } else {

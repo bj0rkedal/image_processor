@@ -65,30 +65,19 @@ const std::string ref_path2 = "/home/minions/Pictures/opencvtest/ref_keypoints2.
 cv::Mat object_image, object_image2;
 cv::Mat ref_keypoints1, ref_keypoints2;
 
-// Feature computation
-double minHessian = 600;
-int nOctaves=4;
-int nOctaveLayers=5;
-bool extended=false; //true betyr 128 element per descriptor. false = 64
-bool upright=false; //true betyr at orientering av features blir skippet.
 
-cv::Ptr<cv::Feature2D> surf = cv::xfeatures2d::SURF::create(minHessian,nOctaves,nOctaveLayers,extended,upright);
-cv::Ptr<cv::Feature2D> star = cv::xfeatures2d::StarDetector::create();
-cv::Ptr<cv::Feature2D> brief = cv::xfeatures2d::BriefDescriptorExtractor::create(32,true);
-cv::Ptr<cv::Feature2D> daisy = cv::xfeatures2d::DAISY::create();
-cv::Ptr<cv::AKAZE> akaze = cv::AKAZE::create();
-cv::Ptr<cv::ORB> orb = cv::ORB::create(1000,1.2f,8,31,0,2,cv::ORB::FAST_SCORE,31,20);
-cv::Ptr<cv::BRISK> brisk = cv::BRISK::create(20,4,1.0f);
-cv::Ptr<cv::FastFeatureDetector> fast = cv::FastFeatureDetector::create();
+//cv::Ptr<cv::Feature2D> sift = cv::xfeatures2d::SIFT::create(0,5,0.04,10,1.6);
+//cv::Ptr<cv::Feature2D> surf = cv::xfeatures2d::SURF::create(1000,4,5,false,false);
+//cv::Ptr<cv::Feature2D> star = cv::xfeatures2d::StarDetector::create();
+//cv::Ptr<cv::Feature2D> brief = cv::xfeatures2d::BriefDescriptorExtractor::create(32,true);
+//cv::Ptr<cv::Feature2D> freak = cv::xfeatures2d::FREAK::create();
+//cv::Ptr<cv::Feature2D> akaze = cv::AKAZE::create();
+//cv::Ptr<cv::Feature2D> orb = cv::ORB::create(1000,1.2f,8,31,0,4,cv::ORB::FAST_SCORE,31,20);
+//cv::Ptr<cv::Feature2D> brisk = cv::BRISK::create();
+//cv::Ptr<cv::Feature2D> fast = cv::FastFeatureDetector::create();
 
-//
-//int nFeatures = 0;
-//int nOctaveLayers = 5;
-//double contrastThreshold = 0.04;
-//double edgeThreshold = 10;
-//double sigma = 1.6;
-//cv::Ptr<cv::Feature2D> sift = cv::xfeatures2d::SIFT::create(nFeatures,nOctaveLayers,contrastThreshold,
-//                                                           edgeThreshold,sigma);
+const std::string DETECTOR_TYPE = "BRISK";
+const std::string EXTRACTOR_TYPE = "FREAK";
 
 std::vector<cv::KeyPoint> ko, ks, ko2;
 cv::Mat deso, dess, deso2;
@@ -119,11 +108,19 @@ std::string type2str(int type);
  */
 cv::Mat captureFrame(bool color, bool undistort, cv::VideoCapture capture);
 
-std::vector<cv::DMatch> knnMatchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene, float nndrRatio);
+std::vector<cv::DMatch> knnMatchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene, float nnratio);
+
+std::vector<cv::DMatch> knnMatchDescriptorsLSH(cv::Mat descriptors_object, cv::Mat descriptors_scene, float nndrRatio);
 
 std::vector<cv::DMatch> matchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene);
 
-std::vector<cv::DMatch> bruteForce(cv::Mat descriptors_object, cv::Mat descriptors_scene);
+std::vector<cv::DMatch> bruteForce(cv::Mat descriptors_object, cv::Mat descriptors_scene, int normType);
+
+cv::Ptr<cv::Feature2D> SetKeyPointsDetector(std::string typeKeyPoint);
+
+cv::Ptr<cv::Feature2D> SetDescriptorsExtractor(std::string typeDescriptor, bool &binary);
+
+std::vector<cv::DMatch> symmetryTest(const std::vector<cv::DMatch> &matches1,const std::vector<cv::DMatch> &matches2);
 
 CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vector<cv::KeyPoint> keypointsObject,
                             std::vector<cv::KeyPoint> keypointsScene, std::vector<cv::DMatch> good_matches,
