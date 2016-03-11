@@ -77,7 +77,7 @@ cv::Mat ref_keypoints1, ref_keypoints2;
 //cv::Ptr<cv::Feature2D> fast = cv::FastFeatureDetector::create();
 
 const std::string DETECTOR_TYPE = "BRISK";
-const std::string EXTRACTOR_TYPE = "FREAK";
+const std::string EXTRACTOR_TYPE = "BRISK";
 
 std::vector<cv::KeyPoint> ko, ks, ko2;
 cv::Mat deso, dess, deso2;
@@ -118,13 +118,17 @@ std::vector<cv::DMatch> bruteForce(cv::Mat descriptors_object, cv::Mat descripto
 
 cv::Ptr<cv::Feature2D> SetKeyPointsDetector(std::string typeKeyPoint);
 
+cv::Ptr<cv::Feature2D> getDescriptors(int descriptorType, bool &binary);
+
+cv::Ptr<cv::Feature2D> getKeypoints(int detectorType);
+
 cv::Ptr<cv::Feature2D> SetDescriptorsExtractor(std::string typeDescriptor, bool &binary);
 
 std::vector<cv::DMatch> symmetryTest(const std::vector<cv::DMatch> &matches1,const std::vector<cv::DMatch> &matches2);
 
 CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vector<cv::KeyPoint> keypointsObject,
                             std::vector<cv::KeyPoint> keypointsScene, std::vector<cv::DMatch> good_matches,
-                            bool showKeypoints);
+                            bool showKeypoints, int homographyType);
 
 bool intersection(cv::Point2f o1, cv::Point2f p1, cv::Point2f o2, cv::Point2f p2, cv::Point2f &r);
 

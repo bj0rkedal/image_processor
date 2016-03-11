@@ -63,6 +63,16 @@ add_service_files(
   FILES
   setProcessRunning.srv
   getProcessRunning.srv
+  setBinaryMatching.srv
+  getBinaryMatching.srv
+  setKeypointDetectorType.srv
+  getKeypointDetectorType.srv
+  setDescriptorType.srv
+  getDescriptorType.srv
+  setVideoColor.srv
+  getVideoColor.srv
+  setBruteforceMatching.srv
+  getBruteforceMatching.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -147,6 +157,7 @@ include_directories(
 add_executable(image_publisher src/image_publisher.cpp)
 add_executable(object_matcher src/openCV_tester.cpp)
 add_executable(calibrator src/calibration.cpp)
+add_executable(steadycam_2D_matcher src/object_2D_matcher.cpp src/openCV_matching.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -165,6 +176,10 @@ target_link_libraries(object_matcher
         ${catkin_LIBRARIES}
 )
 target_link_libraries(calibrator
+        ${OpenCV_LIBRARIES}
+        ${catkin_LIBRARIES}
+)
+target_link_libraries(steadycam_2D_matcher
         ${OpenCV_LIBRARIES}
         ${catkin_LIBRARIES}
 )

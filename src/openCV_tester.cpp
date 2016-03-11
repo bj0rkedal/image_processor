@@ -12,6 +12,8 @@ namespace robotCam {
     openCV_tester::~openCV_tester() { }
 }
 
+enum {SURF = 1, SIFT = 2, STAR = 3, FAST = 4, BRISK = 5, AKAZE = 6, ORB = 7, FREAK = 8, BRIEF = 9};
+
 cv::Mat getCameraMatrix(const std::string path) {
     cv::Mat temp;
     cv::FileStorage fs(path, cv::FileStorage::READ);
@@ -193,68 +195,112 @@ std::vector<cv::DMatch> bruteForce(cv::Mat descriptors_object, cv::Mat descripto
     return good_matches;
 }
 
+cv::Ptr<cv::Feature2D> getKeypoints(int detectorType) {
+    cv::Ptr<cv::Feature2D> keyPointDetector;
+    switch(detectorType) {
+        case SURF:
+            keyPointDetector = cv::xfeatures2d::SURF::create(1000,4,5,false,false);
+            ROS_INFO("Keypoint detector: SURF");
+            return keyPointDetector;
+        case SIFT:
+            keyPointDetector = cv::xfeatures2d::SIFT::create(0,5,0.04,10,1.6);
+            ROS_INFO("Keypoint detector: SIFT");
+            return keyPointDetector;
+        case STAR:
+            keyPointDetector = cv::xfeatures2d::StarDetector::create(45,30,10,8,5);
+            ROS_INFO("Keypoint detector: STAR");
+            return keyPointDetector;
+        case BRISK:
+            keyPointDetector = cv::BRISK::create(30,3,1.0f);
+            ROS_INFO("Keypoint detector: BRISK");
+            return keyPointDetector;
+        case ORB:
+            keyPointDetector = cv::ORB::create(1000,1.2f,8,31,0,2,cv::ORB::FAST_SCORE,31,20);
+            ROS_INFO("Keypoint detector: ORB");
+            return keyPointDetector;
+        case AKAZE:
+            keyPointDetector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB,0,3,0.001f,4,4,cv::KAZE::DIFF_PM_G2);
+            ROS_INFO("Keypoint detector: AKAZE");
+            return keyPointDetector;
+        case FAST:
+            keyPointDetector = cv::FastFeatureDetector::create(10,cv::FastFeatureDetector::TYPE_9_16);
+            ROS_INFO("Keypoint detector: FAST");
+            return keyPointDetector;
+        default:
+            keyPointDetector = cv::xfeatures2d::SURF::create(1000);
+            ROS_ERROR("Could not find chosen keypoint detector. Choosing default: SURF");
+            return keyPointDetector;
+    }
+}
+
+cv::Ptr<cv::Feature2D> getDescriptors(int descriptorType, bool &binary) {
+    cv::Ptr<cv::Feature2D> descriptorExtractor;
+    switch(descriptorType) {
+        case SURF:
+            descriptorExtractor = cv::xfeatures2d::SURF::create(1000,4,5,false,false);
+            binary = false;
+            ROS_INFO("Descriptor: SURF");
+            return descriptorExtractor;
+        case SIFT:
+            descriptorExtractor = cv::xfeatures2d::SIFT::create(0,5,0.04,10,1.6);
+            binary = false;
+            ROS_INFO("Descriptor: SIFT");
+            return descriptorExtractor;
+        case FREAK:
+            descriptorExtractor = cv::xfeatures2d::FREAK::create(true,true,22.0f,4);
+            binary = true;
+            ROS_INFO("Descriptor: FREAK");
+            return descriptorExtractor;
+        case BRISK:
+            descriptorExtractor = cv::BRISK::create(30,3,1.0f);
+            binary = true;
+            ROS_INFO("Descriptor: BRISK");
+            return descriptorExtractor;
+        case ORB:
+            descriptorExtractor = cv::ORB::create(1000,1.2f,8,31,0,2,cv::ORB::FAST_SCORE,31,20);
+            binary = true;
+            ROS_INFO("Descriptor: ORB");
+            return descriptorExtractor;
+        case AKAZE:
+            descriptorExtractor = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB,0,3,0.001f,4,4,cv::KAZE::DIFF_PM_G2);
+            binary = true;
+            ROS_INFO("Descriptor: AKAZE");
+            return descriptorExtractor;
+        case BRIEF:
+            descriptorExtractor = cv::xfeatures2d::BriefDescriptorExtractor::create(32,true);
+            binary = true;
+            ROS_INFO("Descriptor: BRIEF");
+            return descriptorExtractor;
+        default:
+            descriptorExtractor = cv::xfeatures2d::SURF::create(1000);
+            binary = false;
+            ROS_INFO("Descriptor: SURF");
+            return descriptorExtractor;
+    }
+}
+
 cv::Ptr<cv::Feature2D> SetKeyPointsDetector(std::string typeKeyPoint) {
     cv::Ptr<cv::Feature2D> detector;
     if (typeKeyPoint == "SURF") {
-        double minHessian = 1000;
-        int nOctaves = 4;
-        int nOctaveLayers = 5;
-        bool extended = false; //true - 128 elements per descriptor. false = 64
-        bool upright = false; //true - orientation of features skipped.
-        detector = cv::xfeatures2d::SURF::create(minHessian, nOctaves, nOctaveLayers, extended, upright);
+        detector = cv::xfeatures2d::SURF::create(1000,4,5,false,false);
         ROS_INFO("Keypoint detector: %s", typeKeyPoint.c_str());
     } else if (typeKeyPoint == "SIFT") {
-        int nFeatures = 0;
-        int nOctaveLayers = 5;
-        double contrastThreshold = 0.04;
-        double edgeThreshold = 10;
-        double sigma = 1.6;
-        detector = cv::xfeatures2d::SIFT::create(nFeatures, nOctaveLayers, contrastThreshold, edgeThreshold, sigma);
+        detector = cv::xfeatures2d::SIFT::create(0,5,0.04,10,1.6);
         ROS_INFO("Keypoint detector: %s", typeKeyPoint.c_str());
     } else if (typeKeyPoint == "STAR") {
-        int maxSize = 45;
-        int responseThreshold = 30;
-        int lineThresholdProjected = 10;
-        int lineThresholdBinarized = 8;
-        int suppressNonmaxSize = 5;
-        detector = cv::xfeatures2d::StarDetector::create(maxSize, responseThreshold, lineThresholdProjected,
-                                                         lineThresholdBinarized, suppressNonmaxSize);
+        detector = cv::xfeatures2d::StarDetector::create(45,30,10,8,5);
         ROS_INFO("Keypoint detector: %s", typeKeyPoint.c_str());
     } else if (typeKeyPoint == "BRISK") {
-        int thresh = 30;
-        int octaves = 3;
-        float patternScale = 1.0f;
-        detector = cv::BRISK::create(thresh, octaves, patternScale);
+        detector = cv::BRISK::create(30,3,1.0f);
         ROS_INFO("Keypoint detector: %s", typeKeyPoint.c_str());
     } else if (typeKeyPoint == "FAST") {
-        int threshold = 10;
-        bool nonmaxSuppression = true;
-        int type = cv::FastFeatureDetector::TYPE_9_16;
-        detector = cv::FastFeatureDetector::create(threshold, nonmaxSuppression, type);
+        detector = cv::FastFeatureDetector::create(10,true,cv::FastFeatureDetector::TYPE_9_16);
         ROS_INFO("Keypoint detector: %s", typeKeyPoint.c_str());
     } else if (typeKeyPoint == "ORB") {
-        int nFeatures = 1000;
-        float scaleFactor = 1.2f;
-        int nlevels = 8;
-        int edgeThreshold = 31;
-        int firstLevel = 0;
-        int WTA_K = 4; //0-2 -> HAMMING, 2-4 -> HAMMING2
-        int scoreType = cv::ORB::FAST_SCORE;
-        int patchSize = 31;
-        int fastThreshold = 20;
-        detector = cv::ORB::create(nFeatures, scaleFactor, nlevels, edgeThreshold,
-                                   firstLevel, WTA_K, scoreType, patchSize, fastThreshold);
+        detector = cv::ORB::create(1000,1.2f,8,31,0,2,cv::ORB::FAST_SCORE,31,20);
         ROS_INFO("Keypoint detector: %s", typeKeyPoint.c_str());
     } else if (typeKeyPoint == "AKAZE") {
-        int descriptor_type = cv::AKAZE::DESCRIPTOR_MLDB;
-        int descriptor_size = 0;
-        int descriptor_channels = 3;
-        float threshold = 0.001f;
-        int nOctaves = 4;
-        int nOctaveLayers = 4;
-        int diffusity = cv::KAZE::DIFF_PM_G2;
-        detector = cv::AKAZE::create(descriptor_type, descriptor_size, descriptor_channels,
-                                     threshold, nOctaves, nOctaveLayers, diffusity);
+        detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB,0,3,0.001f,4,4,cv::KAZE::DIFF_PM_G2);
         ROS_INFO("Keypoint detector: %s", typeKeyPoint.c_str());
     } else {
         ROS_ERROR("Could not find keypoint detector: %s\n\tChoosing default: SURF", typeKeyPoint.c_str());
@@ -266,68 +312,31 @@ cv::Ptr<cv::Feature2D> SetKeyPointsDetector(std::string typeKeyPoint) {
 cv::Ptr<cv::Feature2D> SetDescriptorsExtractor(std::string typeDescriptor, bool &binary) {
     cv::Ptr<cv::Feature2D> extractor;
     if (typeDescriptor == "SURF") {
-        double minHessian = 1000;
-        int nOctaves = 4;
-        int nOctaveLayers = 5;
-        bool extended = false; //true - 128 elements per descriptor. false = 64
-        bool upright = false; //true - orientation of features skipped.
-        extractor = cv::xfeatures2d::SURF::create(minHessian, nOctaves, nOctaveLayers, extended, upright);
+        extractor = cv::xfeatures2d::SURF::create(1000,4,5,false,false);
         ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
         binary = false;
     } else if (typeDescriptor == "SIFT") {
-        int nFeatures = 0;
-        int nOctaveLayers = 5;
-        double contrastThreshold = 0.04;
-        double edgeThreshold = 10;
-        double sigma = 1.6;
-        extractor = cv::xfeatures2d::SIFT::create(nFeatures, nOctaveLayers, contrastThreshold, edgeThreshold, sigma);
+        extractor = cv::xfeatures2d::SIFT::create(0,5,0.04,10,1.6);
         ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
         binary = false;
     } else if (typeDescriptor == "BRISK") {
-        int thresh = 30;
-        int octaves = 3;
-        float patternScale = 1.0f;
-        extractor = cv::BRISK::create(thresh, octaves, patternScale);
+        extractor = cv::BRISK::create(30,3,1.0f);
         ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
         binary = true;
     } else if (typeDescriptor == "FREAK") {
-        bool orientationNormalize = true;
-        bool scaleNormalized = true;
-        float patternScale = 22.0f;
-        int nOctaves = 4;
-        extractor = cv::xfeatures2d::FREAK::create(orientationNormalize, scaleNormalized, patternScale, nOctaves);
+        extractor = cv::xfeatures2d::FREAK::create(true,true,22.0f,4);
         ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
         binary = true;
     } else if (typeDescriptor == "ORB") {
-        int nFeatures = 1000;
-        float scaleFactor = 1.2f;
-        int nlevels = 8;
-        int edgeThreshold = 31;
-        int firstLevel = 0;
-        int WTA_K = 4; //0-2 -> HAMMING, 2-4 -> HAMMING2
-        int scoreType = cv::ORB::FAST_SCORE;
-        int patchSize = 31;
-        int fastThreshold = 20;
-        extractor = cv::ORB::create(nFeatures, scaleFactor, nlevels, edgeThreshold,
-                                    firstLevel, WTA_K, scoreType, patchSize, fastThreshold);
+        extractor = cv::ORB::create(1000,1.2f,8,31,0,2,cv::ORB::FAST_SCORE,31,20); // WTA_K = 3-4 -> HAMMING2
         ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
         binary = true;
     } else if (typeDescriptor == "AKAZE") {
-        int descriptor_type = cv::AKAZE::DESCRIPTOR_MLDB;
-        int descriptor_size = 0;
-        int descriptor_channels = 3;
-        float threshold = 0.001f;
-        int nOctaves = 4;
-        int nOctaveLayers = 4;
-        int diffusity = cv::KAZE::DIFF_PM_G2;
-        extractor = cv::AKAZE::create(descriptor_type, descriptor_size, descriptor_channels,
-                                      threshold, nOctaves, nOctaveLayers, diffusity);
+        extractor = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB,0,3,0.001f,4,4,cv::KAZE::DIFF_PM_G2);
         ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
         binary = true;
     } else if (typeDescriptor == "BRIEF") {
-        int bytes = 32;
-        bool use_orientation = true;
-        extractor = cv::xfeatures2d::BriefDescriptorExtractor::create(bytes, use_orientation);
+        extractor = cv::xfeatures2d::BriefDescriptorExtractor::create(32, true);
         ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
         binary = true;
     } else {
@@ -357,7 +366,7 @@ std::vector<cv::DMatch> symmetryTest(const std::vector<cv::DMatch> &matches1, co
 
 CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vector<cv::KeyPoint> keypointsObject,
                             std::vector<cv::KeyPoint> keypointsScene, std::vector<cv::DMatch> good_matches,
-                            bool showKeypoints) {
+                            bool showKeypoints, int homographyType) {
 
     cv::Mat image_matches;
 
@@ -383,7 +392,7 @@ CurrentMatch visualizeMatch(cv::Mat searchImage, cv::Mat objectImage, std::vecto
     // Perform Homography to find a perspective transformation between two planes.
     cv::Mat H;
     if (!obj.size() == 0 && !scene.size() == 0) {
-        H = cv::findHomography(obj, scene, CV_RANSAC);
+        H = cv::findHomography(obj, scene, homographyType); // CV_LMEDS // CV_RANSAC
     }
 
     std::vector<cv::Point2f> objectCorners(4);
@@ -578,6 +587,8 @@ int main(int argc, char **argv) {
     bool bruteforce = true;
     cv::Ptr<cv::Feature2D> detector = SetKeyPointsDetector(DETECTOR_TYPE);
     cv::Ptr<cv::Feature2D> extractor = SetDescriptorsExtractor(EXTRACTOR_TYPE, binary);
+//    cv::Ptr<cv::Feature2D> detector = getKeypoints(BRISK);
+//    cv::Ptr<cv::Feature2D> extractor = getDescriptors(BRISK, binary);
     ROS_INFO("Binary matching: %d", binary);
     ROS_INFO("Bruteforce matching: %d", bruteforce);
 
@@ -641,8 +652,8 @@ int main(int argc, char **argv) {
             // Visualize matching
             if ((!ko.size() == 0 && !ks.size() == 0) && good_matches.size() >= 0) {
 
-                match1 = visualizeMatch(videoFrame, object_image, ko, ks, good_matches, true);
-                match2 = visualizeMatch(match1.outFrame, object_image2, ko2, ks, good_matches2, false);
+                match1 = visualizeMatch(videoFrame, object_image, ko, ks, good_matches, true, CV_RANSAC);
+                match2 = visualizeMatch(match1.outFrame, object_image2, ko2, ks, good_matches2, false, CV_RANSAC);
 
                 cv::imshow(OPENCV_WINDOW, match2.outFrame);
             } else {
