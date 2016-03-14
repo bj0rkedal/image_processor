@@ -6,6 +6,7 @@
 #define IMAGE_PROCESSOR_OBJECT_2D_MATCHER_HPP
 
 #include <geometry_msgs/Pose2D.h>
+
 #include "image_processor/setProcessRunning.h"
 #include "image_processor/getProcessRunning.h"
 #include "image_processor/setBinaryMatching.h"
@@ -18,6 +19,7 @@
 #include "image_processor/getVideoColor.h"
 #include "image_processor/setBruteforceMatching.h"
 #include "image_processor/getBruteforceMatching.h"
+#include "image_processor/setHomographyMethod.h"
 
 std::string DETECTOR_TYPE = "BRISK";
 std::string EXTRACTOR_TYPE = "BRISK";
@@ -28,7 +30,13 @@ const std::string ref_path2 = "/home/minions/Desktop/ref_keypoints2.jpg";
 const int STEADYCAM_WIDTH = 1280;
 const int STEADYCAM_HEIGHT = 720;
 
+static const std::string OPENCV_WINDOW = "Matching";
+
 std::string temp_path1, temp_path2;
+
+geometry_msgs::Pose2D object_pose_msg;
+
+int homographyMethod = CV_RANSAC;
 
 void initializeMatcher(char **argv);
 
@@ -74,5 +82,6 @@ bool setVideoColorCallBack(image_processor::setVideoColor::Request &req,
 
 bool getVideoColorCallBack(image_processor::getVideoColor::Request &req,
                            image_processor::getVideoColor::Response &res);
+
 
 #endif //IMAGE_PROCESSOR_OBJECT_2D_MATCHER_HPP

@@ -6,26 +6,28 @@
 
 // Local variables
 robotcam::OpenCVMatching openCVMatching;
+robotcam::CurrentMatch match1, match2;
+
+// Video and reference images
 cv::VideoCapture capture;
 cv::Mat object1, object2;
 
+// Keypoints and descriptors
 cv::Ptr<cv::Feature2D> detector, extractor;
 std::vector<cv::KeyPoint> keypoints_object1, keypoints_object2, keypoints_scene;
 cv::Mat descriptor_object1, descriptor_object2, descriptor_scene;
 
-robotcam::CurrentMatch match1, match2;
-
 // Control
 bool running = true;
 bool binary = false;
-bool bruteforce = false;
+bool bruteforce = true;
 bool color = true;
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "object_2D_detection");
     ros::NodeHandle n;
-    ros::Publisher pub1 = n.advertise<geometry_msgs::Pose2D>("/object_2D_detected/offset1", 1);
-    ros::Publisher pub2 = n.advertise<geometry_msgs::Pose2D>("/object_2D_detected/offset2", 1);
+    ros::Publisher pub1 = n.advertise<geometry_msgs::Pose2D>("/object_2D_detected/object1", 1);
+    ros::Publisher pub2 = n.advertise<geometry_msgs::Pose2D>("/object_2D_detected/object2", 1);
     ros::ServiceServer service1 = n.advertiseService("/object_2D_detection/setProcessRunning",
                                                      setProcessRunningCallBack);
     ros::ServiceServer service2 = n.advertiseService("/object_2D_detection/getProcessRunning",
@@ -45,9 +47,9 @@ int main(int argc, char **argv) {
     ros::ServiceServer service9 = n.advertiseService("/object_2D_detection/setVideoColor",
                                                      setVideoColorCallBack);
     ros::ServiceServer service10 = n.advertiseService("/object_2D_detection/getVideoColor",
-                                                     getVideoColorCallBack);
+                                                      getVideoColorCallBack);
     ros::ServiceServer service11 = n.advertiseService("/object_2D_detection/setBruteforceMatching",
-                                                     setBruteforceMatchingCallBack);
+                                                      setBruteforceMatchingCallBack);
     ros::ServiceServer service12 = n.advertiseService("/object_2D_detection/getBruteforceMatching",
                                                       getBruteforceMatchingCallBack);
     ros::Rate loop_rate(60);
@@ -67,15 +69,21 @@ int main(int argc, char **argv) {
     }
     ROS_INFO("Loaded reference images:\n\t1: %s\n\t2: %s", argv[1], argv[2]);
 
-    detectAndComputeReference(object1,keypoints_object1,descriptor_object1);
-    detectAndComputeReference(object2,keypoints_object2,descriptor_object2);
+    detectAndComputeReference(object1, keypoints_object1, descriptor_object1);
+    detectAndComputeReference(object2, keypoints_object2, descriptor_object2);
     writeReferenceImage(object1, keypoints_object1, ref_path1);
     writeReferenceImage(object2, keypoints_object2, ref_path2);
+
+    cv::Mat cameraMatrix = openCVMatching.getCameraMatrix("/home/minions/calibration_gimbal_720p.yml");
+    cv::Mat distCoeffs = openCVMatching.getDistortionCoeff("/home/minions/calibration_gimbal_720p.yml");
 
     while (ros::ok()) {
         cv::Mat video = openCVMatching.captureFrame(color, capture);
         if (video.empty()) break;
-        cv::waitKey(30);
+        //cv::waitKey(30);
+        int key = 0xff & cv::waitKey(capture.isOpened() ? 30 : 500);
+
+        if( (key & 255) == 27 ) break;
 
         if (running) {
 
@@ -94,7 +102,7 @@ int main(int argc, char **argv) {
                     good_matches2 = openCVMatching.knnMatchDescriptors(descriptor_object2, descriptor_scene, 0.9f);
                 }
             } else {
-                if(bruteforce) {
+                if (bruteforce) {
                     good_matches = openCVMatching.bruteForce(descriptor_object1, descriptor_scene, cv::NORM_HAMMING);
                     good_matches2 = openCVMatching.bruteForce(descriptor_object2, descriptor_scene, cv::NORM_HAMMING);
                 } else {
@@ -106,24 +114,52 @@ int main(int argc, char **argv) {
             // Visualize matching
             if ((!keypoints_object1.size() == 0 && !keypoints_scene.size() == 0) && good_matches.size() >= 0) {
 
-                match1 = openCVMatching.visualizeMatch(video, object1, keypoints_object1, keypoints_scene,
-                                                       good_matches, true, CV_RANSAC);
-                match2 = openCVMatching.visualizeMatch(match1.outFrame, object2, keypoints_object2, keypoints_scene,
-                                                       good_matches2, false, CV_RANSAC);
+                match1 = openCVMatching.visualizedMatch(video, object1, keypoints_object1, keypoints_scene,
+                                                        good_matches, true, CV_RANSAC);
+                match2 = openCVMatching.visualizedMatch(match1.outFrame, object2, keypoints_object2, keypoints_scene,
+                                                        good_matches2, false, CV_RANSAC);
 
-                cv::imshow("Matching", match2.outFrame);
+                cv::imshow(OPENCV_WINDOW, match2.outFrame);
             } else {
-                cv::imshow("Matching", video);
+                cv::imshow(OPENCV_WINDOW, video);
             }
 
         } else {
-            cv::imshow("Matching", video);
+            cv::imshow(OPENCV_WINDOW, video);
+        }
+
+        // ROS
+        if (match2.sceneCorners.size() == 4 && openCVMatching.checkObjectInnerAngles(match2.sceneCorners, 60, 120)) {
+
+            double x = openCVMatching.getXpos(video, match2.sceneCorners);
+            double y = openCVMatching.getYpos(video, match2.sceneCorners);
+            //Eigen::Vector3d image_coords = openCVMatching.getNormImageCoords(x,y,0.15,cameraMatrix);
+
+            object_pose_msg.theta = openCVMatching.getObjectAngle(video, match2.sceneCorners);
+            //object_pose_msg.x = image_coords(0);
+            //object_pose_msg.y = image_coords(1);
+            object_pose_msg.x = x;
+            object_pose_msg.y = y;
+            pub2.publish(object_pose_msg);
+        }
+        if (match1.sceneCorners.size() == 4 && openCVMatching.checkObjectInnerAngles(match1.sceneCorners, 60, 120)) {
+            double x = openCVMatching.getXpos(video, match1.sceneCorners);
+            double y = openCVMatching.getYpos(video, match1.sceneCorners);
+            //Eigen::Vector3d image_coords = openCVMatching.getNormImageCoords(x,y,0.30,cameraMatrix);
+
+            object_pose_msg.theta = openCVMatching.getObjectAngle(video, match1.sceneCorners);
+            //object_pose_msg.x = image_coords(0);
+            //object_pose_msg.y = image_coords(1);
+            object_pose_msg.x = x;
+            object_pose_msg.y = y;
+            pub1.publish(object_pose_msg);
         }
 
         ros::spinOnce();
         loop_rate.sleep();
     }
-
+    cv::destroyWindow(OPENCV_WINDOW);
+    ROS_INFO("Object detection shutting down");
     return 0;
 }
 
@@ -133,7 +169,7 @@ void initializeMatcher(char **argv) {
     object1 = readImage(argv[1]);
     object2 = readImage(argv[2]);
 
-    cv::namedWindow("Matching", CV_WINDOW_FULLSCREEN);
+    cv::namedWindow(OPENCV_WINDOW, CV_WINDOW_FULLSCREEN);
 
     capture.set(CV_CAP_PROP_FRAME_WIDTH, STEADYCAM_WIDTH);
     capture.set(CV_CAP_PROP_FRAME_HEIGHT, STEADYCAM_HEIGHT);
@@ -143,26 +179,25 @@ void initializeMatcher(char **argv) {
 
     detector = openCVMatching.setKeyPointsDetector(DETECTOR_TYPE);
     extractor = openCVMatching.setDescriptorsExtractor(EXTRACTOR_TYPE, binary);
-    ROS_INFO("Binary matching: %d", binary);
     ROS_INFO("Bruteforce matching: %d", bruteforce);
 }
 
 void detectAndComputeReference(cv::Mat &object, std::vector<cv::KeyPoint> &keypoints_object,
                                cv::Mat &descriptor_object) {
-    detector->detect(object,keypoints_object);
-    extractor->compute(object,keypoints_object,descriptor_object);
+    detector->detect(object, keypoints_object);
+    extractor->compute(object, keypoints_object, descriptor_object);
 }
 
 void writeReferenceImage(cv::Mat object, std::vector<cv::KeyPoint> keypoints_object, std::string ref_path) {
     cv::Mat ref_keypoints;
-    cv::drawKeypoints(object, keypoints_object, ref_keypoints, CV_RGB(255,255,0));
+    cv::drawKeypoints(object, keypoints_object, ref_keypoints, CV_RGB(255, 255, 0));
     cv::imwrite(ref_path, ref_keypoints);
     ROS_INFO("Reference keypoints written to: %s", ref_path.c_str());
 }
 
 cv::Mat readImage(std::string path) {
     cv::Mat object;
-    if(color) {
+    if (color) {
         object = cv::imread(path, CV_LOAD_IMAGE_COLOR);
     } else {
         object = cv::imread(path, CV_LOAD_IMAGE_GRAYSCALE);
@@ -211,12 +246,12 @@ bool setKeypointDetectorTypeCallBack(image_processor::setKeypointDetectorType::R
     DETECTOR_TYPE = req.type;
     running = false;
     detector = openCVMatching.setKeyPointsDetector(DETECTOR_TYPE);
-    object1 = readImage(temp_path1);
-    object2 = readImage(temp_path2);
+    //object1 = readImage(temp_path1);
+    //object2 = readImage(temp_path2);
     detector->detect(object1, keypoints_object1);
     detector->detect(object2, keypoints_object2);
-    writeReferenceImage(object1,keypoints_object1,ref_path1);
-    writeReferenceImage(object2,keypoints_object2,ref_path2);
+    writeReferenceImage(object1, keypoints_object1, ref_path1);
+    writeReferenceImage(object2, keypoints_object2, ref_path2);
     running = true;
     return true;
 }
@@ -232,11 +267,10 @@ bool setDescriptorTypeCallBack(image_processor::setDescriptorType::Request &req,
     EXTRACTOR_TYPE = req.type;
     running = false;
     extractor = openCVMatching.setDescriptorsExtractor(EXTRACTOR_TYPE, binary);
-    extractor->compute(object1,keypoints_object1,descriptor_object1);
-    extractor->compute(object2,keypoints_object2,descriptor_object2);
+    extractor->compute(object1, keypoints_object1, descriptor_object1);
+    extractor->compute(object2, keypoints_object2, descriptor_object2);
     running = true;
     return true;
-    // BUG
 }
 
 bool getDescriptorTypeCallBack(image_processor::getDescriptorType::Request &req,
@@ -250,11 +284,14 @@ bool setVideoColorCallBack(image_processor::setVideoColor::Request &req,
     color = req.color;
     object1 = readImage(temp_path1);
     object2 = readImage(temp_path2);
-    keypoints_object1.clear(); keypoints_object2.clear(); descriptor_object1.release(); descriptor_object2.release();
+    keypoints_object1.clear();
+    keypoints_object2.clear();
+    descriptor_object1.release();
+    descriptor_object2.release();
     detectAndComputeReference(object1, keypoints_object1, descriptor_object1);
     detectAndComputeReference(object2, keypoints_object2, descriptor_object2);
-    writeReferenceImage(object1,keypoints_object1,ref_path1);
-    writeReferenceImage(object2,keypoints_object2,ref_path2);
+    writeReferenceImage(object1, keypoints_object1, ref_path1);
+    writeReferenceImage(object2, keypoints_object2, ref_path2);
     return true;
 }
 
@@ -263,3 +300,4 @@ bool getVideoColorCallBack(image_processor::getVideoColor::Request &req,
     res.color = color;
     return true;
 }
+

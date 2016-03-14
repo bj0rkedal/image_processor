@@ -99,7 +99,7 @@ namespace robotcam
         return outFrame;
     }
 
-    std::vector<cv::DMatch> OpenCVMatching::knnMatchDescriptors(cv::Mat &descriptors_object, cv::Mat &descriptors_scene,
+    std::vector<cv::DMatch> OpenCVMatching::knnMatchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene,
                                                                 float nnratio) {
         cv::FlannBasedMatcher matcher;
         std::vector<std::vector<cv::DMatch> > matches;
@@ -124,8 +124,8 @@ namespace robotcam
         return good_matches;
     }
 
-    std::vector<cv::DMatch> OpenCVMatching::knnMatchDescriptorsLSH(cv::Mat &descriptors_object,
-                                                                   cv::Mat &descriptors_scene, float nndrRatio) {
+    std::vector<cv::DMatch> OpenCVMatching::knnMatchDescriptorsLSH(cv::Mat descriptors_object,
+                                                                   cv::Mat descriptors_scene, float nndrRatio) {
         cv::FlannBasedMatcher matcher(new cv::flann::LshIndexParams(20, 10, 2));
         std::vector<std::vector<cv::DMatch> > matches;
 
@@ -180,7 +180,7 @@ namespace robotcam
         return good_matches;
     }
 
-    std::vector<cv::DMatch> OpenCVMatching::bruteForce(cv::Mat &descriptors_object, cv::Mat &descriptors_scene,
+    std::vector<cv::DMatch> OpenCVMatching::bruteForce(cv::Mat descriptors_object, cv::Mat descriptors_scene,
                                                        int normType) {
         cv::BFMatcher matcher(normType);
         std::vector<std::vector<cv::DMatch> > matches;
@@ -238,30 +238,37 @@ namespace robotcam
             binary = false;
             extractor = cv::xfeatures2d::SURF::create(1000,4,5,false,false);
             ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
+            ROS_INFO("Binary matching: %d", binary);
         } else if (typeDescriptor == "SIFT") {
             binary = false;
             extractor = cv::xfeatures2d::SIFT::create(0,5,0.04,10,1.6);
             ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
+            ROS_INFO("Binary matching: %d", binary);
         } else if (typeDescriptor == "BRISK") {
             binary = true;
             extractor = cv::BRISK::create(30,3,1.0f);
             ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
+            ROS_INFO("Binary matching: %d", binary);
         } else if (typeDescriptor == "FREAK") {
             binary = true;
             extractor = cv::xfeatures2d::FREAK::create(true,true,22.0f,4);
             ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
+            ROS_INFO("Binary matching: %d", binary);
         } else if (typeDescriptor == "ORB") {
             binary = true;
             extractor = cv::ORB::create(1000,1.2f,8,31,0,2,cv::ORB::FAST_SCORE,31,20); // WTA_K = 3-4 -> HAMMING2
             ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
+            ROS_INFO("Binary matching: %d", binary);
         } else if (typeDescriptor == "AKAZE") {
             binary = true;
             extractor = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB,0,3,0.001f,4,4,cv::KAZE::DIFF_PM_G2);
             ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
+            ROS_INFO("Binary matching: %d", binary);
         } else if (typeDescriptor == "BRIEF") {
             binary = true;
             extractor = cv::xfeatures2d::BriefDescriptorExtractor::create(32, true);
             ROS_INFO("Descriptor: %s", typeDescriptor.c_str());
+            ROS_INFO("Binary matching: %d", binary);
         } else {
             binary = false;
             ROS_ERROR("Could not find keypoint detector: %s\n\tChoosing default descriptor: SURF", typeDescriptor.c_str());
@@ -270,16 +277,16 @@ namespace robotcam
         return extractor;
     }
 
-    CurrentMatch OpenCVMatching::visualizeMatch(cv::Mat &searchImage, cv::Mat &objectImage,
-                                                std::vector<cv::KeyPoint> &keypointsObject,
-                                                std::vector<cv::KeyPoint> &keypointsScene,
-                                                std::vector<cv::DMatch> &good_matches,
+    CurrentMatch OpenCVMatching::visualizedMatch(cv::Mat searchImage, cv::Mat objectImage,
+                                                std::vector<cv::KeyPoint> keypointsObject,
+                                                std::vector<cv::KeyPoint> keypointsScene,
+                                                std::vector<cv::DMatch> good_matches,
                                                 bool showKeypoints, int homographyType) {
 
         cv::Mat image_matches;
 
         if (showKeypoints) {
-            cv::drawKeypoints(searchImage, keypointsScene, image_matches, CV_RGB(255,255,0),
+            cv::drawKeypoints(searchImage, keypointsScene, image_matches, cv::Scalar::all(-1),
                               cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS); // cv::Scalar::all(-1)
 //        cv::drawMatches(objectImage, keypointsObject, searchImage, keypointsScene, good_matches, image_matches,
 //                        cv::Scalar::all(-1), cv::Scalar::all(-1), std::vector<char>(),
@@ -413,6 +420,20 @@ namespace robotcam
         return yOffset;
     }
 
+    double OpenCVMatching::getXpos(cv::Mat frame, std::vector<cv::Point2f> scorner) {
+        cv::Point2f cen;
+        intersection(scorner[0], scorner[2], scorner[1], scorner[3], cen);
+        double x = cen.x;
+        return x;
+    }
+
+    double OpenCVMatching::getYpos(cv::Mat frame, std::vector<cv::Point2f> scorner) {
+        cv::Point2f cen;
+        intersection(scorner[0], scorner[2], scorner[1], scorner[3], cen);
+        double y = cen.y;
+        return y;
+    }
+
     double OpenCVMatching::getObjectAngle(cv::Mat frame, std::vector<cv::Point2f> scorner) {
 
         double centerX = frame.cols / 2;
@@ -423,5 +444,24 @@ namespace robotcam
 
         double angle = atan2(y, x) * 180 / PI;
         return angle;
+    }
+
+    Eigen::Vector3d OpenCVMatching::getNormImageCoords(double x, double y, double lambda, cv::Mat camera_matrix) {
+        Eigen::Vector3d pixelCoords;
+        Eigen::Vector3d normCoords;
+        Eigen::Matrix3d camMat;
+
+        camMat << camera_matrix.at<double>(0,0),0,camera_matrix.at<double>(0,2),
+                  0,camera_matrix.at<double>(1,1),camera_matrix.at<double>(1,2),
+                  0,0,1;
+
+        pixelCoords(0) = x;
+        pixelCoords(1) = y;
+        pixelCoords(2) = 1;
+
+        Eigen::Matrix3d icamMat = camMat.inverse();
+
+        normCoords = icamMat*pixelCoords;
+        return lambda*normCoords;
     }
 }

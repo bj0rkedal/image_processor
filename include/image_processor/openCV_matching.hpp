@@ -43,23 +43,23 @@ namespace robotcam
 
         cv::Mat captureFrame(bool color, cv::VideoCapture capture);
 
-        std::vector <cv::DMatch> knnMatchDescriptors(cv::Mat &descriptors_object, cv::Mat &descriptors_scene,
+        std::vector <cv::DMatch> knnMatchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene,
                                                      float nnratio);
 
-        std::vector <cv::DMatch> knnMatchDescriptorsLSH(cv::Mat &descriptors_object, cv::Mat &descriptors_scene,
+        std::vector <cv::DMatch> knnMatchDescriptorsLSH(cv::Mat descriptors_object, cv::Mat descriptors_scene,
                                                         float nndrRatio);
 
         std::vector <cv::DMatch> matchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene);
 
-        std::vector <cv::DMatch> bruteForce(cv::Mat &descriptors_object, cv::Mat &descriptors_scene, int normType);
+        std::vector <cv::DMatch> bruteForce(cv::Mat descriptors_object, cv::Mat descriptors_scene, int normType);
 
         cv::Ptr <cv::Feature2D> setKeyPointsDetector(std::string typeKeyPoint);
 
         cv::Ptr <cv::Feature2D> setDescriptorsExtractor(std::string typeDescriptor, bool &binary);
 
-        CurrentMatch visualizeMatch(cv::Mat &searchImage, cv::Mat &objectImage,
-                                    std::vector <cv::KeyPoint> &keypointsObject,
-                                    std::vector <cv::KeyPoint> &keypointsScene, std::vector <cv::DMatch> &good_matches,
+        CurrentMatch visualizedMatch(cv::Mat searchImage, cv::Mat objectImage,
+                                    std::vector <cv::KeyPoint> keypointsObject,
+                                    std::vector <cv::KeyPoint> keypointsScene, std::vector <cv::DMatch> good_matches,
                                     bool showKeypoints, int homographyType);
 
         bool checkObjectInnerAngles(std::vector <cv::Point2f> scorner, int min, int max);
@@ -68,7 +68,13 @@ namespace robotcam
 
         double getYoffset(cv::Mat frame, std::vector <cv::Point2f> scorner);
 
+        double getXpos(cv::Mat frame, std::vector<cv::Point2f> scorner);
+
+        double getYpos(cv::Mat frame, std::vector<cv::Point2f> scorner);
+
         double getObjectAngle(cv::Mat frame, std::vector <cv::Point2f> scorner);
+
+        Eigen::Vector3d getNormImageCoords(double x, double y, double lambda, cv::Mat camera_matrix);
 
     private:
         bool intersection(cv::Point2f o1, cv::Point2f p1, cv::Point2f o2, cv::Point2f p2, cv::Point2f &r);
