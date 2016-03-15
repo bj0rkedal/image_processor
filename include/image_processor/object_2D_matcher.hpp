@@ -31,6 +31,7 @@ const int STEADYCAM_WIDTH = 1280;
 const int STEADYCAM_HEIGHT = 720;
 
 static const std::string OPENCV_WINDOW = "Matching";
+const std::string CAMERA_PARAMS = "/home/minions/Documents/calibration_reserve_camera.yml";
 
 std::string temp_path1, temp_path2;
 

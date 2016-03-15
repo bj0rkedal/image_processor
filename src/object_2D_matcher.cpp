@@ -74,8 +74,8 @@ int main(int argc, char **argv) {
     writeReferenceImage(object1, keypoints_object1, ref_path1);
     writeReferenceImage(object2, keypoints_object2, ref_path2);
 
-    cv::Mat cameraMatrix = openCVMatching.getCameraMatrix("/home/minions/calibration_gimbal_720p.yml");
-    cv::Mat distCoeffs = openCVMatching.getDistortionCoeff("/home/minions/calibration_gimbal_720p.yml");
+    cv::Mat cameraMatrix = openCVMatching.getCameraMatrix(CAMERA_PARAMS);
+    cv::Mat distCoeffs = openCVMatching.getDistortionCoeff(CAMERA_PARAMS);
 
     while (ros::ok()) {
         cv::Mat video = openCVMatching.captureFrame(color, capture);
