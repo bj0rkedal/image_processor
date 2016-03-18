@@ -21,7 +21,8 @@ cv::Mat descriptor_object1, descriptor_object2, descriptor_scene;
 bool running = true;
 bool binary = false;
 bool bruteforce = true;
-bool color = true;
+bool color = false;
+bool undistort = true;
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "object_2D_detection");
@@ -52,10 +53,14 @@ int main(int argc, char **argv) {
                                                       setBruteforceMatchingCallBack);
     ros::ServiceServer service12 = n.advertiseService("/object_2D_detection/getBruteforceMatching",
                                                       getBruteforceMatchingCallBack);
+    ros::ServiceServer service13 = n.advertiseService("/object_2D_detection/setVideoUndistortion",
+                                                      setVideoUndistortionCallBack);
+    ros::ServiceServer service14 = n.advertiseService("/object_2D_detection/getVideoUndistortion",
+                                                      getVideoUndistortionCallBack);
     ros::Rate loop_rate(60);
 
     // Check camera
-    if (!capture.open(0)) {
+    if (!capture.open(1)) {
         ROS_ERROR(" --(!) Could not reach camera");
         return 0;
     }
@@ -78,7 +83,8 @@ int main(int argc, char **argv) {
     cv::Mat distCoeffs = openCVMatching.getDistortionCoeff(CAMERA_PARAMS);
 
     while (ros::ok()) {
-        cv::Mat video = openCVMatching.captureFrame(color, capture);
+        //cv::Mat video = openCVMatching.captureFrame(color, capture);
+        cv::Mat video = openCVMatching.captureFrame(color, undistort, capture, cameraMatrix, distCoeffs);
         if (video.empty()) break;
         //cv::waitKey(30);
         int key = 0xff & cv::waitKey(capture.isOpened() ? 30 : 500);
@@ -301,3 +307,14 @@ bool getVideoColorCallBack(image_processor::getVideoColor::Request &req,
     return true;
 }
 
+bool setVideoUndistortionCallBack(image_processor::setVideoUndistortion::Request &req,
+                                  image_processor::setVideoUndistortion::Response &res) {
+    undistort = req.undistort;
+    return true;
+}
+
+bool getVideoUndistortionCallBack(image_processor::getVideoUndistortion::Request &req,
+                                  image_processor::getVideoUndistortion::Response &res) {
+    res.undistort = undistort;
+    return true;
+}

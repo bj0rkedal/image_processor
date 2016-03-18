@@ -94,7 +94,7 @@ namespace robotcam
         if(color) {
             outFrame = inFrame;
         } else {
-            cv:cvtColor(inFrame, outFrame, CV_RGB2GRAY);
+            cv::cvtColor(inFrame, outFrame, CV_RGB2GRAY);
         }
         return outFrame;
     }

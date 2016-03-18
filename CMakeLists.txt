@@ -73,6 +73,8 @@ add_service_files(
   getVideoColor.srv
   setBruteforceMatching.srv
   getBruteforceMatching.srv
+  setVideoUndistortion.srv
+  getVideoUndistortion.srv
 )
 
 ## Generate actions in the 'action' folder
