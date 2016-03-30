@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
     ros::Rate loop_rate(60);
 
     // Check camera
-    if (!capture.open(1)) {
+    if (!capture.open(0)) {
         ROS_ERROR(" --(!) Could not reach camera");
         return 0;
     }

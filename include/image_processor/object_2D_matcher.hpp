@@ -25,14 +25,14 @@
 std::string DETECTOR_TYPE = "BRISK";
 std::string EXTRACTOR_TYPE = "BRISK";
 
-const std::string ref_path1 = "/home/asgeir/Desktop/ref_keypoints1.jpg";
-const std::string ref_path2 = "/home/asgeir/Desktop/ref_keypoints2.jpg";
+const std::string ref_path1 = "/home/minions/Desktop/ref_keypoints1.jpg";
+const std::string ref_path2 = "/home/minions/Desktop/ref_keypoints2.jpg";
 
 const int STEADYCAM_WIDTH = 1280;
 const int STEADYCAM_HEIGHT = 720;
 
 static const std::string OPENCV_WINDOW = "Matching";
-const std::string CAMERA_PARAMS = "/home/asgeir/Documents/calibration_reserve_camera.yml";
+const std::string CAMERA_PARAMS = "/home/minions/Documents/calibration_reserve_camera.yml";
 
 std::string temp_path1, temp_path2;
 
