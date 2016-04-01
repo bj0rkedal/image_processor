@@ -1,0 +1,33 @@
+actions: []
+authors: ''
+brief: ''
+bugtracker: ''
+depends:
+- catkin
+- roscpp
+- message_runtime
+- std_msgs
+- rospy
+- message_generation
+description: The image_processor package
+license: TODO
+maintainers: minions <minions@todo.todo>
+msgs: []
+package_type: package
+repo_url: ''
+srvs:
+- getProcessRunning
+- getVideoColor
+- getDescriptorType
+- getKeypointDetectorType
+- getBinaryMatching
+- setKeypointDetectorType
+- setBruteforceMatching
+- getVideoUndistortion
+- setBinaryMatching
+- setVideoColor
+- setDescriptorType
+- setVideoUndistortion
+- setProcessRunning
+- getBruteforceMatching
+url: ''

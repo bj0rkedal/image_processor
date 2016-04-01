@@ -420,14 +420,14 @@ namespace robotcam
         return yOffset;
     }
 
-    double OpenCVMatching::getXpos(cv::Mat frame, std::vector<cv::Point2f> scorner) {
+    double OpenCVMatching::getXpos(std::vector<cv::Point2f> scorner) {
         cv::Point2f cen;
         intersection(scorner[0], scorner[2], scorner[1], scorner[3], cen);
         double x = cen.x;
         return x;
     }
 
-    double OpenCVMatching::getYpos(cv::Mat frame, std::vector<cv::Point2f> scorner) {
+    double OpenCVMatching::getYpos(std::vector<cv::Point2f> scorner) {
         cv::Point2f cen;
         intersection(scorner[0], scorner[2], scorner[1], scorner[3], cen);
         double y = cen.y;

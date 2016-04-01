@@ -136,26 +136,19 @@ int main(int argc, char **argv) {
 
         // ROS
         if (match2.sceneCorners.size() == 4 && openCVMatching.checkObjectInnerAngles(match2.sceneCorners, 60, 120)) {
-
-            double x = openCVMatching.getXpos(video, match2.sceneCorners);
-            double y = openCVMatching.getYpos(video, match2.sceneCorners);
-            //Eigen::Vector3d image_coords = openCVMatching.getNormImageCoords(x,y,0.15,cameraMatrix);
+            double x = openCVMatching.getXpos(match2.sceneCorners);
+            double y = openCVMatching.getYpos(match2.sceneCorners);
 
             object_pose_msg.theta = openCVMatching.getObjectAngle(video, match2.sceneCorners);
-            //object_pose_msg.x = image_coords(0);
-            //object_pose_msg.y = image_coords(1);
             object_pose_msg.x = x;
             object_pose_msg.y = y;
             pub2.publish(object_pose_msg);
         }
         if (match1.sceneCorners.size() == 4 && openCVMatching.checkObjectInnerAngles(match1.sceneCorners, 60, 120)) {
-            double x = openCVMatching.getXpos(video, match1.sceneCorners);
-            double y = openCVMatching.getYpos(video, match1.sceneCorners);
-            //Eigen::Vector3d image_coords = openCVMatching.getNormImageCoords(x,y,0.30,cameraMatrix);
+            double x = openCVMatching.getXpos(match1.sceneCorners);
+            double y = openCVMatching.getYpos(match1.sceneCorners);
 
             object_pose_msg.theta = openCVMatching.getObjectAngle(video, match1.sceneCorners);
-            //object_pose_msg.x = image_coords(0);
-            //object_pose_msg.y = image_coords(1);
             object_pose_msg.x = x;
             object_pose_msg.y = y;
             pub1.publish(object_pose_msg);
@@ -250,15 +243,11 @@ bool getBruteforceMatchingCallBack(image_processor::getBruteforceMatching::Reque
 bool setKeypointDetectorTypeCallBack(image_processor::setKeypointDetectorType::Request &req,
                                      image_processor::setKeypointDetectorType::Response &res) {
     DETECTOR_TYPE = req.type;
-    running = false;
     detector = openCVMatching.setKeyPointsDetector(DETECTOR_TYPE);
-    //object1 = readImage(temp_path1);
-    //object2 = readImage(temp_path2);
     detector->detect(object1, keypoints_object1);
     detector->detect(object2, keypoints_object2);
     writeReferenceImage(object1, keypoints_object1, ref_path1);
     writeReferenceImage(object2, keypoints_object2, ref_path2);
-    running = true;
     return true;
 }
 
@@ -271,11 +260,9 @@ bool getKeypointDetectorTypeCallBack(image_processor::getKeypointDetectorType::R
 bool setDescriptorTypeCallBack(image_processor::setDescriptorType::Request &req,
                                image_processor::setDescriptorType::Response &res) {
     EXTRACTOR_TYPE = req.type;
-    running = false;
     extractor = openCVMatching.setDescriptorsExtractor(EXTRACTOR_TYPE, binary);
     extractor->compute(object1, keypoints_object1, descriptor_object1);
     extractor->compute(object2, keypoints_object2, descriptor_object2);
-    running = true;
     return true;
 }
 
