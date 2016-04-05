@@ -149,6 +149,19 @@ int main(int argc, char **argv) {
             double y = openCVMatching.getYpos(match1.sceneCorners);
 
             object_pose_msg.theta = openCVMatching.getObjectAngle(video, match1.sceneCorners);
+
+            angleTest.push_back(object_pose_msg.theta);
+            int size = 20;
+            if(angleTest.size() == size) {
+                double d = 0.0;
+                for(int i = 0; i < angleTest.size(); i++) {
+                    d = d + angleTest.at(i);
+                    //std::cout << angleTest.at(i) << std::endl;
+                }
+                std::cout << d/size << std::endl;
+                angleTest.clear();
+            }
+
             object_pose_msg.x = x;
             object_pose_msg.y = y;
             pub1.publish(object_pose_msg);

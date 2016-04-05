@@ -286,8 +286,8 @@ namespace robotcam
         cv::Mat image_matches;
 
         if (showKeypoints) {
-            cv::drawKeypoints(searchImage, keypointsScene, image_matches, cv::Scalar::all(-1),
-                              cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS); // cv::Scalar::all(-1)
+            cv::drawKeypoints(searchImage, keypointsScene, image_matches, CV_RGB(0,0,255),
+                              cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS); // cv::Scalar::all(-1)
 //        cv::drawMatches(objectImage, keypointsObject, searchImage, keypointsScene, good_matches, image_matches,
 //                        cv::Scalar::all(-1), cv::Scalar::all(-1), std::vector<char>(),
 //                        cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
