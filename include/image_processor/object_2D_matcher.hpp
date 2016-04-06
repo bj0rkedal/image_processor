@@ -5,6 +5,8 @@
 #ifndef IMAGE_PROCESSOR_OBJECT_2D_MATCHER_HPP
 #define IMAGE_PROCESSOR_OBJECT_2D_MATCHER_HPP
 
+#include <ros/package.h>
+
 #include <geometry_msgs/Pose2D.h>
 
 #include "image_processor/setProcessRunning.h"
@@ -21,20 +23,26 @@
 #include "image_processor/getBruteforceMatching.h"
 #include "image_processor/setVideoUndistortion.h"
 #include "image_processor/getVideoUndistortion.h"
+#include "image_processor/setMatchingImage1.h"
 
-std::string DETECTOR_TYPE = "BRISK";
-std::string EXTRACTOR_TYPE = "FREAK";
+#include <image_transport/image_transport.h>
+#include <cv_bridge/cv_bridge.h>
 
-const std::string ref_path1 = "/home/minions/Desktop/ref_keypoints1.jpg";
-const std::string ref_path2 = "/home/minions/Desktop/ref_keypoints2.jpg";
+std::string DETECTOR_TYPE = "SURF";
+std::string EXTRACTOR_TYPE = "SURF";
 
-const int STEADYCAM_WIDTH = 1280;
-const int STEADYCAM_HEIGHT = 720;
+const std::string ref_path1 = ros::package::getPath("image_processor")
+                              + "/resources/output/ref_keypoints1.jpg";
+
+const int VIDEO_WIDTH = 1280;
+const int VIDEO_HEIGHT = 720;
 
 static const std::string OPENCV_WINDOW = "Matching";
-const std::string CAMERA_PARAMS = "/home/minions/Documents/calibration_reserve_camera.yml";
+const std::string CAMERA_PARAMS = ros::package::getPath("image_processor")
+                                  + "/resources/calibration_reserve_camera.yml";
 
-std::string temp_path1, temp_path2;
+std::string temp_path1 = ros::package::getPath("image_processor")
+                         + "/resources/dynamixel.png";
 
 std::vector<double> angleTest;
 
@@ -42,7 +50,7 @@ geometry_msgs::Pose2D object_pose_msg;
 
 int homographyMethod = CV_RANSAC;
 
-void initializeMatcher(char **argv);
+void initializeMatcher(const int video_width, const int video_height);
 
 void detectAndComputeReference(cv::Mat &object, std::vector<cv::KeyPoint> &keypoints_object,
                                cv::Mat &descriptor_object);
@@ -88,10 +96,13 @@ bool getVideoColorCallBack(image_processor::getVideoColor::Request &req,
                            image_processor::getVideoColor::Response &res);
 
 bool setVideoUndistortionCallBack(image_processor::setVideoUndistortion::Request &req,
-                           image_processor::setVideoUndistortion::Response &res);
+                                  image_processor::setVideoUndistortion::Response &res);
 
 bool getVideoUndistortionCallBack(image_processor::getVideoUndistortion::Request &req,
-                           image_processor::getVideoUndistortion::Response &res);
+                                  image_processor::getVideoUndistortion::Response &res);
+
+bool setMatchingImage1CallBack(image_processor::setMatchingImage1::Request &req,
+                               image_processor::setMatchingImage1::Response &res);
 
 
 #endif //IMAGE_PROCESSOR_OBJECT_2D_MATCHER_HPP

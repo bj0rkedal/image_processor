@@ -75,6 +75,7 @@ add_service_files(
   getBruteforceMatching.srv
   setVideoUndistortion.srv
   getVideoUndistortion.srv
+  setMatchingImage1.srv
 )
 
 ## Generate actions in the 'action' folder
