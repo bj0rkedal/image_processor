@@ -36,7 +36,7 @@ int main(int argc, char** argv)
     cv::Mat frame;
     sensor_msgs::ImagePtr msg;
 
-    ros::Rate loop_rate(60);
+    ros::Rate loop_rate(30);
     while (nh.ok()) {
         capture >> frame;
         // Check if grabbed frame is actually full with some content
