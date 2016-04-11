@@ -158,9 +158,10 @@ int main(int argc, char **argv) {
 //                std::cout << d/size << std::endl;
 //                angleTest.clear();
 //            }
+            Eigen::Vector3d temp = openCVMatching.getNormImageCoords(x,y,0.3,cameraMatrix);
 
-            object_pose_msg.x = x;
-            object_pose_msg.y = y;
+            object_pose_msg.x = temp(0);
+            object_pose_msg.y = temp(1);
             pub1.publish(object_pose_msg);
         }
 
