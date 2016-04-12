@@ -76,6 +76,7 @@ add_service_files(
   setVideoUndistortion.srv
   getVideoUndistortion.srv
   setMatchingImage1.srv
+  setImageDepth.srv
 )
 
 ## Generate actions in the 'action' folder

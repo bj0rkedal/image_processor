@@ -23,6 +23,7 @@ bool binary = false;
 bool bruteforce = true;
 bool color = true;
 bool undistort = true;
+double lambda = 0.0;
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "object_2D_detection");
@@ -62,7 +63,9 @@ int main(int argc, char **argv) {
                                                       getVideoUndistortionCallBack);
     ros::ServiceServer service15 = n.advertiseService("/object_2D_detection/setMatchingImage1",
                                                       setMatchingImage1CallBack);
-    ros::Rate loop_rate(60);
+    ros::ServiceServer service16 = n.advertiseService("/object_2D_detection/setImageDepth",
+                                                      setImageDepthCallBack);
+    ros::Rate loop_rate(FREQ);
 
     // Check camera
     if (!capture.open(0)) {
@@ -122,7 +125,7 @@ int main(int argc, char **argv) {
             if ((!keypoints_object1.size() == 0 && !keypoints_scene.size() == 0) && good_matches.size() >= 0) {
 
                 match1 = openCVMatching.visualizedMatch(video, object1, keypoints_object1, keypoints_scene,
-                                                        good_matches, true, CV_RANSAC);
+                                                        good_matches, true, homographyMethod);
                 image_msg = cv_bridge::CvImage(
                         std_msgs::Header(), sensor_msgs::image_encodings::BGR8, match1.outFrame).toImageMsg();
                 processed_pub.publish(image_msg);
@@ -158,7 +161,7 @@ int main(int argc, char **argv) {
 //                std::cout << d/size << std::endl;
 //                angleTest.clear();
 //            }
-            Eigen::Vector3d temp = openCVMatching.getNormImageCoords(x,y,0.3,cameraMatrix);
+            Eigen::Vector3d temp = openCVMatching.getNormImageCoords(x,y,lambda,cameraMatrix);
 
             object_pose_msg.x = temp(0);
             object_pose_msg.y = temp(1);
@@ -314,5 +317,11 @@ bool setMatchingImage1CallBack(image_processor::setMatchingImage1::Request &req,
     descriptor_object1.release();
     detectAndComputeReference(object1, keypoints_object1, descriptor_object1);
     writeReferenceImage(object1, keypoints_object1, ref_path1);
+    return true;
+}
+
+bool setImageDepthCallBack(image_processor::setImageDepth::Request &req,
+                           image_processor::setImageDepth::Response &res) {
+    lambda = req.lambda;
     return true;
 }

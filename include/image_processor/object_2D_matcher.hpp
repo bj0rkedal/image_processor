@@ -24,6 +24,7 @@
 #include "image_processor/setVideoUndistortion.h"
 #include "image_processor/getVideoUndistortion.h"
 #include "image_processor/setMatchingImage1.h"
+#include "image_processor/setImageDepth.h"
 
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
@@ -31,16 +32,15 @@
 std::string DETECTOR_TYPE = "SURF";
 std::string EXTRACTOR_TYPE = "SURF";
 
-const std::string ref_path1 = ros::package::getPath("image_processor")
-                              + "/resources/output/ref_keypoints1.jpg";
+static const std::string OPENCV_WINDOW = "Matching";
 
 const int VIDEO_WIDTH = 1280;
 const int VIDEO_HEIGHT = 720;
 
-static const std::string OPENCV_WINDOW = "Matching";
 const std::string CAMERA_PARAMS = ros::package::getPath("image_processor")
                                   + "/resources/calibration_reserve_camera.yml";
-
+const std::string ref_path1 = ros::package::getPath("image_processor")
+                              + "/resources/output/ref_keypoints1.jpg";
 std::string temp_path1 = ros::package::getPath("image_processor")
                          + "/resources/dynamixel.png";
 
@@ -48,7 +48,9 @@ std::vector<double> angleTest;
 
 geometry_msgs::Pose2D object_pose_msg;
 
-int homographyMethod = CV_RANSAC;
+int homographyMethod = CV_RANSAC; // CV_LMEDS
+
+double FREQ = 60;
 
 void initializeMatcher(const int video_width, const int video_height);
 
@@ -103,6 +105,9 @@ bool getVideoUndistortionCallBack(image_processor::getVideoUndistortion::Request
 
 bool setMatchingImage1CallBack(image_processor::setMatchingImage1::Request &req,
                                image_processor::setMatchingImage1::Response &res);
+
+bool setImageDepthCallBack(image_processor::setImageDepth::Request &req,
+                           image_processor::setImageDepth::Response &res);
 
 
 #endif //IMAGE_PROCESSOR_OBJECT_2D_MATCHER_HPP
