@@ -144,7 +144,7 @@ int main(int argc, char **argv) {
         }
 
         // ROS
-        if (match1.sceneCorners.size() == 4 && openCVMatching.checkObjectInnerAngles(match1.sceneCorners, 60, 120)) {
+        if (match1.sceneCorners.size() == 4 && openCVMatching.checkObjectInnerAngles(match1.sceneCorners, 80, 100)) {
             double x = openCVMatching.getXpos(match1.sceneCorners);
             double y = openCVMatching.getYpos(match1.sceneCorners);
 

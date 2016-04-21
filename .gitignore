@@ -3,3 +3,4 @@ include/image_processor/object_detector.hpp
 src/image_converter.cpp
 src/object_detector.cpp
 src/test.cpp
+resources/output/ref_keypoints1.jpg
