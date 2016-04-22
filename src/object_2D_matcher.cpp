@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
                     m = ((double)cv::getTickCount() - m)/cv::getTickFrequency();
                 }
             }
-            //std::cout << d << " " << e << " " << m << std::endl;
+            //std::cout << d << " " << e << " " << m << " " << d+e+m << std::endl;
 
             // Visualize matching
             if ((!keypoints_object1.size() == 0 && !keypoints_scene.size() == 0) && good_matches.size() >= 0) {

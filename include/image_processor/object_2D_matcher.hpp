@@ -42,7 +42,7 @@ const std::string CAMERA_PARAMS = ros::package::getPath("image_processor")
 const std::string ref_path1 = ros::package::getPath("image_processor")
                               + "/resources/output/ref_keypoints1.jpg";
 std::string temp_path1 = ros::package::getPath("image_processor")
-                         + "/resources/dynamixel.png";
+                         + "/resources/Lenna.png";
 
 std::vector<double> angleTest;
 
