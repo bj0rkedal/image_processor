@@ -29,8 +29,8 @@
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 
-std::string DETECTOR_TYPE = "SURF";
-std::string EXTRACTOR_TYPE = "SURF";
+std::string DETECTOR_TYPE = "SIFT";
+std::string EXTRACTOR_TYPE = "SIFT";
 
 static const std::string OPENCV_WINDOW = "Matching";
 

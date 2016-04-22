@@ -184,12 +184,8 @@ namespace robotcam
                                                        int normType) {
         cv::BFMatcher matcher(normType);
         std::vector<std::vector<cv::DMatch> > matches;
-        matcher.knnMatch(descriptors_object, descriptors_scene, matches, 2);
 
-//    look whether the match is inside a defined area of the image
-//    only 25% of maximum of possible distance
-//    double tresholdDist = 0.25 * sqrt(double(object.size().height*object.size().height
-//                                             +object.size().width*object.size().width));
+        matcher.knnMatch(descriptors_object, descriptors_scene, matches, 2);
 
         std::vector<cv::DMatch> good_matches;
         for (int i = 0; i < matches.size(); ++i) {

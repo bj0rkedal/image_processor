@@ -23,7 +23,7 @@ bool binary = false;
 bool bruteforce = true;
 bool color = true;
 bool undistort = true;
-double lambda = 0.0;
+double lambda = 0.138;
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "object_2D_detection");
@@ -102,24 +102,39 @@ int main(int argc, char **argv) {
         if (running) {
 
             // Detect keypoints and descriptors
+            double d = (double)cv::getTickCount();
             detector->detect(video, keypoints_scene);
+            d = ((double)cv::getTickCount() - d)/cv::getTickFrequency();
+
+            double e = (double)cv::getTickCount();
             extractor->compute(video, keypoints_scene, descriptor_scene);
+            e = ((double)cv::getTickCount() - e)/cv::getTickFrequency();
 
             // Match descriptors of reference and video frame
             std::vector<cv::DMatch> good_matches;
+            double m = 0.0;
             if (!binary) {
                 if (bruteforce) {
+                    m = (double)cv::getTickCount();
                     good_matches = openCVMatching.bruteForce(descriptor_object1, descriptor_scene, cv::NORM_L1);
+                    m = ((double)cv::getTickCount() - m)/cv::getTickFrequency();
                 } else {
+                    m = (double)cv::getTickCount();
                     good_matches = openCVMatching.knnMatchDescriptors(descriptor_object1, descriptor_scene, 0.9f);
+                    m = ((double)cv::getTickCount() - m)/cv::getTickFrequency();
                 }
             } else {
                 if (bruteforce) {
+                    m = (double)cv::getTickCount();
                     good_matches = openCVMatching.bruteForce(descriptor_object1, descriptor_scene, cv::NORM_HAMMING);
+                    m = ((double)cv::getTickCount() - m)/cv::getTickFrequency();
                 } else {
+                    m = (double)cv::getTickCount();
                     good_matches = openCVMatching.knnMatchDescriptorsLSH(descriptor_object1, descriptor_scene, 0.9f);
+                    m = ((double)cv::getTickCount() - m)/cv::getTickFrequency();
                 }
             }
+            //std::cout << d << " " << e << " " << m << std::endl;
 
             // Visualize matching
             if ((!keypoints_object1.size() == 0 && !keypoints_scene.size() == 0) && good_matches.size() >= 0) {
@@ -150,17 +165,6 @@ int main(int argc, char **argv) {
 
             object_pose_msg.theta = openCVMatching.getObjectAngle(video, match1.sceneCorners);
 
-//            angleTest.push_back(object_pose_msg.theta);
-//            int size = 20;
-//            if(angleTest.size() == size) {
-//                double d = 0.0;
-//                for(int i = 0; i < angleTest.size(); i++) {
-//                    d = d + angleTest.at(i);
-//                    //std::cout << angleTest.at(i) << std::endl;
-//                }
-//                std::cout << d/size << std::endl;
-//                angleTest.clear();
-//            }
             Eigen::Vector3d temp = openCVMatching.getNormImageCoords(x,y,lambda,cameraMatrix);
 
             object_pose_msg.x = temp(0);
