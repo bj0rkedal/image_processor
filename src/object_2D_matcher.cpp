@@ -1,5 +1,6 @@
 //
-// Created by minions on 10.03.16.
+// Created by Asgeir Bjørkedal on 10.03.16.
+// Part of a vision solution for a master's thesis.
 //
 #include "../include/image_processor/openCV_matching.hpp"
 #include "../include/image_processor/object_2D_matcher.hpp"

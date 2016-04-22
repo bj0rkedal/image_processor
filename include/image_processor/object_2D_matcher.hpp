@@ -1,5 +1,6 @@
 //
-// Created by minions on 10.03.16.
+// Created by Asgeir Bjørkedal on 10.03.16.
+// Part of a vision solution for a master's thesis.
 //
 
 #ifndef IMAGE_PROCESSOR_OBJECT_2D_MATCHER_HPP

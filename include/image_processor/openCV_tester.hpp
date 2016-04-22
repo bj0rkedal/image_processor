@@ -1,5 +1,6 @@
 //
-// Created by minions on 17.02.16.
+// Created by Asgeir Bjørkedal on 17.02.16.
+// Test code
 //
 
 #ifndef TEST_OPENCV_OPENCV_TESTER_HPP

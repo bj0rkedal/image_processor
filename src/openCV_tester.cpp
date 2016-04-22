@@ -1,5 +1,6 @@
 //
-// Created by minions on 17.02.16.
+// Created by Asgeir Bjørkedal on 17.02.16.
+// Test code
 //
 
 #include "../include/image_processor/openCV_tester.hpp"
