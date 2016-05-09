@@ -38,7 +38,7 @@
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0f688407103ee5904ee17f897af90096"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#a0f688407103ee5904ee17f897af90096">bruteForce</a> (cv::Mat <a class="el" href="object__detector_8cpp.html#a1cd810cfdcdc82749af47961dda0d9b9">descriptors_object</a>, cv::Mat <a class="el" href="object__detector_8cpp.html#a5958ff38c7f254e23712f16b1b9f89b0">descriptors_scene</a>, int normType)</td></tr>
+<tr class="memitem:a0f688407103ee5904ee17f897af90096"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#a0f688407103ee5904ee17f897af90096">bruteForce</a> (cv::Mat descriptors_object, cv::Mat descriptors_scene, int normType)</td></tr>
 <tr class="memdesc:a0f688407103ee5904ee17f897af90096"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bruteforce nearest neighbour matching.  <a href="#a0f688407103ee5904ee17f897af90096">More...</a><br/></td></tr>
 <tr class="separator:a0f688407103ee5904ee17f897af90096"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40bb16b4973a0613551a8dc463a6fb57"><td class="memItemLeft" align="right" valign="top">cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#a40bb16b4973a0613551a8dc463a6fb57">captureFrame</a> (bool <a class="el" href="object__2D__matcher_8cpp.html#adeba4cf126198b3d0726d1f54b9c322d">color</a>, bool <a class="el" href="object__2D__matcher_8cpp.html#a7338ef64c04d706a28e23857a7c267e7">undistort</a>, cv::VideoCapture <a class="el" href="object__2D__matcher_8cpp.html#a38cf3c98a5b011d48beabb1ed35ab5d1">capture</a>, cv::Mat <a class="el" href="openCV__tester_8hpp.html#afe6da855d7dcd27defcf249771ee41aa">cameraMatrix</a>, cv::Mat <a class="el" href="openCV__tester_8hpp.html#add037eb9d707e9b5afd288fac53d109e">distCoeffs</a>)</td></tr>
@@ -56,7 +56,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af1caa2566ac9c6f026be121e00ddc70d"><td class="memItemLeft" align="right" valign="top">cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#af1caa2566ac9c6f026be121e00ddc70d">getDistortionCoeff</a> (const std::string path)</td></tr>
 <tr class="memdesc:af1caa2566ac9c6f026be121e00ddc70d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the distortion coefficients from XML or YAML file.  <a href="#af1caa2566ac9c6f026be121e00ddc70d">More...</a><br/></td></tr>
 <tr class="separator:af1caa2566ac9c6f026be121e00ddc70d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54aeed20b3772756ea46369889e0801f"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#a54aeed20b3772756ea46369889e0801f">getNormImageCoords</a> (double x, double y, double lambda, cv::Mat camera_matrix)</td></tr>
+<tr class="memitem:a54aeed20b3772756ea46369889e0801f"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#a54aeed20b3772756ea46369889e0801f">getNormImageCoords</a> (double x, double y, double <a class="el" href="object__2D__matcher_8cpp.html#a3db359547eed8cfd48ca821d95f577af">lambda</a>, cv::Mat camera_matrix)</td></tr>
 <tr class="memdesc:a54aeed20b3772756ea46369889e0801f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the normalized image coordinates of the matched object.  <a href="#a54aeed20b3772756ea46369889e0801f">More...</a><br/></td></tr>
 <tr class="separator:a54aeed20b3772756ea46369889e0801f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc82886a0c95e425cbeab4e15fe7f133"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#abc82886a0c95e425cbeab4e15fe7f133">getObjectAngle</a> (cv::Mat frame, std::vector&lt; cv::Point2f &gt; scorner)</td></tr>
@@ -74,13 +74,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a130d21c529d5ed3d9d5b63301b0cab47"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#a130d21c529d5ed3d9d5b63301b0cab47">getYpos</a> (std::vector&lt; cv::Point2f &gt; scorner)</td></tr>
 <tr class="memdesc:a130d21c529d5ed3d9d5b63301b0cab47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the pixel coordinate y of the matched object center.  <a href="#a130d21c529d5ed3d9d5b63301b0cab47">More...</a><br/></td></tr>
 <tr class="separator:a130d21c529d5ed3d9d5b63301b0cab47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41d211ec44e2244fc99a7a846fa57a18"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#a41d211ec44e2244fc99a7a846fa57a18">knnMatchDescriptors</a> (cv::Mat <a class="el" href="object__detector_8cpp.html#a1cd810cfdcdc82749af47961dda0d9b9">descriptors_object</a>, cv::Mat <a class="el" href="object__detector_8cpp.html#a5958ff38c7f254e23712f16b1b9f89b0">descriptors_scene</a>, float nnratio)</td></tr>
+<tr class="memitem:a41d211ec44e2244fc99a7a846fa57a18"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#a41d211ec44e2244fc99a7a846fa57a18">knnMatchDescriptors</a> (cv::Mat descriptors_object, cv::Mat descriptors_scene, float nnratio)</td></tr>
 <tr class="memdesc:a41d211ec44e2244fc99a7a846fa57a18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flann based nearest neighbour matching.  <a href="#a41d211ec44e2244fc99a7a846fa57a18">More...</a><br/></td></tr>
 <tr class="separator:a41d211ec44e2244fc99a7a846fa57a18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ab5d60293eee28bdd32cd5c1c7fd626"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#a4ab5d60293eee28bdd32cd5c1c7fd626">knnMatchDescriptorsLSH</a> (cv::Mat <a class="el" href="object__detector_8cpp.html#a1cd810cfdcdc82749af47961dda0d9b9">descriptors_object</a>, cv::Mat <a class="el" href="object__detector_8cpp.html#a5958ff38c7f254e23712f16b1b9f89b0">descriptors_scene</a>, float nndrRatio)</td></tr>
+<tr class="memitem:a4ab5d60293eee28bdd32cd5c1c7fd626"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#a4ab5d60293eee28bdd32cd5c1c7fd626">knnMatchDescriptorsLSH</a> (cv::Mat descriptors_object, cv::Mat descriptors_scene, float nndrRatio)</td></tr>
 <tr class="memdesc:a4ab5d60293eee28bdd32cd5c1c7fd626"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flann based nearest neighbour with LSH index for binary matching.  <a href="#a4ab5d60293eee28bdd32cd5c1c7fd626">More...</a><br/></td></tr>
 <tr class="separator:a4ab5d60293eee28bdd32cd5c1c7fd626"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5aabd60dc484b5240b649f6d0eb5565b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#a5aabd60dc484b5240b649f6d0eb5565b">matchDescriptors</a> (cv::Mat <a class="el" href="object__detector_8cpp.html#a1cd810cfdcdc82749af47961dda0d9b9">descriptors_object</a>, cv::Mat <a class="el" href="object__detector_8cpp.html#a5958ff38c7f254e23712f16b1b9f89b0">descriptors_scene</a>)</td></tr>
+<tr class="memitem:a5aabd60dc484b5240b649f6d0eb5565b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#a5aabd60dc484b5240b649f6d0eb5565b">matchDescriptors</a> (cv::Mat descriptors_object, cv::Mat descriptors_scene)</td></tr>
 <tr class="memdesc:a5aabd60dc484b5240b649f6d0eb5565b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flann based matching.  <a href="#a5aabd60dc484b5240b649f6d0eb5565b">More...</a><br/></td></tr>
 <tr class="separator:a5aabd60dc484b5240b649f6d0eb5565b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba6b9ed6da3d20bb2f38d53dd066e007"><td class="memItemLeft" align="right" valign="top">cv::Ptr&lt; cv::Feature2D &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobotcam_1_1OpenCVMatching.html#aba6b9ed6da3d20bb2f38d53dd066e007">setDescriptorsExtractor</a> (std::string typeDescriptor, bool &amp;<a class="el" href="object__2D__matcher_8cpp.html#a07a6bb9578ba69062c2abaac7a0422ae">binary</a>)</td></tr>
@@ -107,7 +107,7 @@ Private Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="openCV__matching_8hpp_source.html#l00033">33</a> of file <a class="el" href="openCV__matching_8hpp_source.html">openCV_matching.hpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8hpp_source.html#l00034">34</a> of file <a class="el" href="openCV__matching_8hpp_source.html">openCV_matching.hpp</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a0f688407103ee5904ee17f897af90096"></a>
 <div class="memitem">
@@ -149,7 +149,7 @@ Private Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00183">183</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00184">184</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -209,7 +209,7 @@ Private Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The current video frame.</dd></dl>
 <p>Capture a frame in color/grayscale and with or without lens distortion. </p>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00070">70</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00071">71</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -248,7 +248,7 @@ Private Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The current video frame.</dd></dl>
 <p>Capture either with color or grayscale. </p>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00091">91</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00092">92</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -293,7 +293,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The boolean </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00389">389</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00386">386</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -320,7 +320,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The camera matrix. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00009">9</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00010">10</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -347,7 +347,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The distortion coefficients. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00018">18</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00019">19</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -399,7 +399,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The normalized image coordinates. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00449">449</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00446">446</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -437,7 +437,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The object angle in degrees. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00437">437</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00434">434</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -475,7 +475,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The object offset in x-direction. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00401">401</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00398">398</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -502,7 +502,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The pixel coordinate x. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00423">423</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00420">420</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -540,7 +540,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The object pixel offset in y-direction. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00412">412</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00409">409</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -567,7 +567,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The pixel coordinate y. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00430">430</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00427">427</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -620,7 +620,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The angle in degrees. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00374">374</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00371">371</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -687,7 +687,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The boolean whether an intersection was found. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00359">359</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00356">356</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -732,7 +732,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The good matches. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00102">102</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00103">103</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -777,7 +777,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The good matches. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00127">127</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00128">128</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -815,7 +815,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The good matches. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00152">152</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00153">153</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -853,7 +853,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The descriptor extractor. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00235">235</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00232">232</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -880,7 +880,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The keypoint detector. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00205">205</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00202">202</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -907,7 +907,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The matrix type as string. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00027">27</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00028">28</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -980,7 +980,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The current match holding a image frame with visualized matching and the object corners in the scene. </dd></dl>
 
-<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00280">280</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__matching_8cpp_source.html#l00277">277</a> of file <a class="el" href="openCV__matching_8cpp_source.html">openCV_matching.cpp</a>.</p>
 
 </div>
 </div>
@@ -994,7 +994,7 @@ Private Member Functions</h2></td></tr>
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/image_processor">image_processor</a><br />
 Author(s): </br />
-<small>autogenerated on Fri Apr 1 2016 11:19:01</small>
+<small>autogenerated on Sun May 8 2016 17:28:51</small>
 </div>
 </body>
 </html>

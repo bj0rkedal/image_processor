@@ -22,12 +22,14 @@ srvs:
 - getKeypointDetectorType
 - getBinaryMatching
 - setKeypointDetectorType
+- setImageDepth
 - setBruteforceMatching
 - getVideoUndistortion
 - setBinaryMatching
 - setVideoColor
 - setDescriptorType
 - setVideoUndistortion
+- setMatchingImage1
 - setProcessRunning
 - getBruteforceMatching
 url: ''

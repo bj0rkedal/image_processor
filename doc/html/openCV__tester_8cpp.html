@@ -69,7 +69,7 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae24983a756ea3e1d0673dcfc0fb63b51"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#ae24983a756ea3e1d0673dcfc0fb63b51">bruteForce</a> (cv::Mat <a class="el" href="object__detector_8cpp.html#a1cd810cfdcdc82749af47961dda0d9b9">descriptors_object</a>, cv::Mat <a class="el" href="object__detector_8cpp.html#a5958ff38c7f254e23712f16b1b9f89b0">descriptors_scene</a>, int normType)</td></tr>
+<tr class="memitem:ae24983a756ea3e1d0673dcfc0fb63b51"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#ae24983a756ea3e1d0673dcfc0fb63b51">bruteForce</a> (cv::Mat descriptors_object, cv::Mat descriptors_scene, int normType)</td></tr>
 <tr class="separator:ae24983a756ea3e1d0673dcfc0fb63b51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb695714e70f64a95eaa48333d10d179"><td class="memItemLeft" align="right" valign="top">cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#abb695714e70f64a95eaa48333d10d179">captureFrame</a> (bool <a class="el" href="object__2D__matcher_8cpp.html#adeba4cf126198b3d0726d1f54b9c322d">color</a>, bool useCalibration, cv::VideoCapture <a class="el" href="object__2D__matcher_8cpp.html#a38cf3c98a5b011d48beabb1ed35ab5d1">capture</a>)</td></tr>
 <tr class="memdesc:abb695714e70f64a95eaa48333d10d179"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capture a frame from a connected web camera.  <a href="#abb695714e70f64a95eaa48333d10d179">More...</a><br/></td></tr>
@@ -91,6 +91,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a0460994922514f84af88533c8809fb13"><td class="memItemLeft" align="right" valign="top">cv::Point2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#a0460994922514f84af88533c8809fb13">getObjectCentroidMean</a> (std::vector&lt; cv::Point2f &gt; scene)</td></tr>
 <tr class="separator:a0460994922514f84af88533c8809fb13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31f2e0e90a735dd826de28f05d52a127"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#a31f2e0e90a735dd826de28f05d52a127">getProcessRunningCallBack</a> (image_processor::getProcessRunning::Request &amp;req, image_processor::getProcessRunning::Response &amp;res)</td></tr>
+<tr class="memdesc:a31f2e0e90a735dd826de28f05d52a127"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback method for object detection running status through ROS service.  <a href="#a31f2e0e90a735dd826de28f05d52a127">More...</a><br/></td></tr>
 <tr class="separator:a31f2e0e90a735dd826de28f05d52a127"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec57690515ed8247f69cd3d71b4a7888"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#aec57690515ed8247f69cd3d71b4a7888">getXoffset</a> (cv::Mat frame, std::vector&lt; cv::Point2f &gt; scorner)</td></tr>
 <tr class="separator:aec57690515ed8247f69cd3d71b4a7888"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -100,19 +101,20 @@ Functions</h2></td></tr>
 <tr class="separator:a4b7100c2dcf1c7d3bfd9631488d9f546"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9cd71191ef490393d8d49d938c452110"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#a9cd71191ef490393d8d49d938c452110">intersection</a> (cv::Point2f o1, cv::Point2f p1, cv::Point2f o2, cv::Point2f p2, cv::Point2f &amp;r)</td></tr>
 <tr class="separator:a9cd71191ef490393d8d49d938c452110"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05ec21d55fec8470f4812011e3940234"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#a05ec21d55fec8470f4812011e3940234">knnMatchDescriptors</a> (cv::Mat <a class="el" href="object__detector_8cpp.html#a1cd810cfdcdc82749af47961dda0d9b9">descriptors_object</a>, cv::Mat <a class="el" href="object__detector_8cpp.html#a5958ff38c7f254e23712f16b1b9f89b0">descriptors_scene</a>, float nnratio)</td></tr>
+<tr class="memitem:a05ec21d55fec8470f4812011e3940234"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#a05ec21d55fec8470f4812011e3940234">knnMatchDescriptors</a> (cv::Mat descriptors_object, cv::Mat descriptors_scene, float nnratio)</td></tr>
 <tr class="separator:a05ec21d55fec8470f4812011e3940234"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a332d68630bced32844630cbd70f70f1f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#a332d68630bced32844630cbd70f70f1f">knnMatchDescriptorsLSH</a> (cv::Mat <a class="el" href="object__detector_8cpp.html#a1cd810cfdcdc82749af47961dda0d9b9">descriptors_object</a>, cv::Mat <a class="el" href="object__detector_8cpp.html#a5958ff38c7f254e23712f16b1b9f89b0">descriptors_scene</a>, float nndrRatio)</td></tr>
+<tr class="memitem:a332d68630bced32844630cbd70f70f1f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#a332d68630bced32844630cbd70f70f1f">knnMatchDescriptorsLSH</a> (cv::Mat descriptors_object, cv::Mat descriptors_scene, float nndrRatio)</td></tr>
 <tr class="separator:a332d68630bced32844630cbd70f70f1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb05a8ba589dd24f821f9ac63a35a13d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#aeb05a8ba589dd24f821f9ac63a35a13d">matchDescriptors</a> (cv::Mat <a class="el" href="object__detector_8cpp.html#a1cd810cfdcdc82749af47961dda0d9b9">descriptors_object</a>, cv::Mat <a class="el" href="object__detector_8cpp.html#a5958ff38c7f254e23712f16b1b9f89b0">descriptors_scene</a>)</td></tr>
+<tr class="memitem:aeb05a8ba589dd24f821f9ac63a35a13d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#aeb05a8ba589dd24f821f9ac63a35a13d">matchDescriptors</a> (cv::Mat descriptors_object, cv::Mat descriptors_scene)</td></tr>
 <tr class="separator:aeb05a8ba589dd24f821f9ac63a35a13d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ae4a0a29533e27e90f6208a385db6ec"><td class="memItemLeft" align="right" valign="top">cv::Ptr&lt; cv::Feature2D &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#a1ae4a0a29533e27e90f6208a385db6ec">SetDescriptorsExtractor</a> (std::string typeDescriptor, bool &amp;<a class="el" href="object__2D__matcher_8cpp.html#a07a6bb9578ba69062c2abaac7a0422ae">binary</a>)</td></tr>
 <tr class="separator:a1ae4a0a29533e27e90f6208a385db6ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b6554782d6ce28706217eb4caa7b221"><td class="memItemLeft" align="right" valign="top">cv::Ptr&lt; cv::Feature2D &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#a2b6554782d6ce28706217eb4caa7b221">SetKeyPointsDetector</a> (std::string typeKeyPoint)</td></tr>
 <tr class="separator:a2b6554782d6ce28706217eb4caa7b221"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb7f6e172b08f8d749d3899df2f45bd7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#aeb7f6e172b08f8d749d3899df2f45bd7">setProcessRunningCallBack</a> (image_processor::setProcessRunning::Request &amp;req, image_processor::setProcessRunning::Response &amp;res)</td></tr>
+<tr class="memdesc:aeb7f6e172b08f8d749d3899df2f45bd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback method for toggling the object detection through ROS service.  <a href="#aeb7f6e172b08f8d749d3899df2f45bd7">More...</a><br/></td></tr>
 <tr class="separator:aeb7f6e172b08f8d749d3899df2f45bd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a715ce932e8a7054fab9996b8fa776516"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::DMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="openCV__tester_8cpp.html#a715ce932e8a7054fab9996b8fa776516">symmetryTest</a> (const std::vector&lt; cv::DMatch &gt; &amp;matches1, const std::vector&lt; cv::DMatch &gt; &amp;matches2)</td></tr>
 <tr class="separator:a715ce932e8a7054fab9996b8fa776516"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -152,7 +154,7 @@ Functions</h2></td></tr>
 </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00015">15</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00016">16</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -187,7 +189,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00177">177</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00178">178</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -232,7 +234,7 @@ Functions</h2></td></tr>
 </dl>
 <p>The method requires three arguments to determine the output video frame. </p>
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00078">78</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00079">79</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -266,7 +268,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00474">474</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00475">475</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -284,7 +286,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00017">17</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00018">18</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -312,7 +314,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00236">236</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00237">237</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -330,7 +332,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00026">26</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00027">27</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -348,7 +350,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00198">198</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00199">199</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -376,7 +378,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00534">534</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00535">535</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -394,7 +396,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00499">499</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00500">500</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -412,7 +414,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00487">487</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00488">488</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -440,7 +442,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00552">552</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Callback method for object detection running status through ROS service. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>The service request </td></tr>
+    <tr><td class="paramname">res</td><td>The service response </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00553">553</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -468,7 +479,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00512">512</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00513">513</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -496,7 +507,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00523">523</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00524">524</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -530,7 +541,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00459">459</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00460">460</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -576,7 +587,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00444">444</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00445">445</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -610,7 +621,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00098">98</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00099">99</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -644,7 +655,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00122">122</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00123">123</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -672,7 +683,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00558">558</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00559">559</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -700,7 +711,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00146">146</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00147">147</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -728,7 +739,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00312">312</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00313">313</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -746,7 +757,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00282">282</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00283">283</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -774,7 +785,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00546">546</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Callback method for toggling the object detection through ROS service. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>The service request </td></tr>
+    <tr><td class="paramname">res</td><td>The service response </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00547">547</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -802,7 +822,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00350">350</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00351">351</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -820,7 +840,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00035">35</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00036">36</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -878,7 +898,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00367">367</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
+<p>Definition at line <a class="el" href="openCV__tester_8cpp_source.html#l00368">368</a> of file <a class="el" href="openCV__tester_8cpp_source.html">openCV_tester.cpp</a>.</p>
 
 </div>
 </div>
@@ -888,7 +908,7 @@ Functions</h2></td></tr>
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/image_processor">image_processor</a><br />
 Author(s): </br />
-<small>autogenerated on Fri Apr 1 2016 11:19:01</small>
+<small>autogenerated on Sun May 8 2016 17:28:51</small>
 </div>
 </body>
 </html>
