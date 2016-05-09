@@ -205,7 +205,8 @@ void detectAndComputeReference(cv::Mat &object, std::vector<cv::KeyPoint> &keypo
 
 void writeReferenceImage(cv::Mat object, std::vector<cv::KeyPoint> keypoints_object, std::string ref_path) {
     cv::Mat ref_keypoints;
-    cv::drawKeypoints(object, keypoints_object, ref_keypoints, CV_RGB(255, 255, 0));
+    cv::drawKeypoints(object, keypoints_object, ref_keypoints, CV_RGB(0, 255, 255),
+                      cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
     cv::imwrite(ref_path, ref_keypoints);
     ROS_INFO("Reference keypoints written to: %s", ref_path.c_str());
 }
