@@ -151,7 +151,6 @@ namespace robotcam
     }
 
     std::vector<cv::DMatch> OpenCVMatching::matchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene) {
-        // Good at filtering FLANN based match.
         cv::FlannBasedMatcher matcher;
         std::vector<cv::DMatch> matches;
 
@@ -190,7 +189,7 @@ namespace robotcam
 
         std::vector<cv::DMatch> good_matches;
         for (int i = 0; i < matches.size(); ++i) {
-            const float ratio = 0.9; // As in Lowe's paper; can be tuned
+            const float ratio = 0.9; // 0.8 in Lowe's paper on SIFT; can be tuned
             if (matches[i][0].distance < ratio * matches[i][1].distance) {
                 good_matches.push_back(matches[i][0]);
             }
@@ -286,7 +285,7 @@ namespace robotcam
             cv::drawKeypoints(searchImage, keypointsScene, image_matches, CV_RGB(0,0,255),
                               cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS); // cv::Scalar::all(-1)
 //        cv::drawMatches(objectImage, keypointsObject, searchImage, keypointsScene, good_matches, image_matches,
-//                        cv::Scalar::all(-1), cv::Scalar::all(-1), std::vector<char>(),
+//                        CV_RGB(0,255,255), CV_RGB(0,255,255), std::vector<char>(),
 //                        cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
         } else {
             image_matches = searchImage.clone();

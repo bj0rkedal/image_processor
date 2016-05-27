@@ -158,10 +158,8 @@ include_directories(
 # add_dependencies(image_processor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(image_publisher src/image_publisher.cpp)
-add_executable(object_matcher src/openCV_tester.cpp)
 add_executable(calibrator src/calibration.cpp)
-add_executable(steadycam_2D_matcher src/object_2D_matcher.cpp src/openCV_matching.cpp)
+add_executable(agilus_image_processor src/object_2D_matcher.cpp src/openCV_matching.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -171,19 +169,11 @@ add_executable(steadycam_2D_matcher src/object_2D_matcher.cpp src/openCV_matchin
 # target_link_libraries(image_processor_node
 #   ${catkin_LIBRARIES}
 # )
-target_link_libraries(image_publisher
-        ${OpenCV_LIBRARIES}
-        ${catkin_LIBRARIES}
-)
-target_link_libraries(object_matcher
-        ${OpenCV_LIBRARIES}
-        ${catkin_LIBRARIES}
-)
 target_link_libraries(calibrator
         ${OpenCV_LIBRARIES}
         ${catkin_LIBRARIES}
 )
-target_link_libraries(steadycam_2D_matcher
+target_link_libraries(agilus_image_processor
         ${OpenCV_LIBRARIES}
         ${catkin_LIBRARIES}
 )
