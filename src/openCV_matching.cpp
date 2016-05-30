@@ -1,8 +1,9 @@
 //
 // Original author: Asgeir Bjoerkedal. Created: 10.03.16. Last edit: 30.05.16.
 //
-// The methods are designed for use in an object detection application and include capturing of video frames,
-// processing by numerous keypoint detectors and descriptor extractors, matching algorithms, visualization, computation
+// The class implements methods from OpenCV and is designed for use in an object detection application.
+// It encompasses capturing of video frames, processing video frames by numerous keypoint
+// detectors and descriptor extractors, matching algorithms, visualization and computation
 // of object image coordinates and orientation.
 //
 // Created as part of the software solution for a Master's thesis in Production Technology at NTNU Trondheim.
