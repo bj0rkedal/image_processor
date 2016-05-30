@@ -56,8 +56,6 @@
 Include dependency graph for object_2D_matcher.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="object__2D__matcher_8hpp__incl.png" border="0" usemap="#object__2D__matcher_8hpp" alt=""/></div>
-<map name="object__2D__matcher_8hpp" id="object__2D__matcher_8hpp">
-</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -114,7 +112,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a01968b255f141b8a3c0177545c9d0718"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback method for setting the image depth (lambda), used for scaling the normalized image coordinates through ROS service.  <a href="#a01968b255f141b8a3c0177545c9d0718">More...</a><br/></td></tr>
 <tr class="separator:a01968b255f141b8a3c0177545c9d0718"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a699d8dec4aa4c257b8c7b722e399862f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object__2D__matcher_8hpp.html#a699d8dec4aa4c257b8c7b722e399862f">setKeypointDetectorTypeCallBack</a> (image_processor::setKeypointDetectorType::Request &amp;req, image_processor::setKeypointDetectorType::Response &amp;res)</td></tr>
-<tr class="memdesc:a699d8dec4aa4c257b8c7b722e399862f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback method for setting keypoint detector through ROS service. Sets the detector based on a string input. Detects keypoints in the matching image and outputs an image file with the new keypoints.  <a href="#a699d8dec4aa4c257b8c7b722e399862f">More...</a><br/></td></tr>
+<tr class="memdesc:a699d8dec4aa4c257b8c7b722e399862f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback method for setting keypoint detector through ROS service. Sets the detector based on a string input. Detects keypoints in the query image and outputs an image file with the new keypoints.  <a href="#a699d8dec4aa4c257b8c7b722e399862f">More...</a><br/></td></tr>
 <tr class="separator:a699d8dec4aa4c257b8c7b722e399862f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab077e479339888be50b099f726c89bc6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object__2D__matcher_8hpp.html#ab077e479339888be50b099f726c89bc6">setMatchingImage1CallBack</a> (image_processor::setMatchingImage1::Request &amp;req, image_processor::setMatchingImage1::Response &amp;res)</td></tr>
 <tr class="memdesc:ab077e479339888be50b099f726c89bc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback method for setting the image to match with in the video scene through ROS service. Reads the new image, detects keypoints and computes descriptors, and outputs an image with keypoints.  <a href="#ab077e479339888be50b099f726c89bc6">More...</a><br/></td></tr>
@@ -134,7 +132,7 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a0f67defc69958c9ef63860d57bfae79a"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object__2D__matcher_8hpp.html#a0f67defc69958c9ef63860d57bfae79a">CAMERA_PARAMS</a></td></tr>
+<tr class="memitem:a0f67defc69958c9ef63860d57bfae79a"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object__2D__matcher_8hpp.html#a0f67defc69958c9ef63860d57bfae79a">CAMERA_PARAMS</a> = ros::package::getPath(&quot;image_processor&quot;) + &quot;/resources/calibration_reserve_camera.yml&quot;</td></tr>
 <tr class="separator:a0f67defc69958c9ef63860d57bfae79a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae978711d785c670fc6981fb1865be6b8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object__2D__matcher_8hpp.html#ae978711d785c670fc6981fb1865be6b8">DETECTOR_TYPE</a> = &quot;SIFT&quot;</td></tr>
 <tr class="separator:ae978711d785c670fc6981fb1865be6b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,11 +144,9 @@ Variables</h2></td></tr>
 <tr class="separator:a02e2fd319097b0c4335e5e50ae9437d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35cd7e73c53d725086e39be5b4837447"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object__2D__matcher_8hpp.html#a35cd7e73c53d725086e39be5b4837447">object_pose_msg</a></td></tr>
 <tr class="separator:a35cd7e73c53d725086e39be5b4837447"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8b1805a7073a3ed84d89f2aaef3f254"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object__2D__matcher_8hpp.html#ac8b1805a7073a3ed84d89f2aaef3f254">OPENCV_WINDOW</a> = &quot;Matching&quot;</td></tr>
-<tr class="separator:ac8b1805a7073a3ed84d89f2aaef3f254"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa3ce1884de7cb621c96e475ef5d706f"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object__2D__matcher_8hpp.html#aaa3ce1884de7cb621c96e475ef5d706f">ref_path1</a></td></tr>
+<tr class="memitem:aaa3ce1884de7cb621c96e475ef5d706f"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object__2D__matcher_8hpp.html#aaa3ce1884de7cb621c96e475ef5d706f">ref_path1</a> = ros::package::getPath(&quot;image_processor&quot;) + &quot;/resources/output/ref_keypoints1.jpg&quot;</td></tr>
 <tr class="separator:aaa3ce1884de7cb621c96e475ef5d706f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae985124ec997bc9bd20a5faa2326602b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object__2D__matcher_8hpp.html#ae985124ec997bc9bd20a5faa2326602b">temp_path1</a></td></tr>
+<tr class="memitem:ae985124ec997bc9bd20a5faa2326602b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object__2D__matcher_8hpp.html#ae985124ec997bc9bd20a5faa2326602b">temp_path1</a> = ros::package::getPath(&quot;image_processor&quot;) + &quot;/resources/Lenna.png&quot;</td></tr>
 <tr class="separator:ae985124ec997bc9bd20a5faa2326602b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1709becaedbb55cd42decde44eb5c652"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="object__2D__matcher_8hpp.html#a1709becaedbb55cd42decde44eb5c652">VIDEO_HEIGHT</a> = 720</td></tr>
 <tr class="separator:a1709becaedbb55cd42decde44eb5c652"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,14 +187,14 @@ Variables</h2></td></tr>
 <p>Detect and compute keypoints and descriptors for a given image matrix. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">object</td><td>The image </td></tr>
-    <tr><td class="paramname">keypoints_object</td><td>Reference to the keypoints storage object </td></tr>
-    <tr><td class="paramname">descriptor_object</td><td>Reference to the descriptor storage object </td></tr>
+    <tr><td class="paramname">object</td><td>The query image. </td></tr>
+    <tr><td class="paramname">keypoints_object</td><td>Reference to the keypoints storage object. </td></tr>
+    <tr><td class="paramname">descriptor_object</td><td>Reference to the descriptor storage object. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00200">200</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00160">160</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -229,13 +225,13 @@ Variables</h2></td></tr>
 <p>Callback method for binary/non-binary matching status through ROS service. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Returns the state of the matching control boolean. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00241">241</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00197">197</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -266,13 +262,13 @@ Variables</h2></td></tr>
 <p>Callback method for bruteforce/FLANN matching status through ROS service. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Return the status of matching approach in use. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00253">253</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00207">207</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -303,13 +299,13 @@ Variables</h2></td></tr>
 <p>Callback method for getting descriptor extractor type through ROS service. Sets the extractor based on a string input. New descriptors are computed for the matching image. Further matching with the new descriptor can be performed instantanously. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Return the descriptor extractor in use. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00282">282</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00232">232</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -340,13 +336,13 @@ Variables</h2></td></tr>
 <p>Callback method for getting the keypoint detector type through ROS service. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Return the keypoint detector in use. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00268">268</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00220">220</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -377,13 +373,13 @@ Variables</h2></td></tr>
 <p>Callback method for object detection running status through ROS service. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Returns the state of the image processing. True if running. False otherwise. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00229">229</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00187">187</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -414,13 +410,13 @@ Variables</h2></td></tr>
 <p>Callback method for getting current video color mode through ROS service. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Returns the color status of the video stream. True for color. False for grayscale. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00299">299</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00247">247</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -451,13 +447,13 @@ Variables</h2></td></tr>
 <p>Callback method for getting undistortion status through ROS service. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Get the status of lens correction. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00311">311</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00257">257</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -488,13 +484,13 @@ Variables</h2></td></tr>
 <p>Initializes the object matcher image, resolution, detector and extractor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">video_width</td><td>The horizontal video resolution (pixel) </td></tr>
-    <tr><td class="paramname">video_height</td><td>The vertical video resolution (pixel) </td></tr>
+    <tr><td class="paramname">video_width</td><td>The horizontal video resolution (pixel). </td></tr>
+    <tr><td class="paramname">video_height</td><td>The vertical video resolution (pixel). </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00184">184</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00150">150</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -515,13 +511,13 @@ Variables</h2></td></tr>
 <p>Read an image from a desired file path. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">path</td><td>The file path </td></tr>
+    <tr><td class="paramname">path</td><td>The file path. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The image matrix </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The image matrix. </dd></dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00213">213</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00172">172</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -552,13 +548,13 @@ Variables</h2></td></tr>
 <p>Callback method for toggling of binary/non-binary matching through ROS service. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. True for matching of binary descriptors. False for real-valued. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Not in use. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00235">235</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00192">192</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -589,13 +585,13 @@ Variables</h2></td></tr>
 <p>Callback method for toggling between bruteforce and FLANN matching through ROS service. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. True for bruteforce matching. False for FLANN. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Not in use. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00247">247</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00202">202</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -626,13 +622,13 @@ Variables</h2></td></tr>
 <p>Callback method for setting descriptor extractor through ROS service. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. String as an acronym for wanted extractor, e.g. SIFT, SURF, BRISK, ORB. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Not in use. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00274">274</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00225">225</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -663,13 +659,13 @@ Variables</h2></td></tr>
 <p>Callback method for setting the image depth (lambda), used for scaling the normalized image coordinates through ROS service. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. Double value of distance from camera lens to object along the optical axis. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Not in use. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00328">328</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00272">272</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -697,16 +693,16 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Callback method for setting keypoint detector through ROS service. Sets the detector based on a string input. Detects keypoints in the matching image and outputs an image file with the new keypoints. </p>
+<p>Callback method for setting keypoint detector through ROS service. Sets the detector based on a string input. Detects keypoints in the query image and outputs an image file with the new keypoints. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. String as an acronym for wanted detection, e.g. SIFT, SURF, BRISK, ORB. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Not in use. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00259">259</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00212">212</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -737,13 +733,13 @@ Variables</h2></td></tr>
 <p>Callback method for setting the image to match with in the video scene through ROS service. Reads the new image, detects keypoints and computes descriptors, and outputs an image with keypoints. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. Path as string to the new query image. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Not in use. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00317">317</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00262">262</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -774,13 +770,13 @@ Variables</h2></td></tr>
 <p>Callback method for toggling the object detection through ROS service. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. True for image processed video stream. False for raw video stream. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Not in use. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00223">223</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00182">182</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -811,13 +807,13 @@ Variables</h2></td></tr>
 <p>Callback method for setting color/grayscale video capture through ROS service. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. True for color. False for grayscale. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Not in use. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00288">288</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00237">237</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -848,13 +844,13 @@ Variables</h2></td></tr>
 <p>Callback method for setting video undistortion of video stream through ROS service. Undistortion will use distortion parameters from .XML/.YAML file output from camera calibration. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">req</td><td>The service request </td></tr>
-    <tr><td class="paramname">res</td><td>The service response </td></tr>
+    <tr><td class="paramname">req</td><td>The service request. True if correction for lens distortion. False for no correction. </td></tr>
+    <tr><td class="paramname">res</td><td>The service response. Not in use. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00305">305</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00252">252</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -891,14 +887,14 @@ Variables</h2></td></tr>
 <p>Draws keypoints on a chosen image object and stores it to a desired file path. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">object</td><td>The image </td></tr>
-    <tr><td class="paramname">keypoints_object</td><td>The keypoints </td></tr>
-    <tr><td class="paramname">ref_path</td><td>The storage file path </td></tr>
+    <tr><td class="paramname">object</td><td>The query image. </td></tr>
+    <tr><td class="paramname">keypoints_object</td><td>The keypoints. </td></tr>
+    <tr><td class="paramname">ref_path</td><td>The storage file path. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00206">206</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8cpp_source.html#l00165">165</a> of file <a class="el" href="object__2D__matcher_8cpp_source.html">object_2D_matcher.cpp</a>.</p>
 
 </div>
 </div>
@@ -908,14 +904,12 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const std::string CAMERA_PARAMS</td>
+          <td class="memname">const std::string CAMERA_PARAMS = ros::package::getPath(&quot;image_processor&quot;) + &quot;/resources/calibration_reserve_camera.yml&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= ros::package::getPath(<span class="stringliteral">&quot;image_processor&quot;</span>)</div>
-<div class="line">                                  + <span class="stringliteral">&quot;/resources/calibration_reserve_camera.yml&quot;</span></div>
-</div><!-- fragment -->
-<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00045">45</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
+
+<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00040">40</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
 
 </div>
 </div>
@@ -957,7 +951,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00063">63</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00050">50</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
 
 </div>
 </div>
@@ -971,7 +965,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00060">60</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00048">48</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
 
 </div>
 </div>
@@ -985,29 +979,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00057">57</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac8b1805a7073a3ed84d89f2aaef3f254"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::string OPENCV_WINDOW = &quot;Matching&quot;</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00038">38</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00046">46</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
 
 </div>
 </div>
@@ -1016,14 +988,12 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const std::string ref_path1</td>
+          <td class="memname">const std::string ref_path1 = ros::package::getPath(&quot;image_processor&quot;) + &quot;/resources/output/ref_keypoints1.jpg&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= ros::package::getPath(<span class="stringliteral">&quot;image_processor&quot;</span>)</div>
-<div class="line">                              + <span class="stringliteral">&quot;/resources/output/ref_keypoints1.jpg&quot;</span></div>
-</div><!-- fragment -->
-<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00049">49</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
+
+<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00042">42</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
 
 </div>
 </div>
@@ -1032,14 +1002,12 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string temp_path1</td>
+          <td class="memname">std::string temp_path1 = ros::package::getPath(&quot;image_processor&quot;) + &quot;/resources/Lenna.png&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= ros::package::getPath(<span class="stringliteral">&quot;image_processor&quot;</span>)</div>
-<div class="line">                         + <span class="stringliteral">&quot;/resources/Lenna.png&quot;</span></div>
-</div><!-- fragment -->
-<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00053">53</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
+
+<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00044">44</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
 
 </div>
 </div>
@@ -1053,7 +1021,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00042">42</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00038">38</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
 
 </div>
 </div>
@@ -1067,7 +1035,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00041">41</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
+<p>Definition at line <a class="el" href="object__2D__matcher_8hpp_source.html#l00037">37</a> of file <a class="el" href="object__2D__matcher_8hpp_source.html">object_2D_matcher.hpp</a>.</p>
 
 </div>
 </div>
@@ -1077,7 +1045,7 @@ Variables</h2></td></tr>
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/image_processor">image_processor</a><br />
 Author(s): </br />
-<small>autogenerated on Sun May 8 2016 17:28:51</small>
+<small>autogenerated on Mon May 30 2016 16:43:53</small>
 </div>
 </body>
 </html>

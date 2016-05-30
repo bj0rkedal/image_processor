@@ -30,38 +30,38 @@
 </div><!--header-->
 <div class="contents">
 <a href="openCV__matching_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// Created by Asgeir Bjørkedal on 10.03.16.</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// Part of a vision solution for a master&#39;s thesis.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;../include/image_processor/openCV_matching.hpp&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>robotcam</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;{</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#afbdf21affa563c4ab5308e2d8c6ca084">   10</a></span>&#160;    cv::Mat <a class="code" href="classrobotcam_1_1OpenCVMatching.html#afbdf21affa563c4ab5308e2d8c6ca084">OpenCVMatching::getCameraMatrix</a>(<span class="keyword">const</span> std::string path) {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        cv::Mat temp;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        cv::FileStorage fs(path, cv::FileStorage::READ);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        fs[<span class="stringliteral">&quot;camera_matrix&quot;</span>] &gt;&gt; temp;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        fs.release();</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">return</span> temp;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    }</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#af1caa2566ac9c6f026be121e00ddc70d">   19</a></span>&#160;    cv::Mat <a class="code" href="classrobotcam_1_1OpenCVMatching.html#af1caa2566ac9c6f026be121e00ddc70d">OpenCVMatching::getDistortionCoeff</a>(<span class="keyword">const</span> std::string path) {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        cv::Mat temp;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        cv::FileStorage fs(path, cv::FileStorage::READ);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        fs[<span class="stringliteral">&quot;distortion_coefficients&quot;</span>] &gt;&gt; temp;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        fs.release();</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">return</span> temp;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    }</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a1bd94daa76c844aa01eefdb637aa8bbd">   28</a></span>&#160;    std::string <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a1bd94daa76c844aa01eefdb637aa8bbd">OpenCVMatching::type2str</a>(<span class="keywordtype">int</span> type) {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        std::string r;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        uchar depth = type &amp; CV_MAT_DEPTH_MASK;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        uchar chans = 1 + (type &gt;&gt; CV_CN_SHIFT);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// Original author: Asgeir Bjoerkedal. Created: 10.03.16. Last edit: 30.05.16.</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// The methods are designed for use in an object detection application and include capturing of video frames,</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// processing by numerous keypoint detectors and descriptor extractors, matching algorithms, visualization, computation</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// of object image coordinates and orientation.</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">// Created as part of the software solution for a Master&#39;s thesis in Production Technology at NTNU Trondheim.</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;../include/image_processor/openCV_matching.hpp&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>robotcam</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#afbdf21affa563c4ab5308e2d8c6ca084">   14</a></span>&#160;    cv::Mat <a class="code" href="classrobotcam_1_1OpenCVMatching.html#afbdf21affa563c4ab5308e2d8c6ca084">OpenCVMatching::getCameraMatrix</a>(<span class="keyword">const</span> std::string path) {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        cv::Mat temp;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        cv::FileStorage fs(path, cv::FileStorage::READ);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        fs[<span class="stringliteral">&quot;camera_matrix&quot;</span>] &gt;&gt; temp;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        fs.release();</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordflow">return</span> temp;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    }</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#af1caa2566ac9c6f026be121e00ddc70d">   22</a></span>&#160;    cv::Mat <a class="code" href="classrobotcam_1_1OpenCVMatching.html#af1caa2566ac9c6f026be121e00ddc70d">OpenCVMatching::getDistortionCoeff</a>(<span class="keyword">const</span> std::string path) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        cv::Mat temp;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        cv::FileStorage fs(path, cv::FileStorage::READ);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        fs[<span class="stringliteral">&quot;distortion_coefficients&quot;</span>] &gt;&gt; temp;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        fs.release();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">return</span> temp;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    }</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a1bd94daa76c844aa01eefdb637aa8bbd">   30</a></span>&#160;    std::string <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a1bd94daa76c844aa01eefdb637aa8bbd">OpenCVMatching::type2str</a>(<span class="keywordtype">int</span> type) {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        std::string r;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        uchar depth = type &amp; CV_MAT_DEPTH_MASK;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        uchar chans = 1 + (type &gt;&gt; CV_CN_SHIFT);</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordflow">switch</span> (depth) {</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keywordflow">case</span> CV_8U:</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                r = <span class="stringliteral">&quot;8U&quot;</span>;</div>
@@ -88,451 +88,376 @@
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                r = <span class="stringliteral">&quot;User&quot;</span>;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        r += <span class="stringliteral">&quot;C&quot;</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        r += (chans + <span class="charliteral">&#39;0&#39;</span>);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="comment">// USAGE</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="comment">//    std::string ty =  type2str( H.type() );</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment">//    printf(&quot;Matrix: %s %dx%d \n&quot;, ty.c_str(), H.cols, H.rows );</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        r += <span class="stringliteral">&quot;C&quot;</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        r += (chans + <span class="charliteral">&#39;0&#39;</span>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="comment">// USAGE</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment">//    std::string ty =  type2str( H.type() );</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="comment">//    printf(&quot;Matrix: %s %dx%d \n&quot;, ty.c_str(), H.cols, H.rows );</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">return</span> r;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordflow">return</span> r;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    }</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a40bb16b4973a0613551a8dc463a6fb57">   71</a></span>&#160;    cv::Mat <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a40bb16b4973a0613551a8dc463a6fb57">OpenCVMatching::captureFrame</a>(<span class="keywordtype">bool</span> <a class="code" href="object__2D__matcher_8cpp.html#adeba4cf126198b3d0726d1f54b9c322d">color</a>, <span class="keywordtype">bool</span> useCalibration, cv::VideoCapture <a class="code" href="openCV__tester_8hpp.html#a38cf3c98a5b011d48beabb1ed35ab5d1">capture</a>,</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                                         cv::Mat <a class="code" href="openCV__tester_8hpp.html#afe6da855d7dcd27defcf249771ee41aa">cameraMatrix</a>, cv::Mat <a class="code" href="openCV__tester_8hpp.html#add037eb9d707e9b5afd288fac53d109e">distCoeffs</a>) {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        cv::Mat inFrame, outFrame;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        capture &gt;&gt; inFrame;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="comment">// Check if frame should be color or grayscale</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordflow">if</span> (color == <span class="keyword">false</span> &amp;&amp; useCalibration == <span class="keyword">false</span>) {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            cv::cvtColor(inFrame, outFrame, CV_RGB2GRAY); <span class="comment">// grayscale</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (color == <span class="keyword">false</span> &amp;&amp; useCalibration == <span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            cv::Mat temp;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <a class="code" href="object__2D__matcher_8cpp.html#a7338ef64c04d706a28e23857a7c267e7">cv::undistort</a>(inFrame, temp, cameraMatrix, distCoeffs);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            cv::cvtColor(temp, outFrame, CV_RGB2GRAY); <span class="comment">// grayscale</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (color == <span class="keyword">true</span> &amp;&amp; useCalibration == <span class="keyword">false</span>) {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            outFrame = inFrame;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <a class="code" href="object__2D__matcher_8cpp.html#a7338ef64c04d706a28e23857a7c267e7">cv::undistort</a>(inFrame, outFrame, cameraMatrix, distCoeffs);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">return</span> outFrame;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a7c7ea3116481fccb05f8bd12fdcd1294">   92</a></span>&#160;    cv::Mat <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a40bb16b4973a0613551a8dc463a6fb57">OpenCVMatching::captureFrame</a>(<span class="keywordtype">bool</span> <a class="code" href="object__2D__matcher_8cpp.html#adeba4cf126198b3d0726d1f54b9c322d">color</a>, cv::VideoCapture <a class="code" href="openCV__tester_8hpp.html#a38cf3c98a5b011d48beabb1ed35ab5d1">capture</a>) {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        cv::Mat inFrame, outFrame;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        capture &gt;&gt; inFrame;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordflow">if</span>(color) {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            outFrame = inFrame;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            cv::cvtColor(inFrame, outFrame, CV_RGB2GRAY);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">return</span> outFrame;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    }</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a41d211ec44e2244fc99a7a846fa57a18">  103</a></span>&#160;    std::vector&lt;cv::DMatch&gt; <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a41d211ec44e2244fc99a7a846fa57a18">OpenCVMatching::knnMatchDescriptors</a>(cv::Mat descriptors_object, cv::Mat descriptors_scene,</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                                                                <span class="keywordtype">float</span> nnratio) {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        cv::FlannBasedMatcher matcher;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        std::vector&lt;std::vector&lt;cv::DMatch&gt; &gt; matches;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="comment">// Match descriptors</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        matcher.knnMatch(descriptors_object, descriptors_scene, matches, 2);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        std::vector&lt;cv::DMatch&gt; good_matches;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        good_matches.reserve(matches.size());</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; matches.size(); ++i) {</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            <span class="keywordflow">if</span> (matches[i].size() &lt; 2)</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            <span class="keyword">const</span> cv::DMatch &amp;m1 = matches[i][0];</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            <span class="keyword">const</span> cv::DMatch &amp;m2 = matches[i][1];</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="keywordflow">if</span> (m1.distance &lt;= nnratio * m2.distance)</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                good_matches.push_back(m1);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        }</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordflow">return</span> good_matches;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    }</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
-<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a4ab5d60293eee28bdd32cd5c1c7fd626">  128</a></span>&#160;    std::vector&lt;cv::DMatch&gt; <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a4ab5d60293eee28bdd32cd5c1c7fd626">OpenCVMatching::knnMatchDescriptorsLSH</a>(cv::Mat descriptors_object,</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                                                                   cv::Mat descriptors_scene, <span class="keywordtype">float</span> nndrRatio) {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        cv::FlannBasedMatcher matcher(<span class="keyword">new</span> cv::flann::LshIndexParams(20, 10, 2));</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        std::vector&lt;std::vector&lt;cv::DMatch&gt; &gt; matches;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a40bb16b4973a0613551a8dc463a6fb57">   68</a></span>&#160;    cv::Mat <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a40bb16b4973a0613551a8dc463a6fb57">OpenCVMatching::captureFrame</a>(<span class="keywordtype">bool</span> <a class="code" href="object__2D__matcher_8cpp.html#adeba4cf126198b3d0726d1f54b9c322d">color</a>, <span class="keywordtype">bool</span> useCalibration, cv::VideoCapture <a class="code" href="openCV__tester_8hpp.html#a38cf3c98a5b011d48beabb1ed35ab5d1">capture</a>, cv::Mat <a class="code" href="openCV__tester_8hpp.html#afe6da855d7dcd27defcf249771ee41aa">cameraMatrix</a>, cv::Mat <a class="code" href="openCV__tester_8hpp.html#add037eb9d707e9b5afd288fac53d109e">distCoeffs</a>) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        cv::Mat inFrame, outFrame;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        capture &gt;&gt; inFrame;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">if</span> (color == <span class="keyword">false</span> &amp;&amp; useCalibration == <span class="keyword">false</span>) {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            cv::cvtColor(inFrame, outFrame, CV_RGB2GRAY); <span class="comment">// grayscale</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (color == <span class="keyword">false</span> &amp;&amp; useCalibration == <span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            cv::Mat temp;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <a class="code" href="object__2D__matcher_8cpp.html#a7338ef64c04d706a28e23857a7c267e7">cv::undistort</a>(inFrame, temp, cameraMatrix, distCoeffs);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            cv::cvtColor(temp, outFrame, CV_RGB2GRAY); <span class="comment">// grayscale</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (color == <span class="keyword">true</span> &amp;&amp; useCalibration == <span class="keyword">false</span>) {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            outFrame = inFrame;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <a class="code" href="object__2D__matcher_8cpp.html#a7338ef64c04d706a28e23857a7c267e7">cv::undistort</a>(inFrame, outFrame, cameraMatrix, distCoeffs);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        }</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">return</span> outFrame;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a7c7ea3116481fccb05f8bd12fdcd1294">   85</a></span>&#160;    cv::Mat <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a40bb16b4973a0613551a8dc463a6fb57">OpenCVMatching::captureFrame</a>(<span class="keywordtype">bool</span> <a class="code" href="object__2D__matcher_8cpp.html#adeba4cf126198b3d0726d1f54b9c322d">color</a>, cv::VideoCapture <a class="code" href="openCV__tester_8hpp.html#a38cf3c98a5b011d48beabb1ed35ab5d1">capture</a>) {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        cv::Mat inFrame, outFrame;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        capture &gt;&gt; inFrame;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">if</span>(color) {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            outFrame = inFrame;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            cv::cvtColor(inFrame, outFrame, CV_RGB2GRAY);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordflow">return</span> outFrame;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a41d211ec44e2244fc99a7a846fa57a18">   96</a></span>&#160;    std::vector&lt;cv::DMatch&gt; <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a41d211ec44e2244fc99a7a846fa57a18">OpenCVMatching::knnMatchDescriptors</a>(cv::Mat descriptors_object, cv::Mat descriptors_scene, <span class="keywordtype">float</span> nnratio) {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        cv::FlannBasedMatcher matcher;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        std::vector&lt;std::vector&lt;cv::DMatch&gt; &gt; matches;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="comment">// Find the 2 best descriptor matches</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        matcher.knnMatch(descriptors_object, descriptors_scene, matches, 2);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="comment">// Ratio test the matches</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        std::vector&lt;cv::DMatch&gt; good_matches;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        good_matches.reserve(matches.size());</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; matches.size(); ++i) {</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            <span class="keywordflow">if</span> (matches[i].size() &lt; 2) <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keyword">const</span> cv::DMatch &amp;m1 = matches[i][0];</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="keyword">const</span> cv::DMatch &amp;m2 = matches[i][1];</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="keywordflow">if</span> (m1.distance &lt;= nnratio * m2.distance) good_matches.push_back(m1);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordflow">return</span> good_matches;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    }</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a4ab5d60293eee28bdd32cd5c1c7fd626">  113</a></span>&#160;    std::vector&lt;cv::DMatch&gt; <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a4ab5d60293eee28bdd32cd5c1c7fd626">OpenCVMatching::knnMatchDescriptorsLSH</a>(cv::Mat descriptors_object, cv::Mat descriptors_scene, <span class="keywordtype">float</span> nndrRatio) {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        cv::FlannBasedMatcher matcher(<span class="keyword">new</span> cv::flann::LshIndexParams(20, 10, 2));</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        std::vector&lt;std::vector&lt;cv::DMatch&gt; &gt; matches;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="comment">// Find the 2 best descriptor matches</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        matcher.knnMatch(descriptors_object, descriptors_scene, matches, 2);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="comment">// Ratio test the matches</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        std::vector&lt;cv::DMatch&gt; good_matches;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        good_matches.reserve(matches.size());</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; matches.size(); ++i) {</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            <span class="keywordflow">if</span> (matches[i].size() &lt; 2) <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <span class="keyword">const</span> cv::DMatch &amp;m1 = matches[i][0];</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            <span class="keyword">const</span> cv::DMatch &amp;m2 = matches[i][1];</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <span class="keywordflow">if</span> (m1.distance &lt;= nndrRatio * m2.distance) good_matches.push_back(m1);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">return</span> good_matches;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    }</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a5aabd60dc484b5240b649f6d0eb5565b">  130</a></span>&#160;    std::vector&lt;cv::DMatch&gt; <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a5aabd60dc484b5240b649f6d0eb5565b">OpenCVMatching::matchDescriptors</a>(cv::Mat descriptors_object, cv::Mat descriptors_scene) {</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        cv::FlannBasedMatcher matcher;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        std::vector&lt;cv::DMatch&gt; matches;</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="comment">// Match descriptors</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        matcher.knnMatch(descriptors_object, descriptors_scene, matches, 2);</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        std::vector&lt;cv::DMatch&gt; good_matches;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        good_matches.reserve(matches.size());</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; matches.size(); ++i) {</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="keywordflow">if</span> (matches[i].size() &lt; 2)</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            <span class="keyword">const</span> cv::DMatch &amp;m1 = matches[i][0];</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keyword">const</span> cv::DMatch &amp;m2 = matches[i][1];</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            <span class="keywordflow">if</span> (m1.distance &lt;= nndrRatio * m2.distance)</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                good_matches.push_back(m1);</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        }</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordflow">return</span> good_matches;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    }</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
-<div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a5aabd60dc484b5240b649f6d0eb5565b">  153</a></span>&#160;    std::vector&lt;cv::DMatch&gt; <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a5aabd60dc484b5240b649f6d0eb5565b">OpenCVMatching::matchDescriptors</a>(cv::Mat descriptors_object, cv::Mat descriptors_scene) {</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="comment">// Good at filtering FLANN based match.</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        cv::FlannBasedMatcher matcher;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        std::vector&lt;cv::DMatch&gt; matches;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="comment">// Match descriptors</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        matcher.match(descriptors_object, descriptors_scene, matches);</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <span class="keywordtype">double</span> max_dist = 0;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="keywordtype">double</span> min_dist = 100;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        <span class="comment">// Compute the max and min distance of the matches in current videoFrame</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; descriptors_object.rows; i++) {</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <span class="keywordtype">double</span> dist = matches[i].distance;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <span class="keywordflow">if</span> (dist &lt; min_dist) min_dist = dist;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            <span class="keywordflow">if</span> (dist &gt; max_dist) max_dist = dist;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        }</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        std::vector&lt;cv::DMatch&gt; good_matches;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <span class="comment">// Remove bad matches</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="keywordtype">double</span> k = 2;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; descriptors_object.rows; i++) {</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            <span class="keywordflow">if</span> (matches[i].distance &lt;= cv::max(k * min_dist, 0.02)) {</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                good_matches.push_back(matches[i]);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            }</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        }</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        <span class="keywordflow">return</span> good_matches;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    }</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;</div>
-<div class="line"><a name="l00184"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a0f688407103ee5904ee17f897af90096">  184</a></span>&#160;    std::vector&lt;cv::DMatch&gt; <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a0f688407103ee5904ee17f897af90096">OpenCVMatching::bruteForce</a>(cv::Mat descriptors_object, cv::Mat descriptors_scene,</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                                                       <span class="keywordtype">int</span> normType) {</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        cv::BFMatcher matcher(normType);</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        std::vector&lt;std::vector&lt;cv::DMatch&gt; &gt; matches;</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        matcher.knnMatch(descriptors_object, descriptors_scene, matches, 2);</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        std::vector&lt;cv::DMatch&gt; good_matches;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; matches.size(); ++i) {</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">float</span> ratio = 0.9; <span class="comment">// As in Lowe&#39;s paper; can be tuned</span></div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            <span class="keywordflow">if</span> (matches[i][0].distance &lt; ratio * matches[i][1].distance) {</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                good_matches.push_back(matches[i][0]);</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            }</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        }</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        <span class="keywordflow">return</span> good_matches;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    }</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;</div>
-<div class="line"><a name="l00202"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#ae763c7a2e79042652b950aebb5c1198a">  202</a></span>&#160;    cv::Ptr&lt;cv::Feature2D&gt; <a class="code" href="classrobotcam_1_1OpenCVMatching.html#ae763c7a2e79042652b950aebb5c1198a">OpenCVMatching::setKeyPointsDetector</a>(std::string typeKeyPoint) {</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        cv::Ptr&lt;cv::Feature2D&gt; <a class="code" href="object__2D__matcher_8cpp.html#aea17cf90e7a07b8e2cd4c9360832f8d2">detector</a>;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        <span class="keywordflow">if</span> (typeKeyPoint == <span class="stringliteral">&quot;SURF&quot;</span>) {</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            detector = cv::xfeatures2d::SURF::create(1000,4,5,<span class="keyword">false</span>,<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Keypoint detector: %s&quot;</span>, typeKeyPoint.c_str());</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeKeyPoint == <span class="stringliteral">&quot;SIFT&quot;</span>) {</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            detector = cv::xfeatures2d::SIFT::create(0,5,0.04,10,1.6);</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Keypoint detector: %s&quot;</span>, typeKeyPoint.c_str());</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeKeyPoint == <span class="stringliteral">&quot;STAR&quot;</span>) {</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;            detector = cv::xfeatures2d::StarDetector::create(45,30,10,8,5);</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Keypoint detector: %s&quot;</span>, typeKeyPoint.c_str());</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeKeyPoint == <span class="stringliteral">&quot;BRISK&quot;</span>) {</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;            detector = cv::BRISK::create(30,3,1.0f);</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Keypoint detector: %s&quot;</span>, typeKeyPoint.c_str());</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeKeyPoint == <span class="stringliteral">&quot;FAST&quot;</span>) {</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            detector = cv::FastFeatureDetector::create(10,<span class="keyword">true</span>,cv::FastFeatureDetector::TYPE_9_16);</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Keypoint detector: %s&quot;</span>, typeKeyPoint.c_str());</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeKeyPoint == <span class="stringliteral">&quot;ORB&quot;</span>) {</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            detector = cv::ORB::create(1000,1.2f,8,31,0,2,cv::ORB::FAST_SCORE,31,20);</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Keypoint detector: %s&quot;</span>, typeKeyPoint.c_str());</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeKeyPoint == <span class="stringliteral">&quot;AKAZE&quot;</span>) {</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB,0,3,0.001f,4,4,cv::KAZE::DIFF_PM_G2);</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Keypoint detector: %s&quot;</span>, typeKeyPoint.c_str());</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            ROS_ERROR(<span class="stringliteral">&quot;Could not find keypoint detector: %s\n\tChoosing default: SURF&quot;</span>, typeKeyPoint.c_str());</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            detector = cv::xfeatures2d::SURF::create(1000);</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        }</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="object__2D__matcher_8cpp.html#aea17cf90e7a07b8e2cd4c9360832f8d2">detector</a>;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    }</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;</div>
-<div class="line"><a name="l00232"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#aba6b9ed6da3d20bb2f38d53dd066e007">  232</a></span>&#160;    cv::Ptr&lt;cv::Feature2D&gt; <a class="code" href="classrobotcam_1_1OpenCVMatching.html#aba6b9ed6da3d20bb2f38d53dd066e007">OpenCVMatching::setDescriptorsExtractor</a>(std::string typeDescriptor, <span class="keywordtype">bool</span> &amp;<a class="code" href="object__2D__matcher_8cpp.html#a07a6bb9578ba69062c2abaac7a0422ae">binary</a>) {</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        cv::Ptr&lt;cv::Feature2D&gt; <a class="code" href="object__2D__matcher_8cpp.html#a2d8dbe0a12f3346717f250b9db7d9057">extractor</a>;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        <span class="keywordflow">if</span> (typeDescriptor == <span class="stringliteral">&quot;SURF&quot;</span>) {</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;            binary = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            extractor = cv::xfeatures2d::SURF::create(1000,4,5,<span class="keyword">false</span>,<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Descriptor: %s&quot;</span>, typeDescriptor.c_str());</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Binary matching: %d&quot;</span>, binary);</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeDescriptor == <span class="stringliteral">&quot;SIFT&quot;</span>) {</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            binary = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            extractor = cv::xfeatures2d::SIFT::create(0,5,0.04,10,1.6);</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Descriptor: %s&quot;</span>, typeDescriptor.c_str());</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Binary matching: %d&quot;</span>, binary);</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeDescriptor == <span class="stringliteral">&quot;BRISK&quot;</span>) {</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            binary = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            extractor = cv::BRISK::create(30,3,1.0f);</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Descriptor: %s&quot;</span>, typeDescriptor.c_str());</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Binary matching: %d&quot;</span>, binary);</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeDescriptor == <span class="stringliteral">&quot;FREAK&quot;</span>) {</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            binary = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            extractor = cv::xfeatures2d::FREAK::create(<span class="keyword">true</span>,<span class="keyword">true</span>,22.0f,4);</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Descriptor: %s&quot;</span>, typeDescriptor.c_str());</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Binary matching: %d&quot;</span>, binary);</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeDescriptor == <span class="stringliteral">&quot;ORB&quot;</span>) {</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            binary = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            extractor = cv::ORB::create(1000,1.2f,8,31,0,2,cv::ORB::FAST_SCORE,31,20); <span class="comment">// WTA_K = 3-4 -&gt; HAMMING2</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Descriptor: %s&quot;</span>, typeDescriptor.c_str());</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Binary matching: %d&quot;</span>, binary);</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeDescriptor == <span class="stringliteral">&quot;AKAZE&quot;</span>) {</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            binary = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            extractor = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB,0,3,0.001f,4,4,cv::KAZE::DIFF_PM_G2);</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Descriptor: %s&quot;</span>, typeDescriptor.c_str());</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Binary matching: %d&quot;</span>, binary);</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeDescriptor == <span class="stringliteral">&quot;BRIEF&quot;</span>) {</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            binary = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            extractor = cv::xfeatures2d::BriefDescriptorExtractor::create(32, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Descriptor: %s&quot;</span>, typeDescriptor.c_str());</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Binary matching: %d&quot;</span>, binary);</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;            binary = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            ROS_ERROR(<span class="stringliteral">&quot;Could not find keypoint detector: %s\n\tChoosing default descriptor: SURF&quot;</span>, typeDescriptor.c_str());</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            extractor = cv::xfeatures2d::SURF::create(1000);</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        }</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="object__2D__matcher_8cpp.html#a2d8dbe0a12f3346717f250b9db7d9057">extractor</a>;</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    }</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;</div>
-<div class="line"><a name="l00277"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a67a8b0db70ace42b74ffb4f52f86a415">  277</a></span>&#160;    <a class="code" href="structrobotcam_1_1CurrentMatch.html">CurrentMatch</a> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a67a8b0db70ace42b74ffb4f52f86a415">OpenCVMatching::visualizedMatch</a>(cv::Mat searchImage, cv::Mat objectImage,</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                                                std::vector&lt;cv::KeyPoint&gt; keypointsObject,</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;                                                std::vector&lt;cv::KeyPoint&gt; keypointsScene,</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;                                                std::vector&lt;cv::DMatch&gt; good_matches,</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                                                <span class="keywordtype">bool</span> showKeypoints, <span class="keywordtype">int</span> homographyType) {</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        cv::Mat image_matches;</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        <span class="keywordflow">if</span> (showKeypoints) {</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;            cv::drawKeypoints(searchImage, keypointsScene, image_matches, CV_RGB(0,0,255),</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                              cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS); <span class="comment">// cv::Scalar::all(-1)</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="comment">//        cv::drawMatches(objectImage, keypointsObject, searchImage, keypointsScene, good_matches, image_matches,</span></div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="comment">//                        cv::Scalar::all(-1), cv::Scalar::all(-1), std::vector&lt;char&gt;(),</span></div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="comment">//                        cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);</span></div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;            image_matches = searchImage.clone();</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        }</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        std::vector&lt;cv::Point2f&gt; obj;</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        std::vector&lt;cv::Point2f&gt; scene;</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; good_matches.size(); i++) {</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;            <span class="comment">// Retrieve the keypoints from good matches</span></div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;            obj.push_back(keypointsObject[good_matches[i].queryIdx].pt);</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            scene.push_back(keypointsScene[good_matches[i].trainIdx].pt);</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        }</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        <span class="comment">// Perform Homography to find a perspective transformation between two planes.</span></div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        cv::Mat H;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <span class="keywordflow">if</span> (!obj.size() == 0 &amp;&amp; !scene.size() == 0) {</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            H = cv::findHomography(obj, scene, homographyType); <span class="comment">// CV_LMEDS // CV_RANSAC</span></div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        }</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        std::vector&lt;cv::Point2f&gt; objectCorners(4);</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        <span class="comment">// Put object corners in a vector</span></div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;        objectCorners[0] = cvPoint(0, 0); <span class="comment">//Upper left corner</span></div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        objectCorners[1] = cvPoint(objectImage.cols, 0); <span class="comment">//Upper right corner</span></div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        objectCorners[2] = cvPoint(objectImage.cols, objectImage.rows); <span class="comment">//Lower right corner</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        objectCorners[3] = cvPoint(0, objectImage.rows); <span class="comment">//Lower left corner</span></div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        std::vector&lt;cv::Point2f&gt; sceneCorners(4);</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        <span class="comment">// Find the object corners in the scene perspective</span></div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        <span class="keywordflow">if</span> (!H.rows == 0 &amp;&amp; !H.cols == 0) {</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;            cv::perspectiveTransform(objectCorners, sceneCorners, H);</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        matcher.match(descriptors_object, descriptors_scene, matches);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="comment">// Compute the max and min distance of the matches in current videoFrame</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keywordtype">double</span> max_dist = 0;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keywordtype">double</span> min_dist = 100;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; descriptors_object.rows; i++) {</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            <span class="keywordtype">double</span> dist = matches[i].distance;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="keywordflow">if</span> (dist &lt; min_dist) min_dist = dist;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            <span class="keywordflow">if</span> (dist &gt; max_dist) max_dist = dist;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        }</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        <span class="comment">// Filter out the good matches</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        std::vector&lt;cv::DMatch&gt; good_matches;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="keywordtype">double</span> k = 2;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; descriptors_object.rows; i++) {</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            <span class="keywordflow">if</span> (matches[i].distance &lt;= cv::max(k * min_dist, 0.02)) {</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                good_matches.push_back(matches[i]);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            }</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        }</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="keywordflow">return</span> good_matches;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    }</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a0f688407103ee5904ee17f897af90096">  154</a></span>&#160;    std::vector&lt;cv::DMatch&gt; <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a0f688407103ee5904ee17f897af90096">OpenCVMatching::bruteForce</a>(cv::Mat descriptors_object, cv::Mat descriptors_scene, <span class="keywordtype">int</span> normType) {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        cv::BFMatcher matcher(normType);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        std::vector&lt;std::vector&lt;cv::DMatch&gt; &gt; matches;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="comment">// Find the 2 best descriptor matches</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        matcher.knnMatch(descriptors_object, descriptors_scene, matches, 2);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        <span class="comment">// Ratio test the matches</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        std::vector&lt;cv::DMatch&gt; good_matches;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; matches.size(); ++i) {</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">float</span> ratio = 0.9; <span class="comment">// 0.8 in Lowe&#39;s paper on SIFT. Can be tuned</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <span class="keywordflow">if</span> (matches[i][0].distance &lt; ratio * matches[i][1].distance) {</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                good_matches.push_back(matches[i][0]);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            }</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        }</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keywordflow">return</span> good_matches;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    }</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
+<div class="line"><a name="l00170"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#ae763c7a2e79042652b950aebb5c1198a">  170</a></span>&#160;    cv::Ptr&lt;cv::Feature2D&gt; <a class="code" href="classrobotcam_1_1OpenCVMatching.html#ae763c7a2e79042652b950aebb5c1198a">OpenCVMatching::setKeyPointsDetector</a>(std::string typeKeyPoint) {</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        cv::Ptr&lt;cv::Feature2D&gt; <a class="code" href="object__2D__matcher_8cpp.html#aea17cf90e7a07b8e2cd4c9360832f8d2">detector</a>;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <span class="keywordflow">if</span> (typeKeyPoint == <span class="stringliteral">&quot;SURF&quot;</span>) {</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            detector = cv::xfeatures2d::SURF::create(1000,4,5,<span class="keyword">false</span>,<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Keypoint detector: %s&quot;</span>, typeKeyPoint.c_str());</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeKeyPoint == <span class="stringliteral">&quot;SIFT&quot;</span>) {</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            detector = cv::xfeatures2d::SIFT::create(0,5,0.04,10,1.6);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Keypoint detector: %s&quot;</span>, typeKeyPoint.c_str());</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeKeyPoint == <span class="stringliteral">&quot;STAR&quot;</span>) {</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            detector = cv::xfeatures2d::StarDetector::create(45,30,10,8,5);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Keypoint detector: %s&quot;</span>, typeKeyPoint.c_str());</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeKeyPoint == <span class="stringliteral">&quot;BRISK&quot;</span>) {</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            detector = cv::BRISK::create(30,3,1.0f);</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Keypoint detector: %s&quot;</span>, typeKeyPoint.c_str());</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeKeyPoint == <span class="stringliteral">&quot;FAST&quot;</span>) {</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            detector = cv::FastFeatureDetector::create(10,<span class="keyword">true</span>,cv::FastFeatureDetector::TYPE_9_16);</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Keypoint detector: %s&quot;</span>, typeKeyPoint.c_str());</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeKeyPoint == <span class="stringliteral">&quot;ORB&quot;</span>) {</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            detector = cv::ORB::create(1000,1.2f,8,31,0,2,cv::ORB::FAST_SCORE,31,20);</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Keypoint detector: %s&quot;</span>, typeKeyPoint.c_str());</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeKeyPoint == <span class="stringliteral">&quot;AKAZE&quot;</span>) {</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB,0,3,0.001f,4,4,cv::KAZE::DIFF_PM_G2);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Keypoint detector: %s&quot;</span>, typeKeyPoint.c_str());</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            ROS_ERROR(<span class="stringliteral">&quot;Could not find keypoint detector: %s\n\tChoosing default: SURF&quot;</span>, typeKeyPoint.c_str());</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            detector = cv::xfeatures2d::SURF::create(1000);</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        }</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="object__2D__matcher_8cpp.html#aea17cf90e7a07b8e2cd4c9360832f8d2">detector</a>;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    }</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
+<div class="line"><a name="l00200"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#aba6b9ed6da3d20bb2f38d53dd066e007">  200</a></span>&#160;    cv::Ptr&lt;cv::Feature2D&gt; <a class="code" href="classrobotcam_1_1OpenCVMatching.html#aba6b9ed6da3d20bb2f38d53dd066e007">OpenCVMatching::setDescriptorsExtractor</a>(std::string typeDescriptor, <span class="keywordtype">bool</span> &amp;<a class="code" href="object__2D__matcher_8cpp.html#a07a6bb9578ba69062c2abaac7a0422ae">binary</a>) {</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        cv::Ptr&lt;cv::Feature2D&gt; <a class="code" href="object__2D__matcher_8cpp.html#a2d8dbe0a12f3346717f250b9db7d9057">extractor</a>;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <span class="keywordflow">if</span> (typeDescriptor == <span class="stringliteral">&quot;SURF&quot;</span>) {</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            binary = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            extractor = cv::xfeatures2d::SURF::create(1000,4,5,<span class="keyword">false</span>,<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Descriptor: %s&quot;</span>, typeDescriptor.c_str());</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Binary matching: %d&quot;</span>, binary);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeDescriptor == <span class="stringliteral">&quot;SIFT&quot;</span>) {</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            binary = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            extractor = cv::xfeatures2d::SIFT::create(0,5,0.04,10,1.6);</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Descriptor: %s&quot;</span>, typeDescriptor.c_str());</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Binary matching: %d&quot;</span>, binary);</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeDescriptor == <span class="stringliteral">&quot;BRISK&quot;</span>) {</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            binary = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;            extractor = cv::BRISK::create(30,3,1.0f);</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Descriptor: %s&quot;</span>, typeDescriptor.c_str());</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Binary matching: %d&quot;</span>, binary);</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeDescriptor == <span class="stringliteral">&quot;FREAK&quot;</span>) {</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            binary = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            extractor = cv::xfeatures2d::FREAK::create(<span class="keyword">true</span>,<span class="keyword">true</span>,22.0f,4);</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Descriptor: %s&quot;</span>, typeDescriptor.c_str());</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Binary matching: %d&quot;</span>, binary);</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeDescriptor == <span class="stringliteral">&quot;ORB&quot;</span>) {</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            binary = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            extractor = cv::ORB::create(1000,1.2f,8,31,0,2,cv::ORB::FAST_SCORE,31,20); <span class="comment">// WTA_K = 3-4 -&gt; HAMMING2</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Descriptor: %s&quot;</span>, typeDescriptor.c_str());</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Binary matching: %d&quot;</span>, binary);</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeDescriptor == <span class="stringliteral">&quot;AKAZE&quot;</span>) {</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            binary = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            extractor = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB,0,3,0.001f,4,4,cv::KAZE::DIFF_PM_G2);</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Descriptor: %s&quot;</span>, typeDescriptor.c_str());</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Binary matching: %d&quot;</span>, binary);</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeDescriptor == <span class="stringliteral">&quot;BRIEF&quot;</span>) {</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            binary = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;            extractor = cv::xfeatures2d::BriefDescriptorExtractor::create(32, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Descriptor: %s&quot;</span>, typeDescriptor.c_str());</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            ROS_INFO(<span class="stringliteral">&quot;Binary matching: %d&quot;</span>, binary);</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            binary = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            ROS_ERROR(<span class="stringliteral">&quot;Could not find keypoint detector: %s\n\tChoosing default descriptor: SURF&quot;</span>, typeDescriptor.c_str());</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            extractor = cv::xfeatures2d::SURF::create(1000);</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        }</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="object__2D__matcher_8cpp.html#a2d8dbe0a12f3346717f250b9db7d9057">extractor</a>;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    }</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;</div>
+<div class="line"><a name="l00245"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a67a8b0db70ace42b74ffb4f52f86a415">  245</a></span>&#160;    <a class="code" href="structrobotcam_1_1CurrentMatch.html">CurrentMatch</a> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a67a8b0db70ace42b74ffb4f52f86a415">OpenCVMatching::visualizedMatch</a>(cv::Mat searchImage, cv::Mat objectImage, std::vector&lt;cv::KeyPoint&gt; keypointsObject, std::vector&lt;cv::KeyPoint&gt; keypointsScene, std::vector&lt;cv::DMatch&gt; good_matches, <span class="keywordtype">bool</span> showKeypoints, <span class="keywordtype">int</span> homographyType) {</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        cv::Mat image_matches;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="keywordflow">if</span> (showKeypoints) {</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            cv::drawKeypoints(searchImage, keypointsScene, image_matches, CV_RGB(0,0,255), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            image_matches = searchImage.clone();</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        }</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        std::vector&lt;cv::Point2f&gt; obj;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        std::vector&lt;cv::Point2f&gt; scene;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; good_matches.size(); i++) {</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            <span class="comment">// Retrieve the keypoints from good matches</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            obj.push_back(keypointsObject[good_matches[i].queryIdx].pt);</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            scene.push_back(keypointsScene[good_matches[i].trainIdx].pt);</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        }</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        <span class="comment">// Perform Homography to find a perspective transformation between two planes.</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        cv::Mat H;</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <span class="keywordflow">if</span> (!obj.size() == 0 &amp;&amp; !scene.size() == 0) {</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            H = cv::findHomography(obj, scene, homographyType); <span class="comment">// CV_LMEDS // CV_RANSAC</span></div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        }</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        <span class="comment">// Put object corners in a vector</span></div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        std::vector&lt;cv::Point2f&gt; objectCorners(4);</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        objectCorners[0] = cvPoint(0, 0); <span class="comment">//Upper left corner</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        objectCorners[1] = cvPoint(objectImage.cols, 0); <span class="comment">//Upper right corner</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        objectCorners[2] = cvPoint(objectImage.cols, objectImage.rows); <span class="comment">//Lower right corner</span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        objectCorners[3] = cvPoint(0, objectImage.rows); <span class="comment">//Lower left corner</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        <span class="comment">// Find the corresponding object corners in the scene perspective</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        std::vector&lt;cv::Point2f&gt; sceneCorners(4);</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        <span class="keywordflow">if</span> (!H.rows == 0 &amp;&amp; !H.cols == 0) {</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            cv::perspectiveTransform(objectCorners, sceneCorners, H);</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="classrobotcam_1_1OpenCVMatching.html#a0bb027ca529d6f7aa465be3e33a06bcd">checkObjectInnerAngles</a>(sceneCorners, 60, 120)) {</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                <span class="comment">// Draw lines surrounding the object</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                cv::line(image_matches, sceneCorners[0], sceneCorners[1], cv::Scalar(0, 255, 0), 2); <span class="comment">//TOP line</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;                cv::line(image_matches, sceneCorners[1], sceneCorners[2], cv::Scalar(0, 255, 0), 2); <span class="comment">//RIGHT line</span></div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                cv::line(image_matches, sceneCorners[2], sceneCorners[3], cv::Scalar(0, 255, 0), 2); <span class="comment">//BOTTOM line</span></div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;                cv::line(image_matches, sceneCorners[3], sceneCorners[0], cv::Scalar(0, 255, 0), 2); <span class="comment">//LEFT line</span></div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;                <span class="comment">// Draw diagonals</span></div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                cv::line(image_matches, sceneCorners[0], sceneCorners[2], cv::Scalar(0, 255, 0), 1); <span class="comment">//DIAGONAL 0-2</span></div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                cv::line(image_matches, sceneCorners[1], sceneCorners[3], cv::Scalar(0, 255, 0), 1); <span class="comment">//DIAGONAL 1-3</span></div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                <span class="comment">// Center</span></div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                cv::Point2f cen(0.0, 0.0);</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">intersection</a>(sceneCorners[0], sceneCorners[2], sceneCorners[1], sceneCorners[3], cen)) {</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                    cv::circle(image_matches, cen, 10, cv::Scalar(0, 0, 255), 2);</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                }</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;            }</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        }</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        <span class="comment">// Draw circles in center pixel of the video stream</span></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        <span class="keywordflow">if</span> (searchImage.rows &gt; 60 &amp;&amp; searchImage.cols &gt; 60) {</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;            cv::circle(image_matches, cv::Point(searchImage.cols / 2, searchImage.rows / 2), 5, CV_RGB(255, 0, 0));</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;            cv::circle(image_matches, cv::Point(searchImage.cols / 2, searchImage.rows / 2), 10, CV_RGB(0, 255, 0));</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;            cv::circle(image_matches, cv::Point(searchImage.cols / 2, searchImage.rows / 2), 15, CV_RGB(0, 0, 255));</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        }</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        <a class="code" href="structrobotcam_1_1CurrentMatch.html">CurrentMatch</a> cm;</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        cm.<a class="code" href="structrobotcam_1_1CurrentMatch.html#a1d67e87b808587da2382a26763078780">outFrame</a> = image_matches;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        cm.<a class="code" href="structrobotcam_1_1CurrentMatch.html#a62549cd7fb0ff77b7bd99a6c2a1e6626">sceneCorners</a> = sceneCorners;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        <span class="keywordflow">return</span> cm;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    }</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;</div>
+<div class="line"><a name="l00302"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">  302</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">OpenCVMatching::intersection</a>(cv::Point2f o1, cv::Point2f p1, cv::Point2f o2, cv::Point2f p2, cv::Point2f &amp;r) {</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        <span class="comment">// The lines are defined by (o1, p1) and (o2, p2).</span></div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        cv::Point2f x = o2 - o1;</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        cv::Point2f d1 = p1 - o1;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        cv::Point2f d2 = p2 - o2;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        <span class="keywordtype">float</span> cross = d1.x * d2.y - d1.y * d2.x;</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        <span class="keywordflow">if</span> (fabsf(cross) &lt; <span class="comment">/*EPS*/</span>1e-8) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        <span class="keywordtype">double</span> t1 = (x.x * d2.y - x.y * d2.x) / cross;</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        r = o1 + d1 * t1;</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    }</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;</div>
+<div class="line"><a name="l00314"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#aff5d1a0a21fce8ee2c35ac63e732e822">  314</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#aff5d1a0a21fce8ee2c35ac63e732e822">OpenCVMatching::innerAngle</a>(cv::Point2f a, cv::Point2f b, cv::Point2f c) {</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        cv::Point2f ab(b.x - a.x, b.y - a.y);</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        cv::Point2f cb(b.x - c.x, b.y - c.y);</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        <span class="keywordtype">double</span> dot = (ab.x * cb.x + ab.y * cb.y); <span class="comment">// dot product</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        <span class="keywordtype">double</span> cross = (ab.x * cb.y - ab.y * cb.x); <span class="comment">// cross product</span></div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        <span class="keywordtype">double</span> alpha = atan2(cross, dot);</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        <span class="keywordtype">int</span> angle = (int) floor(alpha * 180. / <a class="code" href="openCV__matching_8hpp.html#a598a3330b3c21701223ee0ca14316eca">PI</a> + 0.5);</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        <span class="keywordflow">return</span> abs(angle);</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    }</div>
 <div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="classrobotcam_1_1OpenCVMatching.html#a0bb027ca529d6f7aa465be3e33a06bcd">checkObjectInnerAngles</a>(sceneCorners, 60, 120)) {</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;                <span class="comment">// Draw lines surrounding the object</span></div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;                cv::line(image_matches, sceneCorners[0], sceneCorners[1], cv::Scalar(0, 255, 0), 2); <span class="comment">//TOP line</span></div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;                cv::line(image_matches, sceneCorners[1], sceneCorners[2], cv::Scalar(0, 255, 0), 2); <span class="comment">//RIGHT line</span></div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;                cv::line(image_matches, sceneCorners[2], sceneCorners[3], cv::Scalar(0, 255, 0), 2); <span class="comment">//BOTTOM line</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;                cv::line(image_matches, sceneCorners[3], sceneCorners[0], cv::Scalar(0, 255, 0), 2); <span class="comment">//LEFT line</span></div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                <span class="comment">// Draw diagonals</span></div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                cv::line(image_matches, sceneCorners[0], sceneCorners[2], cv::Scalar(0, 255, 0), 1); <span class="comment">//DIAGONAL 0-2</span></div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;                cv::line(image_matches, sceneCorners[1], sceneCorners[3], cv::Scalar(0, 255, 0), 1); <span class="comment">//DIAGONAL 1-3</span></div>
+<div class="line"><a name="l00324"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a0bb027ca529d6f7aa465be3e33a06bcd">  324</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a0bb027ca529d6f7aa465be3e33a06bcd">OpenCVMatching::checkObjectInnerAngles</a>(std::vector&lt;cv::Point2f&gt; scorner, <span class="keywordtype">int</span> min, <span class="keywordtype">int</span> max) {</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        <span class="keywordtype">bool</span> out = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        <span class="keywordtype">int</span> c0 = <a class="code" href="classrobotcam_1_1OpenCVMatching.html#aff5d1a0a21fce8ee2c35ac63e732e822">innerAngle</a>(scorner[3], scorner[0], scorner[1]);</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        <span class="keywordtype">int</span> c1 = <a class="code" href="classrobotcam_1_1OpenCVMatching.html#aff5d1a0a21fce8ee2c35ac63e732e822">innerAngle</a>(scorner[0], scorner[1], scorner[2]);</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        <span class="keywordtype">int</span> c2 = <a class="code" href="classrobotcam_1_1OpenCVMatching.html#aff5d1a0a21fce8ee2c35ac63e732e822">innerAngle</a>(scorner[1], scorner[2], scorner[3]);</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        <span class="keywordtype">int</span> c3 = <a class="code" href="classrobotcam_1_1OpenCVMatching.html#aff5d1a0a21fce8ee2c35ac63e732e822">innerAngle</a>(scorner[2], scorner[3], scorner[0]);</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        <span class="keywordflow">if</span> (c0 &gt; min &amp;&amp; c0 &lt; max &amp;&amp; c1 &gt; min &amp;&amp; c1 &lt; max &amp;&amp; c2 &gt; min &amp;&amp; c2 &lt; max &amp;&amp; c3 &gt; min &amp;&amp; c3 &lt; max) out = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        <span class="keywordflow">return</span> out;</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    }</div>
 <div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                <span class="comment">// Center</span></div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                cv::Point2f cen(0.0, 0.0);</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">intersection</a>(sceneCorners[0], sceneCorners[2], sceneCorners[1], sceneCorners[3], cen)) {</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;                    cv::circle(image_matches, cen, 10, cv::Scalar(0, 0, 255), 2);</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;                }</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;            }</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        }</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        <span class="comment">// Draw circles in center pixel of the video stream</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        <span class="keywordflow">if</span> (searchImage.rows &gt; 60 &amp;&amp; searchImage.cols &gt; 60) {</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;            cv::circle(image_matches, cv::Point(searchImage.cols / 2, searchImage.rows / 2), 5, CV_RGB(255, 0, 0));</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;            cv::circle(image_matches, cv::Point(searchImage.cols / 2, searchImage.rows / 2), 10, CV_RGB(0, 255, 0));</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;            cv::circle(image_matches, cv::Point(searchImage.cols / 2, searchImage.rows / 2), 15, CV_RGB(0, 0, 255));</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;        }</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        <a class="code" href="structrobotcam_1_1CurrentMatch.html">CurrentMatch</a> cm;</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        cm.<a class="code" href="structrobotcam_1_1CurrentMatch.html#a1d67e87b808587da2382a26763078780">outFrame</a> = image_matches;</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        cm.<a class="code" href="structrobotcam_1_1CurrentMatch.html#a62549cd7fb0ff77b7bd99a6c2a1e6626">sceneCorners</a> = sceneCorners;</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        <span class="keywordflow">return</span> cm;</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    }</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;</div>
-<div class="line"><a name="l00356"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">  356</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">OpenCVMatching::intersection</a>(cv::Point2f o1, cv::Point2f p1, cv::Point2f o2, cv::Point2f p2, cv::Point2f &amp;r) {</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        <span class="comment">// The lines are defined by (o1, p1) and (o2, p2).</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;        cv::Point2f x = o2 - o1;</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        cv::Point2f d1 = p1 - o1;</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        cv::Point2f d2 = p2 - o2;</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        <span class="keywordtype">float</span> cross = d1.x * d2.y - d1.y * d2.x;</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;        <span class="keywordflow">if</span> (fabsf(cross) &lt; <span class="comment">/*EPS*/</span>1e-8)</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00334"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a8f575cc63cab9ef95a80b1ca6a578056">  334</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a8f575cc63cab9ef95a80b1ca6a578056">OpenCVMatching::getXoffset</a>(cv::Mat frame, std::vector&lt;cv::Point2f&gt; scorner) {</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        cv::Point2f cen;</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        <span class="keywordtype">double</span> xOffset = 0.0;</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">intersection</a>(scorner[0], scorner[2], scorner[1], scorner[3], cen)) {</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;            xOffset = cen.x - frame.cols / 2;</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        }</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        <span class="keywordflow">return</span> xOffset;</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    }</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;</div>
+<div class="line"><a name="l00343"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a018026083b9b37b05cb3dc800f8b69e1">  343</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a018026083b9b37b05cb3dc800f8b69e1">OpenCVMatching::getYoffset</a>(cv::Mat frame, std::vector&lt;cv::Point2f&gt; scorner) {</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        cv::Point2f cen;</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        <span class="keywordtype">double</span> yOffset = 0.0;</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">intersection</a>(scorner[0], scorner[2], scorner[1], scorner[3], cen)) {</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;            yOffset = cen.y - frame.rows / 2;</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        }</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        <span class="keywordflow">return</span> yOffset;</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;    }</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;</div>
+<div class="line"><a name="l00352"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a9ce8ed6d808afb6579212860d038e893">  352</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a9ce8ed6d808afb6579212860d038e893">OpenCVMatching::getXpos</a>(std::vector&lt;cv::Point2f&gt; scorner) {</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        cv::Point2f cen;</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;        <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">intersection</a>(scorner[0], scorner[2], scorner[1], scorner[3], cen);</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        <span class="keywordtype">double</span> x = cen.x;</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;        <span class="keywordflow">return</span> x;</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    }</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;</div>
+<div class="line"><a name="l00359"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a130d21c529d5ed3d9d5b63301b0cab47">  359</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a130d21c529d5ed3d9d5b63301b0cab47">OpenCVMatching::getYpos</a>(std::vector&lt;cv::Point2f&gt; scorner) {</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        cv::Point2f cen;</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;        <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">intersection</a>(scorner[0], scorner[2], scorner[1], scorner[3], cen);</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        <span class="keywordtype">double</span> y = cen.y;</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;        <span class="keywordflow">return</span> y;</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    }</div>
 <div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;        <span class="keywordtype">double</span> t1 = (x.x * d2.y - x.y * d2.x) / cross;</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;        r = o1 + d1 * t1;</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    }</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;</div>
-<div class="line"><a name="l00371"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#aff5d1a0a21fce8ee2c35ac63e732e822">  371</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#aff5d1a0a21fce8ee2c35ac63e732e822">OpenCVMatching::innerAngle</a>(cv::Point2f a, cv::Point2f b, cv::Point2f c) {</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        cv::Point2f ab(b.x - a.x, b.y - a.y);</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        cv::Point2f cb(b.x - c.x, b.y - c.y);</div>
+<div class="line"><a name="l00366"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#abc82886a0c95e425cbeab4e15fe7f133">  366</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#abc82886a0c95e425cbeab4e15fe7f133">OpenCVMatching::getObjectAngle</a>(cv::Mat frame, std::vector&lt;cv::Point2f&gt; scorner) {</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;        <span class="keywordtype">double</span> centerX = frame.cols / 2;</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        <span class="keywordtype">double</span> diffX = centerX - scorner[1].x;</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        <span class="keywordtype">double</span> x = (centerX - diffX) - scorner[0].x;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        <span class="keywordtype">double</span> y = scorner[0].y - scorner[1].y;</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;        <span class="keywordtype">double</span> angle = atan2(y, x) * 180 / <a class="code" href="openCV__matching_8hpp.html#a598a3330b3c21701223ee0ca14316eca">PI</a>;</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        <span class="keywordflow">return</span> angle;</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    }</div>
 <div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        <span class="keywordtype">double</span> dot = (ab.x * cb.x + ab.y * cb.y); <span class="comment">// dot product</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        <span class="keywordtype">double</span> cross = (ab.x * cb.y - ab.y * cb.x); <span class="comment">// cross product</span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        <span class="keywordtype">double</span> alpha = atan2(cross, dot);</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        <span class="keywordtype">int</span> angle = (int) floor(alpha * 180. / <a class="code" href="openCV__matching_8hpp.html#a598a3330b3c21701223ee0ca14316eca">PI</a> + 0.5);</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;        <span class="comment">//alpha = alpha * 180 / PI;</span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        <span class="keywordflow">return</span> abs(angle);</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    }</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;</div>
-<div class="line"><a name="l00386"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a0bb027ca529d6f7aa465be3e33a06bcd">  386</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a0bb027ca529d6f7aa465be3e33a06bcd">OpenCVMatching::checkObjectInnerAngles</a>(std::vector&lt;cv::Point2f&gt; scorner, <span class="keywordtype">int</span> min, <span class="keywordtype">int</span> max) {</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        <span class="keywordtype">bool</span> out = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        <span class="keywordtype">int</span> c0 = <a class="code" href="classrobotcam_1_1OpenCVMatching.html#aff5d1a0a21fce8ee2c35ac63e732e822">innerAngle</a>(scorner[3], scorner[0], scorner[1]);</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        <span class="keywordtype">int</span> c1 = <a class="code" href="classrobotcam_1_1OpenCVMatching.html#aff5d1a0a21fce8ee2c35ac63e732e822">innerAngle</a>(scorner[0], scorner[1], scorner[2]);</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        <span class="keywordtype">int</span> c2 = <a class="code" href="classrobotcam_1_1OpenCVMatching.html#aff5d1a0a21fce8ee2c35ac63e732e822">innerAngle</a>(scorner[1], scorner[2], scorner[3]);</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        <span class="keywordtype">int</span> c3 = <a class="code" href="classrobotcam_1_1OpenCVMatching.html#aff5d1a0a21fce8ee2c35ac63e732e822">innerAngle</a>(scorner[2], scorner[3], scorner[0]);</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        <span class="keywordflow">if</span> (c0 &gt; min &amp;&amp; c0 &lt; max &amp;&amp; c1 &gt; min &amp;&amp; c1 &lt; max &amp;&amp; c2 &gt; min &amp;&amp; c2 &lt; max &amp;&amp; c3 &gt; min &amp;&amp; c3 &lt; max) out = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        <span class="keywordflow">return</span> out;</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    }</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;</div>
-<div class="line"><a name="l00398"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a8f575cc63cab9ef95a80b1ca6a578056">  398</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a8f575cc63cab9ef95a80b1ca6a578056">OpenCVMatching::getXoffset</a>(cv::Mat frame, std::vector&lt;cv::Point2f&gt; scorner) {</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;        cv::Point2f cen;</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;        <span class="keywordtype">double</span> xOffset = 0.0;</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">intersection</a>(scorner[0], scorner[2], scorner[1], scorner[3], cen)) {</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;            xOffset = cen.x - frame.cols / 2;</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;        }</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;        <span class="keywordflow">return</span> xOffset;</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;    }</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;</div>
-<div class="line"><a name="l00409"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a018026083b9b37b05cb3dc800f8b69e1">  409</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a018026083b9b37b05cb3dc800f8b69e1">OpenCVMatching::getYoffset</a>(cv::Mat frame, std::vector&lt;cv::Point2f&gt; scorner) {</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;        cv::Point2f cen;</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;        <span class="keywordtype">double</span> yOffset = 0.0;</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">intersection</a>(scorner[0], scorner[2], scorner[1], scorner[3], cen)) {</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;            yOffset = cen.y - frame.rows / 2;</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;        }</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;        <span class="keywordflow">return</span> yOffset;</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;    }</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;</div>
-<div class="line"><a name="l00420"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a9ce8ed6d808afb6579212860d038e893">  420</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a9ce8ed6d808afb6579212860d038e893">OpenCVMatching::getXpos</a>(std::vector&lt;cv::Point2f&gt; scorner) {</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;        cv::Point2f cen;</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;        <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">intersection</a>(scorner[0], scorner[2], scorner[1], scorner[3], cen);</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;        <span class="keywordtype">double</span> x = cen.x;</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        <span class="keywordflow">return</span> x;</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    }</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;</div>
-<div class="line"><a name="l00427"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a130d21c529d5ed3d9d5b63301b0cab47">  427</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a130d21c529d5ed3d9d5b63301b0cab47">OpenCVMatching::getYpos</a>(std::vector&lt;cv::Point2f&gt; scorner) {</div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;        cv::Point2f cen;</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;        <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">intersection</a>(scorner[0], scorner[2], scorner[1], scorner[3], cen);</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;        <span class="keywordtype">double</span> y = cen.y;</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;        <span class="keywordflow">return</span> y;</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;    }</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;</div>
-<div class="line"><a name="l00434"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#abc82886a0c95e425cbeab4e15fe7f133">  434</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classrobotcam_1_1OpenCVMatching.html#abc82886a0c95e425cbeab4e15fe7f133">OpenCVMatching::getObjectAngle</a>(cv::Mat frame, std::vector&lt;cv::Point2f&gt; scorner) {</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;        <span class="keywordtype">double</span> centerX = frame.cols / 2;</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;        <span class="keywordtype">double</span> diffX = centerX - scorner[1].x;</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;        <span class="keywordtype">double</span> x = (centerX - diffX) - scorner[0].x;</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        <span class="keywordtype">double</span> y = scorner[0].y - scorner[1].y;</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;        <span class="keywordtype">double</span> angle = atan2(y, x) * 180 / <a class="code" href="openCV__matching_8hpp.html#a598a3330b3c21701223ee0ca14316eca">PI</a>;</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;        <span class="keywordflow">return</span> angle;</div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;    }</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;</div>
-<div class="line"><a name="l00446"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a54aeed20b3772756ea46369889e0801f">  446</a></span>&#160;    Eigen::Vector3d <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a54aeed20b3772756ea46369889e0801f">OpenCVMatching::getNormImageCoords</a>(<span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y, <span class="keywordtype">double</span> <a class="code" href="object__2D__matcher_8cpp.html#a3db359547eed8cfd48ca821d95f577af">lambda</a>, cv::Mat camera_matrix) {</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;        Eigen::Vector3d pixelCoords;</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;        Eigen::Vector3d normCoords;</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;        Eigen::Matrix3d camMat;</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;        camMat &lt;&lt; camera_matrix.at&lt;<span class="keywordtype">double</span>&gt;(0,0),0,camera_matrix.at&lt;<span class="keywordtype">double</span>&gt;(0,2),</div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;                  0,camera_matrix.at&lt;<span class="keywordtype">double</span>&gt;(1,1),camera_matrix.at&lt;<span class="keywordtype">double</span>&gt;(1,2),</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;                  0,0,1;</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;        pixelCoords(0) = x;</div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;        pixelCoords(1) = y;</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;        pixelCoords(2) = 1;</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;        Eigen::Matrix3d icamMat = camMat.inverse();</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;        normCoords = icamMat*pixelCoords;</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;        <span class="keywordflow">return</span> lambda*normCoords;</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;    }</div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;}</div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a018026083b9b37b05cb3dc800f8b69e1"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a018026083b9b37b05cb3dc800f8b69e1">robotcam::OpenCVMatching::getYoffset</a></div><div class="ttdeci">double getYoffset(cv::Mat frame, std::vector&lt; cv::Point2f &gt; scorner)</div><div class="ttdoc">Get the pixel offset in y-direction of the matched object center related to the image frame center...</div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00409">openCV_matching.cpp:409</a></div></div>
-<div class="ttc" id="structrobotcam_1_1CurrentMatch_html_a62549cd7fb0ff77b7bd99a6c2a1e6626"><div class="ttname"><a href="structrobotcam_1_1CurrentMatch.html#a62549cd7fb0ff77b7bd99a6c2a1e6626">robotcam::CurrentMatch::sceneCorners</a></div><div class="ttdeci">std::vector&lt; cv::Point2f &gt; sceneCorners</div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8hpp_source.html#l00031">openCV_matching.hpp:31</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a130d21c529d5ed3d9d5b63301b0cab47"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a130d21c529d5ed3d9d5b63301b0cab47">robotcam::OpenCVMatching::getYpos</a></div><div class="ttdeci">double getYpos(std::vector&lt; cv::Point2f &gt; scorner)</div><div class="ttdoc">Get the pixel coordinate y of the matched object center. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00427">openCV_matching.cpp:427</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_af1caa2566ac9c6f026be121e00ddc70d"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#af1caa2566ac9c6f026be121e00ddc70d">robotcam::OpenCVMatching::getDistortionCoeff</a></div><div class="ttdeci">cv::Mat getDistortionCoeff(const std::string path)</div><div class="ttdoc">Get the distortion coefficients from XML or YAML file. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00019">openCV_matching.cpp:19</a></div></div>
-<div class="ttc" id="object__2D__matcher_8cpp_html_aea17cf90e7a07b8e2cd4c9360832f8d2"><div class="ttname"><a href="object__2D__matcher_8cpp.html#aea17cf90e7a07b8e2cd4c9360832f8d2">detector</a></div><div class="ttdeci">cv::Ptr&lt; cv::Feature2D &gt; detector</div><div class="ttdef"><b>Definition:</b> <a href="object__2D__matcher_8cpp_source.html#l00017">object_2D_matcher.cpp:17</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_ae763c7a2e79042652b950aebb5c1198a"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#ae763c7a2e79042652b950aebb5c1198a">robotcam::OpenCVMatching::setKeyPointsDetector</a></div><div class="ttdeci">cv::Ptr&lt; cv::Feature2D &gt; setKeyPointsDetector(std::string typeKeyPoint)</div><div class="ttdoc">Set a keypoint detector based on a input string. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00202">openCV_matching.cpp:202</a></div></div>
-<div class="ttc" id="object__2D__matcher_8cpp_html_a07a6bb9578ba69062c2abaac7a0422ae"><div class="ttname"><a href="object__2D__matcher_8cpp.html#a07a6bb9578ba69062c2abaac7a0422ae">binary</a></div><div class="ttdeci">bool binary</div><div class="ttdef"><b>Definition:</b> <a href="object__2D__matcher_8cpp_source.html#l00023">object_2D_matcher.cpp:23</a></div></div>
-<div class="ttc" id="object__2D__matcher_8cpp_html_adeba4cf126198b3d0726d1f54b9c322d"><div class="ttname"><a href="object__2D__matcher_8cpp.html#adeba4cf126198b3d0726d1f54b9c322d">color</a></div><div class="ttdeci">bool color</div><div class="ttdef"><b>Definition:</b> <a href="object__2D__matcher_8cpp_source.html#l00025">object_2D_matcher.cpp:25</a></div></div>
-<div class="ttc" id="object__2D__matcher_8cpp_html_a3db359547eed8cfd48ca821d95f577af"><div class="ttname"><a href="object__2D__matcher_8cpp.html#a3db359547eed8cfd48ca821d95f577af">lambda</a></div><div class="ttdeci">double lambda</div><div class="ttdef"><b>Definition:</b> <a href="object__2D__matcher_8cpp_source.html#l00027">object_2D_matcher.cpp:27</a></div></div>
+<div class="line"><a name="l00375"></a><span class="lineno"><a class="line" href="classrobotcam_1_1OpenCVMatching.html#a54aeed20b3772756ea46369889e0801f">  375</a></span>&#160;    Eigen::Vector3d <a class="code" href="classrobotcam_1_1OpenCVMatching.html#a54aeed20b3772756ea46369889e0801f">OpenCVMatching::getNormImageCoords</a>(<span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y, <span class="keywordtype">double</span> <a class="code" href="object__2D__matcher_8cpp.html#a3db359547eed8cfd48ca821d95f577af">lambda</a>, cv::Mat camera_matrix) {</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        Eigen::Vector3d pixelCoords;</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        Eigen::Vector3d normCoords;</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        Eigen::Matrix3d camMat;</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;        camMat &lt;&lt; camera_matrix.at&lt;<span class="keywordtype">double</span>&gt;(0,0),0,camera_matrix.at&lt;<span class="keywordtype">double</span>&gt;(0,2),</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                  0,camera_matrix.at&lt;<span class="keywordtype">double</span>&gt;(1,1),camera_matrix.at&lt;<span class="keywordtype">double</span>&gt;(1,2),</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                  0,0,1;</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        pixelCoords(0) = x;</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        pixelCoords(1) = y;</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        pixelCoords(2) = 1;</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        Eigen::Matrix3d icamMat = camMat.inverse();</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        normCoords = icamMat*pixelCoords;</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        <span class="keywordflow">return</span> lambda*normCoords;</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    }</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;}</div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a018026083b9b37b05cb3dc800f8b69e1"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a018026083b9b37b05cb3dc800f8b69e1">robotcam::OpenCVMatching::getYoffset</a></div><div class="ttdeci">double getYoffset(cv::Mat frame, std::vector&lt; cv::Point2f &gt; scorner)</div><div class="ttdoc">Get the pixel offset in y-direction of the matched object center related to the image frame center...</div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00343">openCV_matching.cpp:343</a></div></div>
+<div class="ttc" id="structrobotcam_1_1CurrentMatch_html_a62549cd7fb0ff77b7bd99a6c2a1e6626"><div class="ttname"><a href="structrobotcam_1_1CurrentMatch.html#a62549cd7fb0ff77b7bd99a6c2a1e6626">robotcam::CurrentMatch::sceneCorners</a></div><div class="ttdeci">std::vector&lt; cv::Point2f &gt; sceneCorners</div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8hpp_source.html#l00033">openCV_matching.hpp:33</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a130d21c529d5ed3d9d5b63301b0cab47"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a130d21c529d5ed3d9d5b63301b0cab47">robotcam::OpenCVMatching::getYpos</a></div><div class="ttdeci">double getYpos(std::vector&lt; cv::Point2f &gt; scorner)</div><div class="ttdoc">Get the pixel coordinate y of the matched object center. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00359">openCV_matching.cpp:359</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_af1caa2566ac9c6f026be121e00ddc70d"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#af1caa2566ac9c6f026be121e00ddc70d">robotcam::OpenCVMatching::getDistortionCoeff</a></div><div class="ttdeci">cv::Mat getDistortionCoeff(const std::string path)</div><div class="ttdoc">Get the distortion coefficients from XML or YAML file. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00022">openCV_matching.cpp:22</a></div></div>
+<div class="ttc" id="object__2D__matcher_8cpp_html_aea17cf90e7a07b8e2cd4c9360832f8d2"><div class="ttname"><a href="object__2D__matcher_8cpp.html#aea17cf90e7a07b8e2cd4c9360832f8d2">detector</a></div><div class="ttdeci">cv::Ptr&lt; cv::Feature2D &gt; detector</div><div class="ttdef"><b>Definition:</b> <a href="object__2D__matcher_8cpp_source.html#l00021">object_2D_matcher.cpp:21</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_ae763c7a2e79042652b950aebb5c1198a"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#ae763c7a2e79042652b950aebb5c1198a">robotcam::OpenCVMatching::setKeyPointsDetector</a></div><div class="ttdeci">cv::Ptr&lt; cv::Feature2D &gt; setKeyPointsDetector(std::string typeKeyPoint)</div><div class="ttdoc">Set a keypoint detector based on a input string. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00170">openCV_matching.cpp:170</a></div></div>
+<div class="ttc" id="object__2D__matcher_8cpp_html_a07a6bb9578ba69062c2abaac7a0422ae"><div class="ttname"><a href="object__2D__matcher_8cpp.html#a07a6bb9578ba69062c2abaac7a0422ae">binary</a></div><div class="ttdeci">bool binary</div><div class="ttdef"><b>Definition:</b> <a href="object__2D__matcher_8cpp_source.html#l00027">object_2D_matcher.cpp:27</a></div></div>
+<div class="ttc" id="object__2D__matcher_8cpp_html_adeba4cf126198b3d0726d1f54b9c322d"><div class="ttname"><a href="object__2D__matcher_8cpp.html#adeba4cf126198b3d0726d1f54b9c322d">color</a></div><div class="ttdeci">bool color</div><div class="ttdef"><b>Definition:</b> <a href="object__2D__matcher_8cpp_source.html#l00029">object_2D_matcher.cpp:29</a></div></div>
+<div class="ttc" id="object__2D__matcher_8cpp_html_a3db359547eed8cfd48ca821d95f577af"><div class="ttname"><a href="object__2D__matcher_8cpp.html#a3db359547eed8cfd48ca821d95f577af">lambda</a></div><div class="ttdeci">double lambda</div><div class="ttdef"><b>Definition:</b> <a href="object__2D__matcher_8cpp_source.html#l00031">object_2D_matcher.cpp:31</a></div></div>
 <div class="ttc" id="openCV__tester_8hpp_html_afe6da855d7dcd27defcf249771ee41aa"><div class="ttname"><a href="openCV__tester_8hpp.html#afe6da855d7dcd27defcf249771ee41aa">cameraMatrix</a></div><div class="ttdeci">cv::Mat cameraMatrix</div><div class="ttdef"><b>Definition:</b> <a href="openCV__tester_8hpp_source.html#l00060">openCV_tester.hpp:60</a></div></div>
 <div class="ttc" id="openCV__tester_8hpp_html_a38cf3c98a5b011d48beabb1ed35ab5d1"><div class="ttname"><a href="openCV__tester_8hpp.html#a38cf3c98a5b011d48beabb1ed35ab5d1">capture</a></div><div class="ttdeci">cv::VideoCapture capture</div><div class="ttdef"><b>Definition:</b> <a href="openCV__tester_8hpp_source.html#l00053">openCV_tester.hpp:53</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a9ce8ed6d808afb6579212860d038e893"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a9ce8ed6d808afb6579212860d038e893">robotcam::OpenCVMatching::getXpos</a></div><div class="ttdeci">double getXpos(std::vector&lt; cv::Point2f &gt; scorner)</div><div class="ttdoc">Get the pixel coordinate x of the matched object center. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00420">openCV_matching.cpp:420</a></div></div>
-<div class="ttc" id="structrobotcam_1_1CurrentMatch_html"><div class="ttname"><a href="structrobotcam_1_1CurrentMatch.html">robotcam::CurrentMatch</a></div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8hpp_source.html#l00027">openCV_matching.hpp:27</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_afbdf21affa563c4ab5308e2d8c6ca084"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#afbdf21affa563c4ab5308e2d8c6ca084">robotcam::OpenCVMatching::getCameraMatrix</a></div><div class="ttdeci">cv::Mat getCameraMatrix(const std::string path)</div><div class="ttdoc">Get a camera matrix from XML or YAML file. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00010">openCV_matching.cpp:10</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a67a8b0db70ace42b74ffb4f52f86a415"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a67a8b0db70ace42b74ffb4f52f86a415">robotcam::OpenCVMatching::visualizedMatch</a></div><div class="ttdeci">CurrentMatch visualizedMatch(cv::Mat searchImage, cv::Mat objectImage, std::vector&lt; cv::KeyPoint &gt; keypointsObject, std::vector&lt; cv::KeyPoint &gt; keypointsScene, std::vector&lt; cv::DMatch &gt; good_matches, bool showKeypoints, int homographyType)</div><div class="ttdoc">Visualize a object matching using homography. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00277">openCV_matching.cpp:277</a></div></div>
-<div class="ttc" id="object__2D__matcher_8cpp_html_a7338ef64c04d706a28e23857a7c267e7"><div class="ttname"><a href="object__2D__matcher_8cpp.html#a7338ef64c04d706a28e23857a7c267e7">undistort</a></div><div class="ttdeci">bool undistort</div><div class="ttdef"><b>Definition:</b> <a href="object__2D__matcher_8cpp_source.html#l00026">object_2D_matcher.cpp:26</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_aff5d1a0a21fce8ee2c35ac63e732e822"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#aff5d1a0a21fce8ee2c35ac63e732e822">robotcam::OpenCVMatching::innerAngle</a></div><div class="ttdeci">int innerAngle(cv::Point2f a, cv::Point2f b, cv::Point2f c)</div><div class="ttdoc">Get the inner angle using three points. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00371">openCV_matching.cpp:371</a></div></div>
-<div class="ttc" id="object__2D__matcher_8cpp_html_a2d8dbe0a12f3346717f250b9db7d9057"><div class="ttname"><a href="object__2D__matcher_8cpp.html#a2d8dbe0a12f3346717f250b9db7d9057">extractor</a></div><div class="ttdeci">cv::Ptr&lt; cv::Feature2D &gt; extractor</div><div class="ttdef"><b>Definition:</b> <a href="object__2D__matcher_8cpp_source.html#l00017">object_2D_matcher.cpp:17</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a276695b214bb2ce99c09abd1edd5bea7"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">robotcam::OpenCVMatching::intersection</a></div><div class="ttdeci">bool intersection(cv::Point2f o1, cv::Point2f p1, cv::Point2f o2, cv::Point2f p2, cv::Point2f &amp;r)</div><div class="ttdoc">Get the intersection point of two lines. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00356">openCV_matching.cpp:356</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a40bb16b4973a0613551a8dc463a6fb57"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a40bb16b4973a0613551a8dc463a6fb57">robotcam::OpenCVMatching::captureFrame</a></div><div class="ttdeci">cv::Mat captureFrame(bool color, bool undistort, cv::VideoCapture capture, cv::Mat cameraMatrix, cv::Mat distCoeffs)</div><div class="ttdoc">Capture a frame from a connected web camera. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00071">openCV_matching.cpp:71</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a8f575cc63cab9ef95a80b1ca6a578056"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a8f575cc63cab9ef95a80b1ca6a578056">robotcam::OpenCVMatching::getXoffset</a></div><div class="ttdeci">double getXoffset(cv::Mat frame, std::vector&lt; cv::Point2f &gt; scorner)</div><div class="ttdoc">Get the pixel offset in x-direction of the matched object center related to the image frame center...</div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00398">openCV_matching.cpp:398</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_aba6b9ed6da3d20bb2f38d53dd066e007"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#aba6b9ed6da3d20bb2f38d53dd066e007">robotcam::OpenCVMatching::setDescriptorsExtractor</a></div><div class="ttdeci">cv::Ptr&lt; cv::Feature2D &gt; setDescriptorsExtractor(std::string typeDescriptor, bool &amp;binary)</div><div class="ttdoc">Set a descriptor extractor based on a input string. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00232">openCV_matching.cpp:232</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a0bb027ca529d6f7aa465be3e33a06bcd"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a0bb027ca529d6f7aa465be3e33a06bcd">robotcam::OpenCVMatching::checkObjectInnerAngles</a></div><div class="ttdeci">bool checkObjectInnerAngles(std::vector&lt; cv::Point2f &gt; scorner, int min, int max)</div><div class="ttdoc">Check if the inner angles of a square or rectangle is within min and max. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00386">openCV_matching.cpp:386</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_abc82886a0c95e425cbeab4e15fe7f133"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#abc82886a0c95e425cbeab4e15fe7f133">robotcam::OpenCVMatching::getObjectAngle</a></div><div class="ttdeci">double getObjectAngle(cv::Mat frame, std::vector&lt; cv::Point2f &gt; scorner)</div><div class="ttdoc">Get the angle of rotation of the matched object. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00434">openCV_matching.cpp:434</a></div></div>
-<div class="ttc" id="openCV__matching_8hpp_html_a598a3330b3c21701223ee0ca14316eca"><div class="ttname"><a href="openCV__matching_8hpp.html#a598a3330b3c21701223ee0ca14316eca">PI</a></div><div class="ttdeci">#define PI</div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8hpp_source.html#l00024">openCV_matching.hpp:24</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a54aeed20b3772756ea46369889e0801f"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a54aeed20b3772756ea46369889e0801f">robotcam::OpenCVMatching::getNormImageCoords</a></div><div class="ttdeci">Eigen::Vector3d getNormImageCoords(double x, double y, double lambda, cv::Mat camera_matrix)</div><div class="ttdoc">Get the normalized image coordinates of the matched object. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00446">openCV_matching.cpp:446</a></div></div>
-<div class="ttc" id="structrobotcam_1_1CurrentMatch_html_a1d67e87b808587da2382a26763078780"><div class="ttname"><a href="structrobotcam_1_1CurrentMatch.html#a1d67e87b808587da2382a26763078780">robotcam::CurrentMatch::outFrame</a></div><div class="ttdeci">cv::Mat outFrame</div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8hpp_source.html#l00029">openCV_matching.hpp:29</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a9ce8ed6d808afb6579212860d038e893"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a9ce8ed6d808afb6579212860d038e893">robotcam::OpenCVMatching::getXpos</a></div><div class="ttdeci">double getXpos(std::vector&lt; cv::Point2f &gt; scorner)</div><div class="ttdoc">Get the pixel coordinate x of the matched object center. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00352">openCV_matching.cpp:352</a></div></div>
+<div class="ttc" id="structrobotcam_1_1CurrentMatch_html"><div class="ttname"><a href="structrobotcam_1_1CurrentMatch.html">robotcam::CurrentMatch</a></div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8hpp_source.html#l00029">openCV_matching.hpp:29</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_afbdf21affa563c4ab5308e2d8c6ca084"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#afbdf21affa563c4ab5308e2d8c6ca084">robotcam::OpenCVMatching::getCameraMatrix</a></div><div class="ttdeci">cv::Mat getCameraMatrix(const std::string path)</div><div class="ttdoc">Get a camera matrix from XML or YAML file. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00014">openCV_matching.cpp:14</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a67a8b0db70ace42b74ffb4f52f86a415"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a67a8b0db70ace42b74ffb4f52f86a415">robotcam::OpenCVMatching::visualizedMatch</a></div><div class="ttdeci">CurrentMatch visualizedMatch(cv::Mat searchImage, cv::Mat objectImage, std::vector&lt; cv::KeyPoint &gt; keypointsObject, std::vector&lt; cv::KeyPoint &gt; keypointsScene, std::vector&lt; cv::DMatch &gt; good_matches, bool showKeypoints, int homographyType)</div><div class="ttdoc">Visualize a object matching using homography. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00245">openCV_matching.cpp:245</a></div></div>
+<div class="ttc" id="object__2D__matcher_8cpp_html_a7338ef64c04d706a28e23857a7c267e7"><div class="ttname"><a href="object__2D__matcher_8cpp.html#a7338ef64c04d706a28e23857a7c267e7">undistort</a></div><div class="ttdeci">bool undistort</div><div class="ttdef"><b>Definition:</b> <a href="object__2D__matcher_8cpp_source.html#l00030">object_2D_matcher.cpp:30</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_aff5d1a0a21fce8ee2c35ac63e732e822"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#aff5d1a0a21fce8ee2c35ac63e732e822">robotcam::OpenCVMatching::innerAngle</a></div><div class="ttdeci">int innerAngle(cv::Point2f a, cv::Point2f b, cv::Point2f c)</div><div class="ttdoc">Get the inner angle using three points. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00314">openCV_matching.cpp:314</a></div></div>
+<div class="ttc" id="object__2D__matcher_8cpp_html_a2d8dbe0a12f3346717f250b9db7d9057"><div class="ttname"><a href="object__2D__matcher_8cpp.html#a2d8dbe0a12f3346717f250b9db7d9057">extractor</a></div><div class="ttdeci">cv::Ptr&lt; cv::Feature2D &gt; extractor</div><div class="ttdef"><b>Definition:</b> <a href="object__2D__matcher_8cpp_source.html#l00021">object_2D_matcher.cpp:21</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a276695b214bb2ce99c09abd1edd5bea7"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a276695b214bb2ce99c09abd1edd5bea7">robotcam::OpenCVMatching::intersection</a></div><div class="ttdeci">bool intersection(cv::Point2f o1, cv::Point2f p1, cv::Point2f o2, cv::Point2f p2, cv::Point2f &amp;r)</div><div class="ttdoc">Get the intersection point of two lines. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00302">openCV_matching.cpp:302</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a40bb16b4973a0613551a8dc463a6fb57"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a40bb16b4973a0613551a8dc463a6fb57">robotcam::OpenCVMatching::captureFrame</a></div><div class="ttdeci">cv::Mat captureFrame(bool color, bool undistort, cv::VideoCapture capture, cv::Mat cameraMatrix, cv::Mat distCoeffs)</div><div class="ttdoc">Capture a frame from a connected web camera. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00068">openCV_matching.cpp:68</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a8f575cc63cab9ef95a80b1ca6a578056"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a8f575cc63cab9ef95a80b1ca6a578056">robotcam::OpenCVMatching::getXoffset</a></div><div class="ttdeci">double getXoffset(cv::Mat frame, std::vector&lt; cv::Point2f &gt; scorner)</div><div class="ttdoc">Get the pixel offset in x-direction of the matched object center related to the image frame center...</div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00334">openCV_matching.cpp:334</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_aba6b9ed6da3d20bb2f38d53dd066e007"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#aba6b9ed6da3d20bb2f38d53dd066e007">robotcam::OpenCVMatching::setDescriptorsExtractor</a></div><div class="ttdeci">cv::Ptr&lt; cv::Feature2D &gt; setDescriptorsExtractor(std::string typeDescriptor, bool &amp;binary)</div><div class="ttdoc">Set a descriptor extractor based on a input string. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00200">openCV_matching.cpp:200</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a0bb027ca529d6f7aa465be3e33a06bcd"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a0bb027ca529d6f7aa465be3e33a06bcd">robotcam::OpenCVMatching::checkObjectInnerAngles</a></div><div class="ttdeci">bool checkObjectInnerAngles(std::vector&lt; cv::Point2f &gt; scorner, int min, int max)</div><div class="ttdoc">Check if the inner angles of a square or rectangle is within min and max angle. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00324">openCV_matching.cpp:324</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_abc82886a0c95e425cbeab4e15fe7f133"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#abc82886a0c95e425cbeab4e15fe7f133">robotcam::OpenCVMatching::getObjectAngle</a></div><div class="ttdeci">double getObjectAngle(cv::Mat frame, std::vector&lt; cv::Point2f &gt; scorner)</div><div class="ttdoc">Get the angle of in-plane rotation of the matched object. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00366">openCV_matching.cpp:366</a></div></div>
+<div class="ttc" id="openCV__matching_8hpp_html_a598a3330b3c21701223ee0ca14316eca"><div class="ttname"><a href="openCV__matching_8hpp.html#a598a3330b3c21701223ee0ca14316eca">PI</a></div><div class="ttdeci">#define PI</div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8hpp_source.html#l00025">openCV_matching.hpp:25</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a54aeed20b3772756ea46369889e0801f"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a54aeed20b3772756ea46369889e0801f">robotcam::OpenCVMatching::getNormImageCoords</a></div><div class="ttdeci">Eigen::Vector3d getNormImageCoords(double x, double y, double lambda, cv::Mat camera_matrix)</div><div class="ttdoc">Get the normalized image coordinates of the matched object scaled with lambda. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00375">openCV_matching.cpp:375</a></div></div>
+<div class="ttc" id="structrobotcam_1_1CurrentMatch_html_a1d67e87b808587da2382a26763078780"><div class="ttname"><a href="structrobotcam_1_1CurrentMatch.html#a1d67e87b808587da2382a26763078780">robotcam::CurrentMatch::outFrame</a></div><div class="ttdeci">cv::Mat outFrame</div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8hpp_source.html#l00031">openCV_matching.hpp:31</a></div></div>
 <div class="ttc" id="openCV__tester_8hpp_html_add037eb9d707e9b5afd288fac53d109e"><div class="ttname"><a href="openCV__tester_8hpp.html#add037eb9d707e9b5afd288fac53d109e">distCoeffs</a></div><div class="ttdeci">cv::Mat distCoeffs</div><div class="ttdef"><b>Definition:</b> <a href="openCV__tester_8hpp_source.html#l00060">openCV_tester.hpp:60</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a5aabd60dc484b5240b649f6d0eb5565b"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a5aabd60dc484b5240b649f6d0eb5565b">robotcam::OpenCVMatching::matchDescriptors</a></div><div class="ttdeci">std::vector&lt; cv::DMatch &gt; matchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene)</div><div class="ttdoc">Flann based matching. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00153">openCV_matching.cpp:153</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a0f688407103ee5904ee17f897af90096"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a0f688407103ee5904ee17f897af90096">robotcam::OpenCVMatching::bruteForce</a></div><div class="ttdeci">std::vector&lt; cv::DMatch &gt; bruteForce(cv::Mat descriptors_object, cv::Mat descriptors_scene, int normType)</div><div class="ttdoc">Bruteforce nearest neighbour matching. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00184">openCV_matching.cpp:184</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a41d211ec44e2244fc99a7a846fa57a18"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a41d211ec44e2244fc99a7a846fa57a18">robotcam::OpenCVMatching::knnMatchDescriptors</a></div><div class="ttdeci">std::vector&lt; cv::DMatch &gt; knnMatchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene, float nnratio)</div><div class="ttdoc">Flann based nearest neighbour matching. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00103">openCV_matching.cpp:103</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a1bd94daa76c844aa01eefdb637aa8bbd"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a1bd94daa76c844aa01eefdb637aa8bbd">robotcam::OpenCVMatching::type2str</a></div><div class="ttdeci">std::string type2str(int type)</div><div class="ttdoc">Check the actual type openCV cv::Mat. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00028">openCV_matching.cpp:28</a></div></div>
-<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a4ab5d60293eee28bdd32cd5c1c7fd626"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a4ab5d60293eee28bdd32cd5c1c7fd626">robotcam::OpenCVMatching::knnMatchDescriptorsLSH</a></div><div class="ttdeci">std::vector&lt; cv::DMatch &gt; knnMatchDescriptorsLSH(cv::Mat descriptors_object, cv::Mat descriptors_scene, float nndrRatio)</div><div class="ttdoc">Flann based nearest neighbour with LSH index for binary matching. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00128">openCV_matching.cpp:128</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a5aabd60dc484b5240b649f6d0eb5565b"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a5aabd60dc484b5240b649f6d0eb5565b">robotcam::OpenCVMatching::matchDescriptors</a></div><div class="ttdeci">std::vector&lt; cv::DMatch &gt; matchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene)</div><div class="ttdoc">Flann based matching. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00130">openCV_matching.cpp:130</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a0f688407103ee5904ee17f897af90096"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a0f688407103ee5904ee17f897af90096">robotcam::OpenCVMatching::bruteForce</a></div><div class="ttdeci">std::vector&lt; cv::DMatch &gt; bruteForce(cv::Mat descriptors_object, cv::Mat descriptors_scene, int normType)</div><div class="ttdoc">Bruteforce nearest neighbour matching. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00154">openCV_matching.cpp:154</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a41d211ec44e2244fc99a7a846fa57a18"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a41d211ec44e2244fc99a7a846fa57a18">robotcam::OpenCVMatching::knnMatchDescriptors</a></div><div class="ttdeci">std::vector&lt; cv::DMatch &gt; knnMatchDescriptors(cv::Mat descriptors_object, cv::Mat descriptors_scene, float nnratio)</div><div class="ttdoc">Flann based nearest neighbour matching. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00096">openCV_matching.cpp:96</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a1bd94daa76c844aa01eefdb637aa8bbd"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a1bd94daa76c844aa01eefdb637aa8bbd">robotcam::OpenCVMatching::type2str</a></div><div class="ttdeci">std::string type2str(int type)</div><div class="ttdoc">Check the actual type openCV cv::Mat. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00030">openCV_matching.cpp:30</a></div></div>
+<div class="ttc" id="classrobotcam_1_1OpenCVMatching_html_a4ab5d60293eee28bdd32cd5c1c7fd626"><div class="ttname"><a href="classrobotcam_1_1OpenCVMatching.html#a4ab5d60293eee28bdd32cd5c1c7fd626">robotcam::OpenCVMatching::knnMatchDescriptorsLSH</a></div><div class="ttdeci">std::vector&lt; cv::DMatch &gt; knnMatchDescriptorsLSH(cv::Mat descriptors_object, cv::Mat descriptors_scene, float nndrRatio)</div><div class="ttdoc">Flann based nearest neighbour with LSH index for binary matching. </div><div class="ttdef"><b>Definition:</b> <a href="openCV__matching_8cpp_source.html#l00113">openCV_matching.cpp:113</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <br clear="all" />
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/image_processor">image_processor</a><br />
 Author(s): </br />
-<small>autogenerated on Sun May 8 2016 17:28:51</small>
+<small>autogenerated on Mon May 30 2016 16:43:53</small>
 </div>
 </body>
 </html>

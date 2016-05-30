@@ -1,3 +1,10 @@
+//
+// Sample calibration code from the OpenCV Github.
+// https://github.com/Itseez/opencv/blob/master/samples/cpp/calibration.cpp
+//
+// Changed standard resolution of video stream used for calibration.
+// Last edit by Asgeir Bjoerkedal at 31.05.16.
+//
 #include "opencv2/core.hpp"
 #include <opencv2/core/utility.hpp>
 #include "opencv2/imgproc.hpp"
