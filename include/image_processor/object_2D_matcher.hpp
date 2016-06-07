@@ -32,7 +32,7 @@
 
 // Keypoint and descriptor type
 std::string DETECTOR_TYPE = "SIFT";
-std::string EXTRACTOR_TYPE = "SIFT";
+std::string EXTRACTOR_TYPE = "SIFT"; 
 // Resolution
 const int VIDEO_WIDTH = 1280;
 const int VIDEO_HEIGHT = 720;
